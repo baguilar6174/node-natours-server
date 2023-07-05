@@ -1,0 +1,42 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+build/
+out/
+public/
+
+# Environment variables
+.env
+.env.*
+
+# Editor and IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+
+# Testing
+coverage/
+
+# Dependency lock files
+package-lock.json
+yarn.lock
+
+# Serverless framework
+.serverless/
+
+# Compiled binary addons
+*.node
+
+# Mac-specific files
+.DS_Store
