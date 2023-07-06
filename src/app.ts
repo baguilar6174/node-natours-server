@@ -11,14 +11,16 @@ export const get = (): Express => {
 	// Config Values
 	dotenv.config();
 
-	app.use(
+	/* app.use(
 		cors({
 			origin: ['http://localhost:4200'],
 			methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 			preflightContinue: false,
 			optionsSuccessStatus: 204
 		})
-	);
+	); */
+
+	app.use(cors());
 
 	// Url prefix
 	// const API_PREFIX = process.env.API_PREFIX || '/api/v1';
@@ -31,7 +33,8 @@ export const get = (): Express => {
 	app.use(express.urlencoded({ extended: true }));
 
 	// Test rest api
-	app.get('/', async (req: Request, res: Response): Promise<Response> => {
+	// * _ or _<param_name> to ignore the param
+	app.get('/', async (_req: Request, res: Response): Promise<Response> => {
 		return res
 			.status(200)
 			.send({ message: `Welcome to Initial API! \n Endpoints available at http://localhost:${PORT}/api/v1` });
@@ -46,8 +49,8 @@ export const start = (): void => {
 		app.listen(app.get('port'), (): void => {
 			console.log(`Server running on http://localhost:${app.get('port')}`);
 		});
-	} catch (error: any) {
-		console.log(`Error occurred: ${error.message}`);
+	} catch (error) {
+		console.log(`Error occurred: ${error}`);
 	}
 };
 
