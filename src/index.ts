@@ -2,8 +2,7 @@ import express, { Express, NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import morgan from 'morgan';
-
-import routes from './app.route';
+import router from './app.route';
 
 // TODO: move this declaration
 declare module 'express-serve-static-core' {
@@ -62,7 +61,7 @@ export const get = (): Express => {
 			.send({ message: `Welcome to Initial API! \n Endpoints available at http://localhost:${PORT}/api/v1` });
 	});
 
-	app.use(API_PREFIX, routes);
+	app.use(API_PREFIX, router);
 
 	return app;
 };
