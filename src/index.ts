@@ -1,10 +1,9 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-// import fs from 'fs';
 import morgan from 'morgan';
 
-import routes from './api/routes';
+import routes from './app.router';
 
 // TODO: move this declaration
 declare module 'express-serve-static-core' {

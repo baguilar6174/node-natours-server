@@ -1,7 +1,19 @@
-import { Request, Response, Router } from 'express';
-import * as toursController from '../controllers/tours';
+import { NextFunction, Request, Response, Router } from 'express';
+import * as toursController from './tours.controller';
 
 const toursRouter = Router();
+
+// Middleware to validate correct id before action
+toursRouter.param('id', (_: Request, res: Response, next: NextFunction, id: string): Response | void => {
+	const tours = toursController.getAll();
+	if (Number(id) > tours.length) {
+		return res.status(404).json({
+			status: 'fail',
+			message: 'Invalid id'
+		});
+	}
+	return next();
+});
 
 toursRouter.get('/', (_: Request, res: Response): Response => {
 	const results = toursController.getAll();
@@ -16,12 +28,6 @@ toursRouter.get('/', (_: Request, res: Response): Response => {
 toursRouter.get('/:id', (req: Request, res: Response): Response => {
 	const { id } = req.params;
 	const result = toursController.getById(+id);
-	if (!result) {
-		return res.status(404).json({
-			status: 'fail',
-			message: 'Invalid id'
-		});
-	}
 	return res.status(200).json({
 		status: 'success',
 		data: result
@@ -38,16 +44,7 @@ toursRouter.post('/', async (req: Request, res: Response) => {
 
 toursRouter.patch('/:id', (req: Request, res: Response): Response => {
 	const { id } = req.params;
-	const tours = toursController.getAll();
 	const result = toursController.update(+id, req.body);
-
-	if (Number(id) > tours.length) {
-		return res.status(404).json({
-			status: 'fail',
-			message: 'Invalid id'
-		});
-	}
-
 	return res.status(200).json({
 		status: 'success',
 		data: result
@@ -56,16 +53,7 @@ toursRouter.patch('/:id', (req: Request, res: Response): Response => {
 
 toursRouter.delete('/:id', (req: Request, res: Response): Response => {
 	const { id } = req.params;
-	const tours = toursController.getAll();
 	const result = toursController.deleteById(+id);
-
-	if (Number(id) > tours.length) {
-		return res.status(404).json({
-			status: 'fail',
-			message: 'Invalid id'
-		});
-	}
-
 	return res.status(204).json({
 		status: 'success',
 		data: result

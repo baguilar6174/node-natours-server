@@ -1,6 +1,6 @@
-import ToursData from '../.././dev-data/data/tours-simple.json';
-import { Tour } from '../../db/models';
-import { CreateTourDTO, UpdateTourDto } from '../dto';
+import ToursData from '../../dev-data/data/tours-simple.json';
+import { Tour } from './interfaces/Tour';
+import { CreateTourDTO, UpdateTourDto } from './dto';
 import path from 'path';
 import fs from 'fs';
 
@@ -19,7 +19,7 @@ export const create = (payload: CreateTourDTO): Promise<Tour> => {
 	ToursData.push(tour);
 	const dir = path.join(__dirname, '../../', 'dev-data/data/tours-simple.json');
 	return new Promise<Tour>((resolve, reject) => {
-		fs.writeFile(dir, JSON.stringify(ToursData), (error) => {
+		fs.writeFile(dir, JSON.stringify(ToursData), (error): void => {
 			if (error) {
 				reject(error);
 				return;
