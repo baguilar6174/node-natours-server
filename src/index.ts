@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import morgan from 'morgan';
 
-import routes from './app.router';
+import routes from './app.route';
 
 // TODO: move this declaration
 declare module 'express-serve-static-core' {
@@ -67,7 +67,7 @@ export const get = (): Express => {
 	return app;
 };
 
-export const start = (): void => {
+export const boostrap = (): void => {
 	const app = get();
 	try {
 		app.listen(app.get('port'), (): void => {
@@ -78,4 +78,4 @@ export const start = (): void => {
 	}
 };
 
-start();
+boostrap();

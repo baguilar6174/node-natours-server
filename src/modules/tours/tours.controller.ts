@@ -1,38 +1,106 @@
-import ToursData from '../../dev-data/data/tours-simple.json';
-import { Tour } from './interfaces/Tour';
-import { CreateTourDTO, UpdateTourDto } from './dto';
-import path from 'path';
-import fs from 'fs';
+import { NextFunction, Request, Response } from 'express';
 
-export const getAll = (): Tour[] => {
-	return ToursData;
-};
+import toursService from './tours.service';
 
-export const getById = (id: number): Tour | undefined => {
-	const tour = ToursData.find((tour): boolean => tour.id === Number(id));
-	return tour;
-};
-
-export const create = (payload: CreateTourDTO): Promise<Tour> => {
-	const id = ToursData[ToursData.length - 1].id + 1;
-	const tour = Object.assign({ id }, payload);
-	ToursData.push(tour);
-	const dir = path.join(__dirname, '../../', 'dev-data/data/tours-simple.json');
-	return new Promise<Tour>((resolve, reject) => {
-		fs.writeFile(dir, JSON.stringify(ToursData), (error): void => {
-			if (error) {
-				reject(error);
-				return;
-			}
-			resolve(tour);
+const checkId = (_: Request, res: Response, next: NextFunction, id: string): Response | void => {
+	const tours = toursService.getAll();
+	if (Number(id) > tours.length) {
+		return res.status(404).json({
+			status: 'fail',
+			message: 'Invalid id'
 		});
-	});
+	}
+	return next();
 };
 
-export const update = (id: number, payload: UpdateTourDto) => {
-	return { id, ...payload };
+const getAll = (_: Request, res: Response): Response => {
+	try {
+		const tours = toursService.getAll();
+		return res.status(200).json({
+			status: 'success',
+			results: tours.length,
+			data: { tours }
+		});
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			status: 'error',
+			message: 'Error in getAll'
+		});
+	}
 };
 
-export const deleteById = (id: number) => {
-	return id;
+const getById = (req: Request, res: Response): Response => {
+	try {
+		const { id } = req.params;
+		const tour = toursService.getById(+id);
+		return res.status(200).json({
+			status: 'success',
+			data: tour
+		});
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			status: 'error',
+			message: 'Error in getById'
+		});
+	}
 };
+
+const create = (req: Request, res: Response): Response => {
+	try {
+		const { body } = req;
+		const tour = toursService.create(body);
+		return res.status(200).json({
+			status: 'success',
+			data: tour
+		});
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			status: 'error',
+			message: 'Error in create'
+		});
+	}
+};
+
+const update = (req: Request, res: Response): Response => {
+	try {
+		const {
+			params: { id },
+			body
+		} = req;
+		const tour = toursService.update(+id, body);
+		return res.status(200).json({
+			status: 'success',
+			data: tour
+		});
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			status: 'error',
+			message: 'Error in update'
+		});
+	}
+};
+
+const deleteById = (req: Request, res: Response): Response => {
+	try {
+		const {
+			params: { id }
+		} = req;
+		const tourId = toursService.deleteById(+id);
+		return res.status(200).json({
+			status: 'success',
+			data: `Tour ${tourId} deleted`
+		});
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			status: 'error',
+			message: 'Error in deleteById'
+		});
+	}
+};
+
+export { checkId, getAll, getById, create, update, deleteById };

@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import toursRouter from './modules/tours/tours.routes';
+
 import usersRouter from './modules/users/users.routes';
+import toursRouter from './modules/tours/tours.routes';
 
 const router = Router();
 
