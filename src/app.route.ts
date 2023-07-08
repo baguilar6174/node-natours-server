@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import { tourMiddleWare } from './modules/tours-new/infraestructure/dependencies';
+import { toursRouter } from './infraestructure/tours/dependencies';
 
 const router = Router();
 
-router.use('/tours', tourMiddleWare);
+router.use('/tours', toursRouter);
 
 export default router;

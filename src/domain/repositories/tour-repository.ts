@@ -9,21 +9,24 @@ export class TourRepositoryImpl implements TourRepository {
 		this.tourDataSource = tourDataSource;
 	}
 
-	async delete(id: string) {
-		this.tourDataSource.deleteOne(id);
+	async delete(id: number) {
+		const result = await this.tourDataSource.delete(id);
+		return result;
 	}
 
-	async update(id: string, data: TourRequestModel) {
-		this.tourDataSource.updateOne(id, data);
+	async update(id: number, data: TourRequestModel) {
+		const result = await this.tourDataSource.update(id, data);
+		return result;
 	}
 
-	async getOne(id: string): Promise<TourResponseModel | undefined> {
+	async getOne(id: number): Promise<TourResponseModel | undefined> {
 		const result = await this.tourDataSource.getOne(id);
 		return result;
 	}
 
 	async create(tour: TourRequestModel) {
-		return this.tourDataSource.create(tour);
+		const result = await this.tourDataSource.create(tour);
+		return result;
 	}
 
 	async getAll(): Promise<TourResponseModel[]> {
