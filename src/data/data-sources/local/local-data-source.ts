@@ -1,6 +1,6 @@
 import { TourRequestModel, TourResponseModel } from '../../../domain/models/tour';
 import { TourDataSource } from '../../interfaces/data-sources/tour-data-source';
-import ToursData from '../../../dev-data/data/tours-simple.json';
+import ToursData from '../../constants/tours-simple.json';
 
 export class LocalBDContactDataSource implements TourDataSource {
 	async delete(id: number): Promise<number> {
