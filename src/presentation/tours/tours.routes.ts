@@ -1,11 +1,12 @@
 import { NextFunction, Request, Response, Router } from 'express';
+
 import {
 	CreateTourUseCase,
 	DeleteTourUseCase,
 	GetAllToursUseCase,
 	GetOneToursUseCase,
 	UpdateTourUseCase
-} from '../../domain/interfaces/use-cases';
+} from '@domain/interfaces/use-cases';
 
 export default function ToursRouter(
 	getAllToursUseCase: GetAllToursUseCase,

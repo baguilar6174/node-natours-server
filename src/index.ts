@@ -1,3 +1,5 @@
+import 'module-alias/register';
+
 import express, { Express, NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';

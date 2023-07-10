@@ -1,11 +1,11 @@
-import { TourRepository } from '../../interfaces/repositories/tour-repository';
-import { DeleteTourUseCase } from '../../interfaces/use-cases';
+import { TourRepository } from '@domain/interfaces/repositories/tour-repository';
+import { DeleteTourUseCase } from '@domain/interfaces/use-cases';
 
 export class DeleteTour implements DeleteTourUseCase {
 	tourRepository: TourRepository;
 
-	constructor(contactRepository: TourRepository) {
-		this.tourRepository = contactRepository;
+	constructor(tourRepository: TourRepository) {
+		this.tourRepository = tourRepository;
 	}
 
 	async execute(id: number): Promise<number> {
