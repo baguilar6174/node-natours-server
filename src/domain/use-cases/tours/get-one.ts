@@ -1,6 +1,6 @@
-import { TourRepository } from '@domain/interfaces/repositories/tour-repository';
-import { GetOneToursUseCase } from '@domain/interfaces/use-cases';
-import { TourResponseModel } from '@domain/models/tour';
+import { TourRepository } from '../../interfaces/repositories/tour-repository';
+import { GetOneToursUseCase } from '../../interfaces/use-cases';
+import { TourResponseModel } from '../../models/tour';
 
 export class GetOneTours implements GetOneToursUseCase {
 	tourRepository: TourRepository;

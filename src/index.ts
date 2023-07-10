@@ -1,9 +1,9 @@
-import 'module-alias/register';
-
 import express, { Express, NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import morgan from 'morgan';
+import path from 'path';
+
 import router from './app.route';
 
 // TODO: move this declaration
@@ -40,13 +40,14 @@ export const get = (): Express => {
 	app.set('port', process.env.PORT || 3000);
 
 	// Body parsing Middleware
-	app.use(morgan('dev'));
+	if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: true }));
+	app.use(express.static(path.join(__dirname, '../', 'public')));
 
 	// Custom Middleware
 	app.use((_req: Request, _res: Response, next: NextFunction) => {
-		console.log('Hello from the Middleware');
+		// console.log('Hello from the Middleware');
 		next();
 	});
 

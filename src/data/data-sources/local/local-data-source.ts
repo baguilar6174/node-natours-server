@@ -1,6 +1,6 @@
-import { TourRequestModel, TourResponseModel } from '@domain/models/tour';
-import { TourDataSource } from '@data/interfaces/data-sources/tour-data-source';
-import ToursData from '@data/constants/tours-simple.json';
+import { TourRequestModel, TourResponseModel } from '../../../domain/models/tour';
+import { TOURS_DATA } from '../../constants/tours-simple';
+import { TourDataSource } from '../../interfaces/data-sources/tour-data-source';
 
 export class LocalBDTourDataSource implements TourDataSource {
 	async delete(id: number): Promise<number> {
@@ -13,20 +13,19 @@ export class LocalBDTourDataSource implements TourDataSource {
 	}
 
 	async getOne(id: number): Promise<TourResponseModel | undefined> {
-		const tour = ToursData.find((tour): boolean => tour.id === Number(id));
+		const tour = TOURS_DATA.find((tour): boolean => tour.id === Number(id));
 		return tour;
 	}
 
 	async create(payload: TourRequestModel) {
-		const id = ToursData[ToursData.length - 1].id + 1;
+		const id = TOURS_DATA[TOURS_DATA.length - 1].id + 1;
 		const tour = Object.assign({ id }, payload);
-		ToursData.push(tour);
-		// TODO: save in file
+		TOURS_DATA.push(tour);
 		return tour;
 	}
 
 	async getAll(): Promise<TourResponseModel[]> {
-		const tours = ToursData;
+		const tours = TOURS_DATA;
 		return tours;
 	}
 }

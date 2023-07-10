@@ -6,7 +6,8 @@ import {
 	GetAllToursUseCase,
 	GetOneToursUseCase,
 	UpdateTourUseCase
-} from '@domain/interfaces/use-cases';
+} from '../../domain/interfaces/use-cases';
+import { validateBody } from './middlewares';
 
 export default function ToursRouter(
 	getAllToursUseCase: GetAllToursUseCase,
@@ -57,7 +58,7 @@ export default function ToursRouter(
 		}
 	});
 
-	router.post('/', async (req: Request, res: Response): Promise<void> => {
+	router.post('/', validateBody, async (req: Request, res: Response): Promise<void> => {
 		try {
 			const { body } = req;
 			const tour = await createTourUseCase.execute(body);

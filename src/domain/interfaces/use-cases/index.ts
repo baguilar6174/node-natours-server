@@ -1,4 +1,4 @@
-import { TourRequestModel, TourResponseModel } from '@domain/models/tour';
+import { TourRequestModel, TourResponseModel } from '../../../domain/models/tour';
 
 export interface GetAllToursUseCase {
 	execute(): Promise<TourResponseModel[]>;

@@ -1,5 +1,5 @@
-import { TourRepository } from '@domain/interfaces/repositories/tour-repository';
-import { DeleteTourUseCase } from '@domain/interfaces/use-cases';
+import { TourRepository } from '../../interfaces/repositories/tour-repository';
+import { DeleteTourUseCase } from '../../interfaces/use-cases';
 
 export class DeleteTour implements DeleteTourUseCase {
 	tourRepository: TourRepository;

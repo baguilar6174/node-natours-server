@@ -1,6 +1,6 @@
-import { TourDataSource } from '@data/interfaces/data-sources/tour-data-source';
-import { TourRepository } from '@domain/interfaces/repositories/tour-repository';
-import { TourRequestModel, TourResponseModel } from '@domain/models/tour';
+import { TourDataSource } from '../../data/interfaces/data-sources/tour-data-source';
+import { TourRepository } from '../interfaces/repositories/tour-repository';
+import { TourRequestModel, TourResponseModel } from '../models/tour';
 
 export class TourRepositoryImpl implements TourRepository {
 	tourDataSource: TourDataSource;

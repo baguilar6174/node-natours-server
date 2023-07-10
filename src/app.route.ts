@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { toursRouter } from '@presentation/tours/dependencies';
+import { toursRouter } from './presentation/tours/dependencies';
 
 const router = Router();
 

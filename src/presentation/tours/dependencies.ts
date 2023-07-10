@@ -1,11 +1,9 @@
-import { LocalBDTourDataSource } from '@data/data-sources/local/local-data-source';
-import { TourRepositoryImpl } from '@domain/repositories/tour-repository';
-import { CreateTours } from '@domain/use-cases/tours/create';
-import { DeleteTour } from '@domain/use-cases/tours/delete';
-import { GetAllTours } from '@domain/use-cases/tours/get-all';
-import { GetOneTours } from '@domain/use-cases/tours/get-one';
-import { UpdateTour } from '@domain/use-cases/tours/update';
+import { LocalBDTourDataSource } from '../../data/data-sources/local/local-data-source';
+
+import { TourRepositoryImpl } from '../../domain/repositories/tour-repository';
+
 import ToursRouter from './tours.routes';
+import { CreateTours, DeleteTour, GetAllTours, GetOneTours, UpdateTour } from '../../domain/use-cases/tours';
 
 const dataSource = new LocalBDTourDataSource();
 const tourRepositoryImpl = new TourRepositoryImpl(dataSource);
