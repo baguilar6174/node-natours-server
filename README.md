@@ -30,8 +30,14 @@ yarn
 
 ## Running the app
 
-1. Run `yarn build`
+If you need local mongo database
+
+- Install docker
+- Run `docker-compose up -d` This command create a local volumen in root project to save data
+
 2. Run `yarn dev`
+
+If your want to create build production, run `yarn build`
 
 ## My process
 

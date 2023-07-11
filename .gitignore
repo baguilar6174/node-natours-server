@@ -40,3 +40,7 @@ yarn.lock
 
 # Mac-specific files
 .DS_Store
+
+# Local BD
+
+mongo/

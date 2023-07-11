@@ -1,0 +1,12 @@
+version: '3'
+services:
+  natoursdb:
+    image: mongo:5.0.0
+    container_name: natours-app
+    restart: 'no'
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo:/data/db
+    environment:
+      MONGODB_DATABASE: natours-app
