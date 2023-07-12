@@ -9,17 +9,17 @@ export class TourRepositoryImpl implements TourRepository {
 		this.tourDataSource = tourDataSource;
 	}
 
-	async delete(id: number) {
-		const result = await this.tourDataSource.delete(id);
+	async delete(id: string) {
+		const result = await this.tourDataSource.deleteOne(id);
 		return result;
 	}
 
-	async update(id: number, data: TourRequestModel) {
-		const result = await this.tourDataSource.update(id, data);
+	async update(id: string, data: TourRequestModel) {
+		const result = await this.tourDataSource.updateOne(id, data);
 		return result;
 	}
 
-	async getOne(id: number): Promise<TourResponseModel | undefined> {
+	async getOne(id: string): Promise<TourResponseModel | null> {
 		const result = await this.tourDataSource.getOne(id);
 		return result;
 	}

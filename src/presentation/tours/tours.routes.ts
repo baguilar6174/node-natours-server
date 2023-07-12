@@ -50,7 +50,7 @@ export default function ToursRouter(
 	router.get('/:id', async (req: Request, res: Response): Promise<void> => {
 		try {
 			const { id } = req.params;
-			const tour = await getOneToursUseCase.execute(Number(id));
+			const tour = await getOneToursUseCase.execute(id);
 			res.statusCode = 200;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
@@ -75,7 +75,7 @@ export default function ToursRouter(
 				params: { id },
 				body
 			} = req;
-			const tour = await updateTourUseCase.execute(Number(id), body);
+			const tour = await updateTourUseCase.execute(id, body);
 			res.statusCode = 200;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
@@ -86,7 +86,7 @@ export default function ToursRouter(
 	router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
 		try {
 			const { id } = req.params;
-			const tour = await deleteTourUseCase.execute(Number(id));
+			const tour = await deleteTourUseCase.execute(id);
 			res.statusCode = 200;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {

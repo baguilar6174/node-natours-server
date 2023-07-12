@@ -5,7 +5,7 @@ export interface GetAllToursUseCase {
 }
 
 export interface GetOneToursUseCase {
-	execute(id: number): Promise<TourResponseModel | undefined>;
+	execute(id: string): Promise<TourResponseModel | null>;
 }
 
 export interface CreateTourUseCase {
@@ -14,9 +14,9 @@ export interface CreateTourUseCase {
 
 export interface UpdateTourUseCase {
 	// TODO: partial props
-	execute(id: number, data: TourRequestModel): Promise<TourResponseModel>;
+	execute(id: string, data: TourRequestModel): Promise<TourResponseModel | null>;
 }
 
 export interface DeleteTourUseCase {
-	execute(id: number): Promise<number>;
+	execute(id: string): Promise<string>;
 }

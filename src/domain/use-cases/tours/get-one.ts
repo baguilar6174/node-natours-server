@@ -9,7 +9,7 @@ export class GetOneTours implements GetOneToursUseCase {
 		this.tourRepository = tourRepository;
 	}
 
-	async execute(id: number): Promise<TourResponseModel | undefined> {
+	async execute(id: string): Promise<TourResponseModel | null> {
 		const result = await this.tourRepository.getOne(id);
 		return result;
 	}

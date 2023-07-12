@@ -9,7 +9,7 @@ export class UpdateTour implements UpdateTourUseCase {
 		this.tourRepository = tourRepository;
 	}
 
-	async execute(id: number, data: TourRequestModel): Promise<TourResponseModel> {
+	async execute(id: string, data: TourRequestModel): Promise<TourResponseModel | null> {
 		const result = await this.tourRepository.update(id, data);
 		return result;
 	}

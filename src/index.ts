@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import path from 'path';
 
 import router from './app.route';
+import { connect } from './data/db';
 
 // TODO: move this declaration
 declare module 'express-serve-static-core' {
@@ -13,7 +14,7 @@ declare module 'express-serve-static-core' {
 	}
 }
 
-export const get = (): Express => {
+export const get = async (): Promise<Express> => {
 	const app: Express = express();
 
 	// Port
@@ -64,13 +65,14 @@ export const get = (): Express => {
 			.send({ message: `Welcome to Initial API! \n Endpoints available at http://localhost:${PORT}/api/v1` });
 	});
 
+	await connect();
 	app.use(API_PREFIX, router);
 
 	return app;
 };
 
-export const boostrap = (): void => {
-	const app = get();
+export const boostrap = async () => {
+	const app = await get();
 	try {
 		app.listen(app.get('port'), (): void => {
 			console.log(`Server running on http://localhost:${app.get('port')}`);

@@ -8,7 +8,7 @@ export class DeleteTour implements DeleteTourUseCase {
 		this.tourRepository = tourRepository;
 	}
 
-	async execute(id: number): Promise<number> {
+	async execute(id: string): Promise<string> {
 		const result = await this.tourRepository.delete(id);
 		return result;
 	}

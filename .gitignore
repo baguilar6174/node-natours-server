@@ -16,7 +16,6 @@ public/
 
 # Environment variables
 .env
-.env.*
 
 # Editor and IDE files
 .vscode/
