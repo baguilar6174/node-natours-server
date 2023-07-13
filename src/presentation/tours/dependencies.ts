@@ -1,10 +1,10 @@
-import { TourRepositoryImpl } from '../../domain/repositories/tour-repository';
+import { TourRepositoryImpl } from '../../data/repositories/tour-repository';
 
 import ToursRouter from './tours.routes';
 import { CreateTours, DeleteTour, GetAllTours, GetOneTours, UpdateTour } from '../../domain/use-cases/tours';
-import { MongoDBContactDataSource } from '../../data/data-sources/mongodb/mongodb-tour-data-source';
+import { MongoDBTourDataSource } from '../../data/data-sources';
 
-const dataSource = new MongoDBContactDataSource();
+const dataSource = new MongoDBTourDataSource();
 const tourRepositoryImpl = new TourRepositoryImpl(dataSource);
 
 // useCases

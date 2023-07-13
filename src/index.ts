@@ -5,7 +5,6 @@ import morgan from 'morgan';
 import path from 'path';
 
 import router from './app.route';
-import { connect } from './data/db';
 
 // TODO: move this declaration
 declare module 'express-serve-static-core' {
@@ -65,7 +64,6 @@ export const get = async (): Promise<Express> => {
 			.send({ message: `Welcome to Initial API! \n Endpoints available at http://localhost:${PORT}/api/v1` });
 	});
 
-	await connect();
 	app.use(API_PREFIX, router);
 
 	return app;

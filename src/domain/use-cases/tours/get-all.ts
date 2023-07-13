@@ -1,15 +1,14 @@
-import { TourRepository } from '../../interfaces/repositories/tour-repository';
-import { GetAllToursUseCase } from '../../interfaces/use-cases';
-import { TourResponseModel } from '../../models/tour';
+import { TourRepository } from '../../repositories/tour-repository';
+import { Tour } from '../../entities/tour.entity';
 
-export class GetAllTours implements GetAllToursUseCase {
+export class GetAllTours {
 	tourRepository: TourRepository;
 
 	constructor(tourRepository: TourRepository) {
 		this.tourRepository = tourRepository;
 	}
 
-	async execute(): Promise<TourResponseModel[]> {
+	async execute(): Promise<Tour[]> {
 		const result = await this.tourRepository.getAll();
 		return result;
 	}

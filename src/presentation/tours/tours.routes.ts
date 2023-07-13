@@ -1,20 +1,15 @@
 import { NextFunction, Request, Response, Router } from 'express';
 
-import {
-	CreateTourUseCase,
-	DeleteTourUseCase,
-	GetAllToursUseCase,
-	GetOneToursUseCase,
-	UpdateTourUseCase
-} from '../../domain/interfaces/use-cases';
 import { validateBody } from './middlewares';
 
+import { CreateTours, DeleteTour, GetAllTours, GetOneTours, UpdateTour } from '../../domain/use-cases/tours';
+
 export default function ToursRouter(
-	getAllToursUseCase: GetAllToursUseCase,
-	getOneToursUseCase: GetOneToursUseCase,
-	createTourUseCase: CreateTourUseCase,
-	updateTourUseCase: UpdateTourUseCase,
-	deleteTourUseCase: DeleteTourUseCase
+	getAllToursUseCase: GetAllTours,
+	getOneToursUseCase: GetOneTours,
+	createTourUseCase: CreateTours,
+	updateTourUseCase: UpdateTour,
+	deleteTourUseCase: DeleteTour
 ): Router {
 	const router = Router();
 

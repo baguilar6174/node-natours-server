@@ -1,9 +1,9 @@
-import { TourRequestModel, TourResponseModel } from '../../../domain/models/tour';
+import { CreateTourDTO, Tour, UpdateTourDTO } from '../../../domain/entities/tour.entity';
 
 export interface TourDataSource {
-	create(tour: TourRequestModel): Promise<TourResponseModel>;
-	getAll(): Promise<TourResponseModel[]>;
-	deleteOne(id: string): Promise<string>;
-	updateOne(id: string, data: TourRequestModel): Promise<TourResponseModel | null>;
-	getOne(id: string): Promise<TourResponseModel | null>;
+	create(tour: CreateTourDTO): Promise<Tour>;
+	getAll(): Promise<Tour[]>;
+	deleteOne(id: string): Promise<Tour | null>;
+	updateOne(id: string, data: UpdateTourDTO): Promise<Tour | null>;
+	getOne(id: string): Promise<Tour | null>;
 }
