@@ -1,5 +1,5 @@
-import { Tour } from '../../entities/tour.entity';
-import { TourRepository } from '../../repositories/tour-repository';
+import { Tour } from '../entities/tour.entity';
+import { TourRepository } from '../repositories/tour-repository';
 export class DeleteTour {
 	tourRepository: TourRepository;
 

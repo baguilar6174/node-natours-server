@@ -1,5 +1,5 @@
-import { TourRepository } from '../../repositories/tour-repository';
-import { Tour, UpdateTourDTO } from '../../entities/tour.entity';
+import { TourRepository } from '../repositories/tour-repository';
+import { Tour, UpdateTourDTO } from '../entities/tour.entity';
 
 export class UpdateTour {
 	tourRepository: TourRepository;

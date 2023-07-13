@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
 
 import { validateBody } from './middlewares';
-
-import { CreateTours, DeleteTour, GetAllTours, GetOneTours, UpdateTour } from '../../domain/use-cases/tours';
+import { CreateTours, DeleteTour, GetAllTours, GetOneTours, UpdateTour } from '../domain/use-cases';
 
 export default function ToursRouter(
 	getAllToursUseCase: GetAllTours,
