@@ -9,12 +9,17 @@ export class TourRepositoryImpl implements TourRepository {
 		this.tourDataSource = tourDataSource;
 	}
 
-	async delete(id: string) {
+	async seed(): Promise<string | void> {
+		const result = await this.tourDataSource.seed();
+		return result;
+	}
+
+	async delete(id: string): Promise<Tour | null> {
 		const result = await this.tourDataSource.deleteOne(id);
 		return result;
 	}
 
-	async update(id: string, data: UpdateTourDTO) {
+	async update(id: string, data: UpdateTourDTO): Promise<Tour | null> {
 		const result = await this.tourDataSource.updateOne(id, data);
 		return result;
 	}
@@ -24,7 +29,7 @@ export class TourRepositoryImpl implements TourRepository {
 		return result;
 	}
 
-	async create(tour: CreateTourDTO) {
+	async create(tour: CreateTourDTO): Promise<Tour> {
 		const result = await this.tourDataSource.create(tour);
 		return result;
 	}

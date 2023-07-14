@@ -1,7 +1,7 @@
 import { TourRepositoryImpl } from '../data/repositories/tour-repository';
 
 import ToursRouter from './tours.routes';
-import { CreateTours, DeleteTour, GetAllTours, GetOneTours, UpdateTour } from '../domain/use-cases';
+import { CreateTours, DeleteTour, GetAllTours, GetOneTours, UpdateTour, SeedTours } from '../domain/use-cases';
 import { MongoDBTourDataSource } from '../data/data-sources';
 
 const dataSource = new MongoDBTourDataSource();
@@ -13,5 +13,6 @@ const getOne = new GetOneTours(tourRepositoryImpl);
 const create = new CreateTours(tourRepositoryImpl);
 const update = new UpdateTour(tourRepositoryImpl);
 const deleteOne = new DeleteTour(tourRepositoryImpl);
+const seed = new SeedTours(tourRepositoryImpl);
 
-export const toursRouter = ToursRouter(getAll, getOne, create, update, deleteOne);
+export const toursRouter = ToursRouter(getAll, getOne, create, update, deleteOne, seed);

@@ -5,6 +5,11 @@ import { TOURS_DATA } from '../../constants/tours-simple';
 import { TourDataSource } from '../../interfaces/data-sources/tour-data-source';
 
 export class LocalBDTourDataSource implements TourDataSource {
+	async seed(): Promise<void> {
+		// TODO: implement method
+		// TODO: this method must be optional in this data source
+	}
+
 	async deleteOne(id: string): Promise<Tour | null> {
 		// TODO: implement method
 		const tourInBD = TOURS_DATA.find((tour): boolean => tour._id === id);

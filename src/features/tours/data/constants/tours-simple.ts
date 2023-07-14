@@ -10,6 +10,7 @@ export const TOURS_DATA: Tour[] = [
 		ratingsAverage: 4.7,
 		ratingsQuantity: 37,
 		price: 397,
+		priceDiscount: 0,
 		summary: 'Breathtaking hike through the Canadian Banff National Park',
 		description:
 			'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -26,6 +27,7 @@ export const TOURS_DATA: Tour[] = [
 		ratingsAverage: 4.8,
 		ratingsQuantity: 23,
 		price: 497,
+		priceDiscount: 0,
 		summary: 'Exploring the jaw-dropping US east coast by foot and by boat',
 		description:
 			'Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\nIrure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
@@ -42,6 +44,7 @@ export const TOURS_DATA: Tour[] = [
 		ratingsAverage: 4.5,
 		ratingsQuantity: 13,
 		price: 997,
+		priceDiscount: 0,
 		summary: 'Exciting adventure in the snow with snowboarding and skiing',
 		description:
 			'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum!\nDolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, exercitation ullamco laboris nisi ut aliquip. Lorem ipsum dolor sit amet, consectetur adipisicing elit!',
@@ -58,6 +61,7 @@ export const TOURS_DATA: Tour[] = [
 		ratingsAverage: 4.6,
 		ratingsQuantity: 54,
 		price: 1197,
+		priceDiscount: 0,
 		summary: 'Living the life of Wanderlust in the US most beatiful cities',
 		description:
 			'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat lorem ipsum dolor sit amet.\nConsectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat!',
@@ -74,6 +78,7 @@ export const TOURS_DATA: Tour[] = [
 		ratingsAverage: 4.9,
 		ratingsQuantity: 19,
 		price: 1497,
+		priceDiscount: 0,
 		summary: 'Breathing in Nature in Americas most spectacular National Parks',
 		description:
 			'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum!',
@@ -90,6 +95,7 @@ export const TOURS_DATA: Tour[] = [
 		ratingsAverage: 4.7,
 		ratingsQuantity: 28,
 		price: 2997,
+		priceDiscount: 0,
 		summary: 'Surfing, skating, parajumping, rock climbing and more, all in one tour',
 		description:
 			'Nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nVoluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur!',
@@ -106,6 +112,7 @@ export const TOURS_DATA: Tour[] = [
 		ratingsAverage: 4.5,
 		ratingsQuantity: 35,
 		price: 1997,
+		priceDiscount: 0,
 		summary: 'Exquisite wines, scenic views, exclusive barrel tastings,  and much more',
 		description:
 			'Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\nIrure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
@@ -122,6 +129,7 @@ export const TOURS_DATA: Tour[] = [
 		ratingsAverage: 4.7,
 		ratingsQuantity: 28,
 		price: 2997,
+		priceDiscount: 0,
 		summary: 'The most remote and stunningly beautiful places for seeing the night sky',
 		description:
 			'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -138,6 +146,7 @@ export const TOURS_DATA: Tour[] = [
 		ratingsAverage: 4.9,
 		ratingsQuantity: 33,
 		price: 1497,
+		priceDiscount: 0,
 		summary: 'Enjoy the Northern Lights in one of the best places in the world',
 		description:
 			'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum!\nDolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, exercitation ullamco laboris nisi ut aliquip. Lorem ipsum dolor sit amet, consectetur adipisicing elit!',

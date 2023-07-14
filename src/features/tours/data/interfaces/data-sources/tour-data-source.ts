@@ -1,6 +1,7 @@
 import { CreateTourDTO, Tour, UpdateTourDTO } from '../../../domain/entities/tour.entity';
 
 export interface TourDataSource {
+	seed(): Promise<string | void>;
 	create(tour: CreateTourDTO): Promise<Tour>;
 	getAll(): Promise<Tour[]>;
 	deleteOne(id: string): Promise<Tour | null>;

@@ -1,10 +1,22 @@
 import mongoose from 'mongoose';
 
-import { Tour } from '../../../domain/entities/tour.entity';
+import { CreateTourDTO, Tour } from '../../../domain/entities/tour.entity';
 import { TourDataSource } from '../../interfaces/data-sources/tour-data-source';
 import { TourModel } from '../../models/tour.model';
+import { TOURS_DATA } from '../../constants/tours-simple';
 
 export class MongoDBTourDataSource implements TourDataSource {
+	async seed(): Promise<string> {
+		if (process.env.NODE_ENV === 'production') return 'No access to this endpoint';
+		await connect();
+		await TourModel.deleteMany();
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const tours = TOURS_DATA.map(({ _id, ...rest }): CreateTourDTO => rest);
+		await TourModel.insertMany(tours);
+		await disconnect();
+		return 'Created data';
+	}
+
 	async deleteOne(id: string): Promise<Tour | null> {
 		await connect();
 		const deletedTour = await TourModel.findByIdAndDelete(id);
