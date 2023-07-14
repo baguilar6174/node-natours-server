@@ -59,10 +59,7 @@ If your want to create build production, run `yarn build`
 
 ## TODO:
 
-- Refactor files
-- Disconnect mongo with error
 - Validations in queries
-- Map responses
 
 ## Natours Server
 
