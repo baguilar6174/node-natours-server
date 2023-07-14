@@ -1,7 +1,11 @@
 import { TourRepository } from '../repositories/tour-repository';
 import { Tour } from '../entities/tour.entity';
 
-export class GetAllTours {
+export interface GetAllToursUseCase {
+	execute(): Promise<Tour[]>;
+}
+
+export class GetAllTours implements GetAllToursUseCase {
 	tourRepository: TourRepository;
 
 	constructor(tourRepository: TourRepository) {

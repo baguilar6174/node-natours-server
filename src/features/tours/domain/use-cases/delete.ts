@@ -1,6 +1,11 @@
 import { Tour } from '../entities/tour.entity';
 import { TourRepository } from '../repositories/tour-repository';
-export class DeleteTour {
+
+export interface DeleteTourUseCase {
+	execute(id: string): Promise<Tour | null>;
+}
+
+export class DeleteTour implements DeleteTourUseCase {
 	tourRepository: TourRepository;
 
 	constructor(tourRepository: TourRepository) {

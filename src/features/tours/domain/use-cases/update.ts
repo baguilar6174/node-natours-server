@@ -1,7 +1,11 @@
 import { TourRepository } from '../repositories/tour-repository';
 import { Tour, UpdateTourDTO } from '../entities/tour.entity';
 
-export class UpdateTour {
+export interface UpdateTourUseCase {
+	execute(id: string, data: UpdateTourDTO): Promise<Tour | null>;
+}
+
+export class UpdateTour implements UpdateTourUseCase {
 	tourRepository: TourRepository;
 
 	constructor(tourRepository: TourRepository) {

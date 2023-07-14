@@ -1,14 +1,21 @@
 import { Request, Response, Router } from 'express';
 
-import { CreateTours, DeleteTour, GetAllTours, GetOneTours, SeedTours, UpdateTour } from '../domain/use-cases';
+import {
+	CreateTourUseCase,
+	DeleteTourUseCase,
+	GetAllToursUseCase,
+	GetOneTourUseCase,
+	SeedToursUseCase,
+	UpdateTourUseCase
+} from '../domain/use-cases';
 
 export default function ToursRouter(
-	getAllToursUseCase: GetAllTours,
-	getOneToursUseCase: GetOneTours,
-	createTourUseCase: CreateTours,
-	updateTourUseCase: UpdateTour,
-	deleteTourUseCase: DeleteTour,
-	seedToursUseCase: SeedTours
+	getAllToursUseCase: GetAllToursUseCase,
+	getOneTourUseCase: GetOneTourUseCase,
+	createTourUseCase: CreateTourUseCase,
+	updateTourUseCase: UpdateTourUseCase,
+	deleteTourUseCase: DeleteTourUseCase,
+	seedToursUseCase: SeedToursUseCase
 ): Router {
 	const router = Router();
 
@@ -54,7 +61,7 @@ export default function ToursRouter(
 	router.get('/:id', async (req: Request, res: Response): Promise<void> => {
 		try {
 			const { id } = req.params;
-			const tour = await getOneToursUseCase.execute(id);
+			const tour = await getOneTourUseCase.execute(id);
 			res.statusCode = 200;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {

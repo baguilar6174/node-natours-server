@@ -1,6 +1,10 @@
 import { TourRepository } from '../repositories/tour-repository';
 
-export class SeedTours {
+export interface SeedToursUseCase {
+	execute(): Promise<string | void>;
+}
+
+export class SeedTours implements SeedToursUseCase {
 	tourRepository: TourRepository;
 
 	constructor(tourRepository: TourRepository) {
