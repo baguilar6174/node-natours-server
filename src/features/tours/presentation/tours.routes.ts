@@ -1,6 +1,5 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import { Request, Response, Router } from 'express';
 
-import { validateBody } from './middlewares';
 import { CreateTours, DeleteTour, GetAllTours, GetOneTours, UpdateTour } from '../domain/use-cases';
 
 export default function ToursRouter(
@@ -15,20 +14,20 @@ export default function ToursRouter(
 	// Middlewares
 
 	// Validate id
-	router.param('id', async (_: Request, res: Response, next: NextFunction, id: string) => {
-		try {
-			const tours = await getAllToursUseCase.execute();
-			if (Number(id) > tours.length) {
-				return res.status(404).json({
-					status: 'fail',
-					message: 'Invalid id'
-				});
-			}
-			return next();
-		} catch (err) {
-			res.status(500).send({ message: 'Error fetching data' });
-		}
-	});
+	// router.param('id', async (_: Request, res: Response, next: NextFunction, id: string) => {
+	// 	try {
+	// 		const tours = await getAllToursUseCase.execute();
+	// 		if (Number(id) > tours.length) {
+	// 			return res.status(404).json({
+	// 				status: 'fail',
+	// 				message: 'Invalid id'
+	// 			});
+	// 		}
+	// 		return next();
+	// 	} catch (err) {
+	// 		res.status(500).send({ message: 'Error fetching data' });
+	// 	}
+	// });
 
 	// Routes
 	router.get('/', async (_: Request, res: Response): Promise<void> => {
@@ -37,7 +36,7 @@ export default function ToursRouter(
 			res.statusCode = 200;
 			res.json({ status: 'success', results: tours.length, data: { tours } });
 		} catch (err) {
-			res.status(500).send({ message: 'Error get' });
+			res.status(500).send({ message: 'Error get', err });
 		}
 	});
 
@@ -48,18 +47,18 @@ export default function ToursRouter(
 			res.statusCode = 200;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
-			res.status(500).send({ message: 'Error get one' });
+			res.status(500).send({ message: 'Error get one', err });
 		}
 	});
 
-	router.post('/', validateBody, async (req: Request, res: Response): Promise<void> => {
+	router.post('/', async (req: Request, res: Response): Promise<void> => {
 		try {
 			const { body } = req;
 			const tour = await createTourUseCase.execute(body);
 			res.statusCode = 200;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
-			res.status(500).send({ message: 'Error post' });
+			res.status(500).send({ message: 'Error post', err });
 		}
 	});
 
@@ -73,7 +72,7 @@ export default function ToursRouter(
 			res.statusCode = 200;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
-			res.status(500).send({ message: 'Error patch' });
+			res.status(500).send({ message: 'Error patch', err });
 		}
 	});
 
@@ -84,7 +83,7 @@ export default function ToursRouter(
 			res.statusCode = 200;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
-			res.status(500).send({ message: 'Error delete' });
+			res.status(500).send({ message: 'Error delete', err });
 		}
 	});
 

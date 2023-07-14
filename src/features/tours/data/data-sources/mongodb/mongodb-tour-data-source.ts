@@ -7,23 +7,13 @@ import { TourModel } from '../../models/tour.model';
 export class MongoDBTourDataSource implements TourDataSource {
 	async deleteOne(id: string): Promise<Tour | null> {
 		await connect();
-		const tour = await TourModel.findById(id);
-		if (!tour) {
-			await disconnect();
-			return null;
-		}
-		const deletedTour = await tour.deleteOne();
+		const deletedTour = await TourModel.findByIdAndDelete(id);
 		await disconnect();
 		return deletedTour;
 	}
 
 	async updateOne(id: string, data: Tour): Promise<Tour | null> {
 		await connect();
-		const tour = await TourModel.findById(id);
-		if (!tour) {
-			await disconnect();
-			return null;
-		}
 		const updatedTour = await TourModel.findByIdAndUpdate(id, { ...data }, { runValidators: true, new: true });
 		await disconnect();
 		return updatedTour;
@@ -38,17 +28,16 @@ export class MongoDBTourDataSource implements TourDataSource {
 
 	async create(data: Tour): Promise<Tour> {
 		await connect();
-		const tour = new TourModel({ ...data });
-		await tour.save();
+		const tour = await TourModel.create({ ...data });
 		await disconnect();
 		return tour;
 	}
 
 	async getAll(): Promise<Tour[]> {
 		await connect();
-		const result = await TourModel.find();
+		const results = await TourModel.find();
 		await disconnect();
-		return result;
+		return results;
 	}
 }
 
