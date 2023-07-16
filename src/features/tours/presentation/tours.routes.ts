@@ -8,7 +8,6 @@ import {
 	SeedToursUseCase,
 	UpdateTourUseCase
 } from '../domain/use-cases';
-import { parseQuery } from '../../../core/utils';
 import { RequestQuery } from '../../../core/types';
 import { SERVER_ERROR_STATUS } from '../../../core/constants';
 
@@ -55,8 +54,7 @@ export default function ToursRouter(
 		try {
 			const { page, limit, sort, fields, ...query } = req.query;
 			const pagination = { page, limit };
-			const filteringQuery = parseQuery(query);
-			const tours = await getAllToursUseCase.execute(filteringQuery, sort, fields, pagination);
+			const tours = await getAllToursUseCase.execute({ query, sort, fields, pagination });
 			res.statusCode = 200;
 			res.json({ status: 'success', results: tours.length, data: { tours } });
 		} catch (err) {

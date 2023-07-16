@@ -15,3 +15,10 @@ export type PaginationType = {
 	page: string;
 	limit: string;
 };
+
+export type ApiFeatures = {
+	query?: object;
+	sort?: string | SortType;
+	fields?: string;
+	pagination?: PaginationType;
+};

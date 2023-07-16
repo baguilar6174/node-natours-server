@@ -1,13 +1,18 @@
-import mongoose from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 
 import { CreateTourDTO, Tour } from '../../../domain/entities/tour.entity';
 import { TourDataSource } from '../../interfaces/data-sources/tour-data-source';
 import { TourModel } from '../../models/tour.model';
 import { TOURS_DATA } from '../../constants/tours-simple';
-import { PaginationType, SortType } from '../../../../../core/types';
+import { ApiFeatures } from '../../../../../core/types';
 import { EMPTY_STRING, ONE, ONE_HUNDRED, ZERO } from '../../../../../core/constants';
+import { parseQuery } from '../../../../../core/utils';
 
 export class MongoDBTourDataSource implements TourDataSource {
+	/**
+	 * Delete and create seed data in DB
+	 * @returns Promise<string> message
+	 */
 	async seed(): Promise<string> {
 		if (process.env.NODE_ENV === 'production') return 'No access to this endpoint';
 		await connect();
@@ -47,48 +52,19 @@ export class MongoDBTourDataSource implements TourDataSource {
 		return tour;
 	}
 
-	async getAll(
-		query?: object,
-		sort?: string | SortType,
-		fields?: string,
-		pagination?: PaginationType
-	): Promise<Tour[]> {
+	async getAll(features: ApiFeatures): Promise<Tour[]> {
 		await connect();
-		let queryGetAll = TourModel.find({ ...query });
-
-		if (sort) {
-			queryGetAll = queryGetAll.sort(typeof sort === 'string' ? sort.split(',').join(EMPTY_STRING) : sort);
-		} else {
-			queryGetAll = queryGetAll.sort('-createdAt');
-		}
-
-		if (fields) queryGetAll = queryGetAll.select(fields.split(',').join(EMPTY_STRING));
-
-		const page = Number(pagination?.page) || ONE;
-		const limit = Number(pagination?.limit) || ONE_HUNDRED;
-		const skip = (page - ONE) * limit;
-		queryGetAll = queryGetAll.skip(skip).limit(limit);
-		if (pagination) {
-			const numTours = await TourModel.countDocuments();
-			if (skip >= numTours) throw new Error('This page does not exist');
-		}
-
-		queryGetAll = queryGetAll.select('-__v');
-		const results = await queryGetAll;
+		const results = await apiFeatures(TourModel, features);
 		await disconnect();
 		return results;
 	}
 }
 
-/**
- * 0 is disconnected
- * 1 is connected
- * 2 is connecting
- * 3 is disconnecting
- */
+/** 0 disconnected | 1 connected | 2 connecting | 3 disconnecting */
+
 const mongoConnection = { isConnected: 0 };
 
-const connect = async () => {
+const connect = async (): Promise<void> => {
 	if (mongoConnection.isConnected) return;
 	if (mongoose.connections.length > ZERO) {
 		mongoConnection.isConnected = mongoose.connections[ZERO].readyState;
@@ -100,10 +76,37 @@ const connect = async () => {
 	console.log('Connected with MongoBD', process.env.MONGO_URL);
 };
 
-const disconnect = async () => {
+const disconnect = async (): Promise<void> => {
 	if (process.env.NODE_ENV === 'development') return;
 	if (mongoConnection.isConnected === ZERO) return;
 	await mongoose.disconnect();
 	mongoConnection.isConnected = 0;
 	console.log('Diconnected from MongoBD');
 };
+
+async function apiFeatures(model: Model<Tour>, features: ApiFeatures): Promise<Tour[]> {
+	const { query = {}, pagination, sort, fields = EMPTY_STRING } = features;
+
+	const filteringQuery = parseQuery(query);
+
+	const page = Number(pagination?.page) || ONE;
+	const limit = Number(pagination?.limit) || ONE_HUNDRED;
+	const skip = (page - ONE) * limit;
+
+	if (pagination) {
+		const numTours = await TourModel.countDocuments();
+		if (skip >= numTours) throw new Error('This page does not exist');
+	}
+
+	const result = await model
+		.find({ ...filteringQuery })
+		.sort(typeof sort === 'string' ? sort.split(',').join(EMPTY_STRING) : sort)
+		.sort('-createdAt')
+		.select(fields.split(',').join(EMPTY_STRING))
+		.select('-__v')
+		.limit(limit)
+		.skip(skip)
+		.exec();
+
+	return result;
+}
