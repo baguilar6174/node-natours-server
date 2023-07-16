@@ -4,6 +4,7 @@ import { CreateTourDTO, Tour } from '../../../domain/entities/tour.entity';
 import { TourDataSource } from '../../interfaces/data-sources/tour-data-source';
 import { TourModel } from '../../models/tour.model';
 import { TOURS_DATA } from '../../constants/tours-simple';
+import { SortType } from '../../../../../core/types';
 
 export class MongoDBTourDataSource implements TourDataSource {
 	async seed(): Promise<string> {
@@ -45,9 +46,20 @@ export class MongoDBTourDataSource implements TourDataSource {
 		return tour;
 	}
 
-	async getAll(): Promise<Tour[]> {
+	async getAll(query?: object, sort?: string | SortType): Promise<Tour[]> {
 		await connect();
-		const results = await TourModel.find();
+		let queryGetAll = TourModel.find({ ...query });
+		if (sort) {
+			if (typeof sort === 'string') {
+				const sortBy = sort.split(',').join(' ');
+				queryGetAll = queryGetAll.sort(sortBy);
+			} else {
+				queryGetAll = queryGetAll.sort(sort);
+			}
+		} else {
+			queryGetAll = queryGetAll.sort('-createdAt');
+		}
+		const results = await queryGetAll;
 		await disconnect();
 		return results;
 	}
@@ -58,7 +70,6 @@ export class MongoDBTourDataSource implements TourDataSource {
  * 1 is connected
  * 2 is connecting
  * 3 is disconnecting
- *
  */
 const mongoConnection = {
 	isConnected: 0

@@ -1,8 +1,9 @@
 import { TourRepository } from '../repositories/tour-repository';
 import { Tour } from '../entities/tour.entity';
+import { SortType } from '../../../../core/types';
 
 export interface GetAllToursUseCase {
-	execute(): Promise<Tour[]>;
+	execute(query?: object, sort?: string | SortType): Promise<Tour[]>;
 }
 
 export class GetAllTours implements GetAllToursUseCase {
@@ -12,8 +13,8 @@ export class GetAllTours implements GetAllToursUseCase {
 		this.tourRepository = tourRepository;
 	}
 
-	async execute(): Promise<Tour[]> {
-		const result = await this.tourRepository.getAll();
+	async execute(query?: object, sort?: string | SortType): Promise<Tour[]> {
+		const result = await this.tourRepository.getAll(query, sort);
 		return result;
 	}
 }

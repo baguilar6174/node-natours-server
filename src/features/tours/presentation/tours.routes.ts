@@ -8,6 +8,8 @@ import {
 	SeedToursUseCase,
 	UpdateTourUseCase
 } from '../domain/use-cases';
+import { parseQuery } from '../../../core/utils';
+import { RequestQuery } from '../../../core/types';
 
 export default function ToursRouter(
 	getAllToursUseCase: GetAllToursUseCase,
@@ -48,9 +50,11 @@ export default function ToursRouter(
 		}
 	});
 
-	router.get('/', async (_: Request, res: Response): Promise<void> => {
+	router.get('/', async (req: Request<object, object, object, RequestQuery>, res: Response): Promise<void> => {
 		try {
-			const tours = await getAllToursUseCase.execute();
+			const { page, sort, fields, limit, ...query } = req.query;
+			const filteringQuery = parseQuery(query);
+			const tours = await getAllToursUseCase.execute(filteringQuery, sort);
 			res.statusCode = 200;
 			res.json({ status: 'success', results: tours.length, data: { tours } });
 		} catch (err) {

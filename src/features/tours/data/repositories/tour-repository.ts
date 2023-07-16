@@ -1,6 +1,7 @@
 import { TourRepository } from '../../domain/repositories/tour-repository';
 import { Tour, CreateTourDTO, UpdateTourDTO } from '../../domain/entities/tour.entity';
 import { TourDataSource } from '../interfaces/data-sources/tour-data-source';
+import { SortType } from '../../../../core/types';
 
 export class TourRepositoryImpl implements TourRepository {
 	tourDataSource: TourDataSource;
@@ -34,8 +35,8 @@ export class TourRepositoryImpl implements TourRepository {
 		return result;
 	}
 
-	async getAll(): Promise<Tour[]> {
-		const result = this.tourDataSource.getAll();
+	async getAll(query?: object, sort?: SortType): Promise<Tour[]> {
+		const result = this.tourDataSource.getAll(query, sort);
 		return result;
 	}
 }
