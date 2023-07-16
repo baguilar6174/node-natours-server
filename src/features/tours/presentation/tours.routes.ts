@@ -10,6 +10,7 @@ import {
 } from '../domain/use-cases';
 import { parseQuery } from '../../../core/utils';
 import { RequestQuery } from '../../../core/types';
+import { SERVER_ERROR_STATUS } from '../../../core/constants';
 
 export default function ToursRouter(
 	getAllToursUseCase: GetAllToursUseCase,
@@ -46,19 +47,20 @@ export default function ToursRouter(
 			res.statusCode = 200;
 			res.json({ status: 'success', message: result });
 		} catch (err) {
-			res.status(500).send({ message: 'Error get', err });
+			res.status(SERVER_ERROR_STATUS).send({ message: 'Error get', err });
 		}
 	});
 
 	router.get('/', async (req: Request<object, object, object, RequestQuery>, res: Response): Promise<void> => {
 		try {
-			const { page, sort, fields, limit, ...query } = req.query;
+			const { page, limit, sort, fields, ...query } = req.query;
+			const pagination = { page, limit };
 			const filteringQuery = parseQuery(query);
-			const tours = await getAllToursUseCase.execute(filteringQuery, sort);
+			const tours = await getAllToursUseCase.execute(filteringQuery, sort, fields, pagination);
 			res.statusCode = 200;
 			res.json({ status: 'success', results: tours.length, data: { tours } });
 		} catch (err) {
-			res.status(500).send({ message: 'Error get', err });
+			res.status(SERVER_ERROR_STATUS).send({ message: 'Error get', err });
 		}
 	});
 
@@ -69,7 +71,7 @@ export default function ToursRouter(
 			res.statusCode = 200;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
-			res.status(500).send({ message: 'Error get one', err });
+			res.status(SERVER_ERROR_STATUS).send({ message: 'Error get one', err });
 		}
 	});
 
@@ -80,7 +82,7 @@ export default function ToursRouter(
 			res.statusCode = 200;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
-			res.status(500).send({ message: 'Error post', err });
+			res.status(SERVER_ERROR_STATUS).send({ message: 'Error post', err });
 		}
 	});
 
@@ -94,7 +96,7 @@ export default function ToursRouter(
 			res.statusCode = 200;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
-			res.status(500).send({ message: 'Error patch', err });
+			res.status(SERVER_ERROR_STATUS).send({ message: 'Error patch', err });
 		}
 	});
 
@@ -105,7 +107,7 @@ export default function ToursRouter(
 			res.statusCode = 200;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
-			res.status(500).send({ message: 'Error delete', err });
+			res.status(SERVER_ERROR_STATUS).send({ message: 'Error delete', err });
 		}
 	});
 

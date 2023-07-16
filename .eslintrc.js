@@ -26,6 +26,7 @@ module.exports = {
 		'spaced-comment': 'error',
 		quotes: ['error', 'single'],
 		'no-duplicate-imports': 'error',
-		'no-unused-vars': 'off'
+		'no-unused-vars': 'off',
+		'no-magic-numbers': 'error'
 	}
 };

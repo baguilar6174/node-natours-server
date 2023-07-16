@@ -4,7 +4,8 @@ import { CreateTourDTO, Tour } from '../../../domain/entities/tour.entity';
 import { TourDataSource } from '../../interfaces/data-sources/tour-data-source';
 import { TourModel } from '../../models/tour.model';
 import { TOURS_DATA } from '../../constants/tours-simple';
-import { SortType } from '../../../../../core/types';
+import { PaginationType, SortType } from '../../../../../core/types';
+import { EMPTY_STRING, ONE, ONE_HUNDRED, ZERO } from '../../../../../core/constants';
 
 export class MongoDBTourDataSource implements TourDataSource {
 	async seed(): Promise<string> {
@@ -46,19 +47,33 @@ export class MongoDBTourDataSource implements TourDataSource {
 		return tour;
 	}
 
-	async getAll(query?: object, sort?: string | SortType): Promise<Tour[]> {
+	async getAll(
+		query?: object,
+		sort?: string | SortType,
+		fields?: string,
+		pagination?: PaginationType
+	): Promise<Tour[]> {
 		await connect();
 		let queryGetAll = TourModel.find({ ...query });
+
 		if (sort) {
-			if (typeof sort === 'string') {
-				const sortBy = sort.split(',').join(' ');
-				queryGetAll = queryGetAll.sort(sortBy);
-			} else {
-				queryGetAll = queryGetAll.sort(sort);
-			}
+			queryGetAll = queryGetAll.sort(typeof sort === 'string' ? sort.split(',').join(EMPTY_STRING) : sort);
 		} else {
 			queryGetAll = queryGetAll.sort('-createdAt');
 		}
+
+		if (fields) queryGetAll = queryGetAll.select(fields.split(',').join(EMPTY_STRING));
+
+		const page = Number(pagination?.page) || ONE;
+		const limit = Number(pagination?.limit) || ONE_HUNDRED;
+		const skip = (page - ONE) * limit;
+		queryGetAll = queryGetAll.skip(skip).limit(limit);
+		if (pagination) {
+			const numTours = await TourModel.countDocuments();
+			if (skip >= numTours) throw new Error('This page does not exist');
+		}
+
+		queryGetAll = queryGetAll.select('-__v');
 		const results = await queryGetAll;
 		await disconnect();
 		return results;
@@ -71,15 +86,13 @@ export class MongoDBTourDataSource implements TourDataSource {
  * 2 is connecting
  * 3 is disconnecting
  */
-const mongoConnection = {
-	isConnected: 0
-};
+const mongoConnection = { isConnected: 0 };
 
-export const connect = async () => {
+const connect = async () => {
 	if (mongoConnection.isConnected) return;
-	if (mongoose.connections.length > 0) {
-		mongoConnection.isConnected = mongoose.connections[0].readyState;
-		if (mongoConnection.isConnected === 1) return;
+	if (mongoose.connections.length > ZERO) {
+		mongoConnection.isConnected = mongoose.connections[ZERO].readyState;
+		if (mongoConnection.isConnected === ONE) return;
 		await mongoose.disconnect();
 	}
 	await mongoose.connect(process.env.MONGO_URL || '');
@@ -87,9 +100,9 @@ export const connect = async () => {
 	console.log('Connected with MongoBD', process.env.MONGO_URL);
 };
 
-export const disconnect = async () => {
+const disconnect = async () => {
 	if (process.env.NODE_ENV === 'development') return;
-	if (mongoConnection.isConnected === 0) return;
+	if (mongoConnection.isConnected === ZERO) return;
 	await mongoose.disconnect();
 	mongoConnection.isConnected = 0;
 	console.log('Diconnected from MongoBD');

@@ -1,1 +1,1 @@
-export * from './advanced-filtering';
+export * from './parse-query';
