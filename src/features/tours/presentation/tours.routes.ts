@@ -5,6 +5,7 @@ import {
 	DeleteTourUseCase,
 	GetAllToursUseCase,
 	GetOneTourUseCase,
+	GetStatsToursUseCase,
 	SeedToursUseCase,
 	UpdateTourUseCase
 } from '../domain/use-cases';
@@ -17,7 +18,8 @@ export default function ToursRouter(
 	createTourUseCase: CreateTourUseCase,
 	updateTourUseCase: UpdateTourUseCase,
 	deleteTourUseCase: DeleteTourUseCase,
-	seedToursUseCase: SeedToursUseCase
+	seedToursUseCase: SeedToursUseCase,
+	getStatsToursUseCase: GetStatsToursUseCase
 ): Router {
 	const router = Router();
 
@@ -47,6 +49,16 @@ export default function ToursRouter(
 			res.json({ status: 'success', message: result });
 		} catch (err) {
 			res.status(SERVER_ERROR_STATUS).send({ message: 'Error get', err });
+		}
+	});
+
+	router.get('/stats', async (_: Request, res: Response): Promise<void> => {
+		try {
+			const stats = await getStatsToursUseCase.execute();
+			res.statusCode = 200;
+			res.json({ status: 'success', data: { stats } });
+		} catch (err) {
+			res.status(SERVER_ERROR_STATUS).send({ message: 'Error stats', err });
 		}
 	});
 

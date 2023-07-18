@@ -17,3 +17,13 @@ export interface Tour {
 
 export type CreateTourDTO = Omit<Tour, '_id'>;
 export type UpdateTourDTO = Partial<Omit<Tour, '_id'>>;
+
+export interface Stat {
+	_id: string;
+	numTours: number;
+	numRating: number;
+	avgRating: number;
+	avgPrice: number;
+	minPrice: number;
+	maxPrice: number;
+}

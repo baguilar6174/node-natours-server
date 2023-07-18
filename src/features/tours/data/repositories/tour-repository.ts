@@ -1,5 +1,5 @@
 import { TourRepository } from '../../domain/repositories/tour-repository';
-import { Tour, CreateTourDTO, UpdateTourDTO } from '../../domain/entities/tour.entity';
+import { Tour, CreateTourDTO, UpdateTourDTO, Stat } from '../../domain/entities/tour.entity';
 import { TourDataSource } from '../interfaces/data-sources/tour-data-source';
 import { ApiFeatures } from '../../../../core/types';
 
@@ -37,6 +37,11 @@ export class TourRepositoryImpl implements TourRepository {
 
 	async getAll(features: ApiFeatures): Promise<Tour[]> {
 		const result = this.tourDataSource.getAll(features);
+		return result;
+	}
+
+	async getStats(): Promise<Stat[]> {
+		const result = this.tourDataSource.getStats();
 		return result;
 	}
 }

@@ -1,6 +1,6 @@
 import mongoose, { Model } from 'mongoose';
 
-import { CreateTourDTO, Tour } from '../../../domain/entities/tour.entity';
+import { CreateTourDTO, Stat, Tour } from '../../../domain/entities/tour.entity';
 import { TourDataSource } from '../../interfaces/data-sources/tour-data-source';
 import { TourModel } from '../../models/tour.model';
 import { TOURS_DATA } from '../../constants/tours-simple';
@@ -55,6 +55,33 @@ export class MongoDBTourDataSource implements TourDataSource {
 	async getAll(features: ApiFeatures): Promise<Tour[]> {
 		await connect();
 		const results = await apiFeatures(TourModel, features);
+		await disconnect();
+		return results;
+	}
+
+	async getStats(): Promise<Stat[]> {
+		await connect();
+		const results = await TourModel.aggregate([
+			{
+				$match: {
+					ratingsAverage: { $gte: 4.5 }
+				}
+			},
+			{
+				$group: {
+					_id: { $toUpper: '$difficulty' },
+					numTours: { $sum: 1 },
+					numRating: { $sum: '$ratingsQuantity' },
+					avgRating: { $avg: '$ratingsAverage' },
+					avgPrice: { $avg: '$price' },
+					minPrice: { $min: '$price' },
+					maxPrice: { $max: '$price' }
+				}
+			},
+			{
+				$sort: { avgPrice: 1 }
+			}
+		]);
 		await disconnect();
 		return results;
 	}

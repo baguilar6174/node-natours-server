@@ -51,6 +51,16 @@ If your want to create build production, run `yarn build`
 - MongoDB & Mongoose
 - Handle Mongoose schema
 
+### What I learned
+
+- Fundamentals of Express (Node.js framework): routing, middleware, sending responses, etc.
+- RESTful API design and development with advanced features: filtering, sorting, aliasing, pagination
+- CRUD operations with MongoDB and Mongoose
+- Fundamentals of Mongoose (MongoDB JS driver): Data models, CRUD operations, data validation, and middleware
+- Using clean architecture
+- How to work with data in NoSQL databases
+- Use Mongo pipelines
+
 ## Development Features
 
 - Clean Architecture

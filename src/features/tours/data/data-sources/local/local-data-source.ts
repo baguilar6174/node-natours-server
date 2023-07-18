@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { Tour, CreateTourDTO, UpdateTourDTO } from '../../../domain/entities/tour.entity';
+import { Tour, CreateTourDTO, UpdateTourDTO, Stat } from '../../../domain/entities/tour.entity';
 import { TOURS_DATA } from '../../constants/tours-simple';
 import { TourDataSource } from '../../interfaces/data-sources/tour-data-source';
 
@@ -41,5 +41,9 @@ export class LocalBDTourDataSource implements TourDataSource {
 	async getAll(): Promise<Tour[]> {
 		const tours = TOURS_DATA;
 		return tours;
+	}
+
+	getStats(): Promise<Stat[]> {
+		throw new Error('Method not implemented.');
 	}
 }
