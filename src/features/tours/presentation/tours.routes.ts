@@ -4,6 +4,7 @@ import {
 	CreateTourUseCase,
 	DeleteTourUseCase,
 	GetAllToursUseCase,
+	GetMonthlyPlanToursUseCase,
 	GetOneTourUseCase,
 	GetStatsToursUseCase,
 	SeedToursUseCase,
@@ -19,7 +20,8 @@ export default function ToursRouter(
 	updateTourUseCase: UpdateTourUseCase,
 	deleteTourUseCase: DeleteTourUseCase,
 	seedToursUseCase: SeedToursUseCase,
-	getStatsToursUseCase: GetStatsToursUseCase
+	getStatsToursUseCase: GetStatsToursUseCase,
+	getMonthlyPlanToursUseCase: GetMonthlyPlanToursUseCase
 ): Router {
 	const router = Router();
 
@@ -57,6 +59,17 @@ export default function ToursRouter(
 			const stats = await getStatsToursUseCase.execute();
 			res.statusCode = 200;
 			res.json({ status: 'success', data: { stats } });
+		} catch (err) {
+			res.status(SERVER_ERROR_STATUS).send({ message: 'Error stats', err });
+		}
+	});
+
+	router.get('/monthly-plan/:year', async (req: Request, res: Response): Promise<void> => {
+		try {
+			const { year } = req.params;
+			const plan = await getMonthlyPlanToursUseCase.execute(Number(year));
+			res.statusCode = 200;
+			res.json({ status: 'success', data: { plan } });
 		} catch (err) {
 			res.status(SERVER_ERROR_STATUS).send({ message: 'Error stats', err });
 		}

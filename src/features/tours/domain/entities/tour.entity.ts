@@ -27,3 +27,9 @@ export interface Stat {
 	minPrice: number;
 	maxPrice: number;
 }
+
+export interface Plan {
+	numToursStarts: number;
+	tours: string[];
+	month: number;
+}

@@ -1,6 +1,6 @@
 import mongoose, { Model } from 'mongoose';
 
-import { CreateTourDTO, Stat, Tour } from '../../../domain/entities/tour.entity';
+import { CreateTourDTO, Plan, Stat, Tour } from '../../../domain/entities/tour.entity';
 import { TourDataSource } from '../../interfaces/data-sources/tour-data-source';
 import { TourModel } from '../../models/tour.model';
 import { TOURS_DATA } from '../../constants/tours-simple';
@@ -81,6 +81,34 @@ export class MongoDBTourDataSource implements TourDataSource {
 			{
 				$sort: { avgPrice: 1 }
 			}
+		]);
+		await disconnect();
+		return results;
+	}
+
+	async getMonthlyPlan(year: number): Promise<Plan[]> {
+		await connect();
+		const results = await TourModel.aggregate([
+			{ $unwind: '$startDates' },
+			{
+				$match: {
+					startDates: {
+						$gte: new Date(`${year}-01-01`),
+						$lte: new Date(`${year}-12-31`)
+					}
+				}
+			},
+			{
+				$group: {
+					_id: { $month: '$startDates' },
+					numToursStarts: { $sum: 1 },
+					tours: { $push: '$name' }
+				}
+			},
+			{ $addFields: { month: '$_id' } },
+			{ $project: { _id: 0 } },
+			{ $sort: { numToursStarts: -1 } },
+			{ $limit: 12 }
 		]);
 		await disconnect();
 		return results;

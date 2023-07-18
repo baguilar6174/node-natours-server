@@ -69,7 +69,7 @@ If your want to create build production, run `yarn build`
 
 ## TODO:
 
-- Validations in queries
+- Make responses with same format
 
 ## Natours Server
 

@@ -5,3 +5,4 @@ export * from './get-all';
 export * from './get-one';
 export * from './seed';
 export * from './get-stats';
+export * from './get-monthly-plan';

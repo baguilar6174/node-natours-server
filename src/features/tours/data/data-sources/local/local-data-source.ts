@@ -1,15 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { Tour, CreateTourDTO, UpdateTourDTO, Stat } from '../../../domain/entities/tour.entity';
+import { Tour, CreateTourDTO, UpdateTourDTO, Stat, Plan } from '../../../domain/entities/tour.entity';
 import { TOURS_DATA } from '../../constants/tours-simple';
 import { TourDataSource } from '../../interfaces/data-sources/tour-data-source';
 
 export class LocalBDTourDataSource implements TourDataSource {
-	async seed(): Promise<void> {
-		// TODO: implement method
-		// TODO: this method must be optional in this data source
-	}
-
 	async deleteOne(id: string): Promise<Tour | null> {
 		// TODO: implement method
 		const tourInBD = TOURS_DATA.find((tour): boolean => tour._id === id);
@@ -44,6 +39,15 @@ export class LocalBDTourDataSource implements TourDataSource {
 	}
 
 	getStats(): Promise<Stat[]> {
+		throw new Error('Method not implemented.');
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	getMonthlyPlan(_year: number): Promise<Plan[]> {
+		throw new Error('Method not implemented.');
+	}
+
+	seed(): Promise<string | void> {
 		throw new Error('Method not implemented.');
 	}
 }
