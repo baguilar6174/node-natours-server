@@ -16,7 +16,8 @@ export const TOURS_DATA: Tour[] = [
 			'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 		imageCover: 'tour-1-cover.jpg',
 		images: ['tour-1-1.jpg', 'tour-1-2.jpg', 'tour-1-3.jpg'],
-		startDates: ['2021-04-25,10:00', '2021-07-20,10:00', '2021-10-05,10:00']
+		startDates: ['2021-04-25,10:00', '2021-07-20,10:00', '2021-10-05,10:00'],
+		secretTour: false
 	},
 	{
 		_id: '1',
@@ -33,7 +34,8 @@ export const TOURS_DATA: Tour[] = [
 			'Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\nIrure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
 		imageCover: 'tour-2-cover.jpg',
 		images: ['tour-2-1.jpg', 'tour-2-2.jpg', 'tour-2-3.jpg'],
-		startDates: ['2021-06-19,10:00', '2021-07-20,10:00', '2021-08-18,10:00']
+		startDates: ['2021-06-19,10:00', '2021-07-20,10:00', '2021-08-18,10:00'],
+		secretTour: false
 	},
 	{
 		_id: '2',
@@ -50,7 +52,8 @@ export const TOURS_DATA: Tour[] = [
 			'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum!\nDolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, exercitation ullamco laboris nisi ut aliquip. Lorem ipsum dolor sit amet, consectetur adipisicing elit!',
 		imageCover: 'tour-3-cover.jpg',
 		images: ['tour-3-1.jpg', 'tour-3-2.jpg', 'tour-3-3.jpg'],
-		startDates: ['2022-01-05,10:00', '2022-02-12,10:00', '2023-01-06,10:00']
+		startDates: ['2022-01-05,10:00', '2022-02-12,10:00', '2023-01-06,10:00'],
+		secretTour: false
 	},
 	{
 		_id: '3',
@@ -67,7 +70,8 @@ export const TOURS_DATA: Tour[] = [
 			'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat lorem ipsum dolor sit amet.\nConsectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat!',
 		imageCover: 'tour-4-cover.jpg',
 		images: ['tour-4-1.jpg', 'tour-4-2.jpg', 'tour-4-3.jpg'],
-		startDates: ['2021-03-11,10:00', '2021-05-02,10:00', '2021-06-09,10:00']
+		startDates: ['2021-03-11,10:00', '2021-05-02,10:00', '2021-06-09,10:00'],
+		secretTour: false
 	},
 	{
 		_id: '4',
@@ -84,7 +88,8 @@ export const TOURS_DATA: Tour[] = [
 			'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum!',
 		imageCover: 'tour-5-cover.jpg',
 		images: ['tour-5-1.jpg', 'tour-5-2.jpg', 'tour-5-3.jpg'],
-		startDates: ['2021-08-05,10:00', '2022-03-20,10:00', '2022-08-12,10:00']
+		startDates: ['2021-08-05,10:00', '2022-03-20,10:00', '2022-08-12,10:00'],
+		secretTour: false
 	},
 	{
 		_id: '5',
@@ -101,7 +106,8 @@ export const TOURS_DATA: Tour[] = [
 			'Nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nVoluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur!',
 		imageCover: 'tour-6-cover.jpg',
 		images: ['tour-6-1.jpg', 'tour-6-2.jpg', 'tour-6-3.jpg'],
-		startDates: ['2021-07-19,10:00', '2021-09-06,10:00', '2022-03-18,10:00']
+		startDates: ['2021-07-19,10:00', '2021-09-06,10:00', '2022-03-18,10:00'],
+		secretTour: false
 	},
 	{
 		_id: '6',
@@ -118,7 +124,8 @@ export const TOURS_DATA: Tour[] = [
 			'Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\nIrure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
 		imageCover: 'tour-7-cover.jpg',
 		images: ['tour-7-1.jpg', 'tour-7-2.jpg', 'tour-7-3.jpg'],
-		startDates: ['2021-02-12,10:00', '2021-04-14,10:00', '2021-09-01,10:00']
+		startDates: ['2021-02-12,10:00', '2021-04-14,10:00', '2021-09-01,10:00'],
+		secretTour: false
 	},
 	{
 		_id: '7',
@@ -135,7 +142,8 @@ export const TOURS_DATA: Tour[] = [
 			'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 		imageCover: 'tour-8-cover.jpg',
 		images: ['tour-8-1.jpg', 'tour-8-2.jpg', 'tour-8-3.jpg'],
-		startDates: ['2021-03-23,10:00', '2021-10-25,10:00', '2022-01-30,10:00']
+		startDates: ['2021-03-23,10:00', '2021-10-25,10:00', '2022-01-30,10:00'],
+		secretTour: false
 	},
 	{
 		_id: '8',
@@ -152,6 +160,7 @@ export const TOURS_DATA: Tour[] = [
 			'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum!\nDolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, exercitation ullamco laboris nisi ut aliquip. Lorem ipsum dolor sit amet, consectetur adipisicing elit!',
 		imageCover: 'tour-9-cover.jpg',
 		images: ['tour-9-1.jpg', 'tour-9-2.jpg', 'tour-9-3.jpg'],
-		startDates: ['2021-12-16,10:00', '2022-01-16,10:00', '2022-12-12,10:00']
+		startDates: ['2021-12-16,10:00', '2022-01-16,10:00', '2022-12-12,10:00'],
+		secretTour: false
 	}
 ];

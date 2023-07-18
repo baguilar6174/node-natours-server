@@ -1,6 +1,7 @@
 export interface Tour {
 	_id: string;
 	name: string;
+	slug?: string;
 	duration: number;
 	maxGroupSize: number;
 	difficulty: string;
@@ -13,6 +14,7 @@ export interface Tour {
 	imageCover: string;
 	images: string[];
 	startDates: string[];
+	secretTour: boolean;
 }
 
 export type CreateTourDTO = Omit<Tour, '_id'>;
