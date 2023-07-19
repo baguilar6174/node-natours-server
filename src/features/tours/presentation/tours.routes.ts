@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 
 import {
 	CreateTourUseCase,
@@ -11,7 +11,8 @@ import {
 	UpdateTourUseCase
 } from '../domain/use-cases';
 import { RequestQuery } from '../../../core/types';
-import { SERVER_ERROR_STATUS } from '../../../core/constants';
+import { HttpCode } from '../../../core/constants';
+import { AppError } from '../../../core/error/app-error';
 
 export default function ToursRouter(
 	getAllToursUseCase: GetAllToursUseCase,
@@ -47,20 +48,20 @@ export default function ToursRouter(
 	router.get('/seed', async (_: Request, res: Response): Promise<void> => {
 		try {
 			const result = await seedToursUseCase.execute();
-			res.statusCode = 200;
+			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', message: result });
 		} catch (err) {
-			res.status(SERVER_ERROR_STATUS).send({ message: 'Error get', err });
+			res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error get', err });
 		}
 	});
 
 	router.get('/stats', async (_: Request, res: Response): Promise<void> => {
 		try {
 			const stats = await getStatsToursUseCase.execute();
-			res.statusCode = 200;
+			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', data: { stats } });
 		} catch (err) {
-			res.status(SERVER_ERROR_STATUS).send({ message: 'Error stats', err });
+			res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error stats', err });
 		}
 	});
 
@@ -68,33 +69,44 @@ export default function ToursRouter(
 		try {
 			const { year } = req.params;
 			const plan = await getMonthlyPlanToursUseCase.execute(Number(year));
-			res.statusCode = 200;
+			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', data: { plan } });
 		} catch (err) {
-			res.status(SERVER_ERROR_STATUS).send({ message: 'Error stats', err });
+			res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error stats', err });
 		}
 	});
+
+	// const catchAsync = (fn: any) => {
+	//   fn(req, res, next).catch()
+	// }
 
 	router.get('/', async (req: Request<object, object, object, RequestQuery>, res: Response): Promise<void> => {
 		try {
 			const { page, limit, sort, fields, ...query } = req.query;
 			const pagination = { page, limit };
 			const tours = await getAllToursUseCase.execute({ query, sort, fields, pagination });
-			res.statusCode = 200;
+			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', results: tours.length, data: { tours } });
 		} catch (err) {
-			res.status(SERVER_ERROR_STATUS).send({ message: 'Error get', err });
+			res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error get', err });
 		}
 	});
 
-	router.get('/:id', async (req: Request, res: Response): Promise<void> => {
+	router.get('/:id', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const { id } = req.params;
 			const tour = await getOneTourUseCase.execute(id);
-			res.statusCode = 200;
+			if (!tour) {
+				throw new AppError({
+					message: `No tour found with id ${id}`,
+					statusCode: HttpCode.NOT_FOUND
+				});
+			}
+			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
-			res.status(SERVER_ERROR_STATUS).send({ message: 'Error get one', err });
+			next(err);
+			// res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error get one', err });
 		}
 	});
 
@@ -102,10 +114,10 @@ export default function ToursRouter(
 		try {
 			const { body } = req;
 			const tour = await createTourUseCase.execute(body);
-			res.statusCode = 200;
+			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
-			res.status(SERVER_ERROR_STATUS).send({ message: 'Error post', err });
+			res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error post', err });
 		}
 	});
 
@@ -116,10 +128,16 @@ export default function ToursRouter(
 				body
 			} = req;
 			const tour = await updateTourUseCase.execute(id, body);
-			res.statusCode = 200;
+			if (!tour) {
+				throw new AppError({
+					message: `No tour found with id ${id}`,
+					statusCode: HttpCode.NOT_FOUND
+				});
+			}
+			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
-			res.status(SERVER_ERROR_STATUS).send({ message: 'Error patch', err });
+			res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error patch', err });
 		}
 	});
 
@@ -127,10 +145,16 @@ export default function ToursRouter(
 		try {
 			const { id } = req.params;
 			const tour = await deleteTourUseCase.execute(id);
-			res.statusCode = 200;
+			if (!tour) {
+				throw new AppError({
+					message: `No tour found with id ${id}`,
+					statusCode: HttpCode.NOT_FOUND
+				});
+			}
+			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
-			res.status(SERVER_ERROR_STATUS).send({ message: 'Error delete', err });
+			res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error delete', err });
 		}
 	});
 

@@ -1,4 +1,5 @@
 import { SortOrder } from 'mongoose';
+import { HttpCode } from '../constants';
 
 export interface RequestQuery {
 	sort: string | SortType;
@@ -22,3 +23,10 @@ export type ApiFeatures = {
 	fields?: string;
 	pagination?: PaginationType;
 };
+
+export interface AppErrorArgs {
+	name?: string;
+	statusCode: HttpCode;
+	message: string;
+	isOperational?: boolean;
+}

@@ -1,4 +1,5 @@
 /* eslint-disable no-magic-numbers */
+export * from './routes';
 
 export const ZERO = 0 as const;
 export const ONE = 1 as const;
@@ -9,4 +10,12 @@ export const FORTY = 40 as const;
 export const ONE_HUNDRED = 100 as const;
 
 export const EMPTY_STRING = ' ' as const;
-export const SERVER_ERROR_STATUS = 500 as const;
+
+export enum HttpCode {
+	OK = 200,
+	NO_CONTENT = 204,
+	BAD_REQUEST = 400,
+	UNAUTHORIZED = 401,
+	NOT_FOUND = 404,
+	INTERNAL_SERVER_ERROR = 500
+}

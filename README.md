@@ -49,7 +49,6 @@ If your want to create build production, run `yarn build`
 - Express
 - Typescript
 - MongoDB & Mongoose
-- Handle Mongoose schema
 
 ### What I learned
 
@@ -70,6 +69,7 @@ If your want to create build production, run `yarn build`
 ## TODO:
 
 - Make responses with same format
+- Rename files, classes and methods
 
 ## Natours Server
 
