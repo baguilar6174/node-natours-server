@@ -11,9 +11,9 @@ import {
 	GetStatsTours,
 	GetMonthlyPlanTours
 } from '../domain/use-cases';
-import { MongoDBTourDataSource } from '../data/data-sources';
+import { MongoDBDataSource } from '../data/data-sources';
 
-const dataSource = new MongoDBTourDataSource();
+const dataSource = new MongoDBDataSource();
 const tourRepositoryImpl = new TourRepositoryImpl(dataSource);
 
 // useCases

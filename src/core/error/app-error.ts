@@ -1,5 +1,3 @@
-import { NextFunction, Request, Response } from 'express';
-
 import { HttpCode } from '../constants';
 import { AppErrorArgs } from '../types';
 
@@ -17,20 +15,3 @@ export class AppError extends Error {
 		Error.captureStackTrace(this);
 	}
 }
-
-export const handleGlobalErrors = (error: AppError, _: Request, res: Response, next: NextFunction): void => {
-	const statusCode = error.statusCode || HttpCode.INTERNAL_SERVER_ERROR;
-	res.statusCode = statusCode;
-	if (process.env.NODE_ENV === 'development') {
-		res.json({ message: error.message, error, stack: error.stack });
-	}
-	if (process.env.NODE_ENV === 'production') {
-		if (error.isOperational) {
-			res.json({ message: error.message });
-		} else {
-			res.statusCode = HttpCode.INTERNAL_SERVER_ERROR;
-			res.json({ message: 'Something went very wrong!' });
-		}
-	}
-	next();
-};

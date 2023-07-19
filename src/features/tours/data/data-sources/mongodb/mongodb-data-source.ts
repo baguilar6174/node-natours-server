@@ -1,20 +1,20 @@
 import mongoose, { Model } from 'mongoose';
 
 import { CreateTourDTO, Plan, Stat, Tour } from '../../../domain/entities/tour.entity';
-import { TourDataSource } from '../../interfaces/data-sources/tour-data-source';
+import { DataSource } from '../../interfaces';
 import { TourModel } from '../../models/tour.model';
 import { TOURS_DATA } from '../../constants/tours-simple';
 import { ApiFeatures } from '../../../../../core/types';
-import { EMPTY_STRING, ONE, ONE_HUNDRED, ZERO } from '../../../../../core/constants';
+import { DEV_ENVIRONMENT, EMPTY_STRING, ONE, ONE_HUNDRED, PROD_ENVIRONMENT, ZERO } from '../../../../../core/constants';
 import { parseQuery } from '../../../../../core/utils';
 
-export class MongoDBTourDataSource implements TourDataSource {
+export class MongoDBDataSource implements DataSource {
 	/**
 	 * Delete and create seed data in DB
 	 * @returns Promise<string> message
 	 */
 	async seed(): Promise<string> {
-		if (process.env.NODE_ENV === 'production') return 'No access to this endpoint';
+		if (process.env.NODE_ENV === PROD_ENVIRONMENT) return 'No access to this endpoint';
 		await connect();
 		await TourModel.deleteMany();
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -132,7 +132,7 @@ const connect = async (): Promise<void> => {
 };
 
 const disconnect = async (): Promise<void> => {
-	if (process.env.NODE_ENV === 'development') return;
+	if (process.env.NODE_ENV === DEV_ENVIRONMENT) return;
 	if (mongoConnection.isConnected === ZERO) return;
 	await mongoose.disconnect();
 	mongoConnection.isConnected = 0;

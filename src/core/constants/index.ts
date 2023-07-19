@@ -10,6 +10,9 @@ export const FORTY = 40 as const;
 export const ONE_HUNDRED = 100 as const;
 
 export const EMPTY_STRING = ' ' as const;
+export const DEFAULT_PORT = 3000 as const;
+export const DEV_ENVIRONMENT = 'development' as const;
+export const PROD_ENVIRONMENT = 'production' as const;
 
 export enum HttpCode {
 	OK = 200,

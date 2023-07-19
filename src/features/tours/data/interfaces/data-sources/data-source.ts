@@ -1,7 +1,7 @@
 import { ApiFeatures } from '../../../../../core/types';
 import { CreateTourDTO, Plan, Stat, Tour, UpdateTourDTO } from '../../../domain/entities/tour.entity';
 
-export interface TourDataSource {
+export interface DataSource {
 	seed(): Promise<string | void>;
 	create(tour: CreateTourDTO): Promise<Tour>;
 	getAll(features: ApiFeatures): Promise<Tour[]>;

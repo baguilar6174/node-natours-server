@@ -2,9 +2,9 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { Tour, CreateTourDTO, UpdateTourDTO, Stat, Plan } from '../../../domain/entities/tour.entity';
 import { TOURS_DATA } from '../../constants/tours-simple';
-import { TourDataSource } from '../../interfaces/data-sources/tour-data-source';
+import { DataSource } from '../../interfaces';
 
-export class LocalBDTourDataSource implements TourDataSource {
+export class LocalBDDataSource implements DataSource {
 	async deleteOne(id: string): Promise<Tour | null> {
 		// TODO: implement method
 		const tourInBD = TOURS_DATA.find((tour): boolean => tour._id === id);
