@@ -25,5 +25,7 @@ export enum HttpCode {
 }
 
 export enum MongoErrors {
-	CAST_ERROR = 'CastError'
+	CAST_ERROR = 'CastError',
+	DUPLICATED_CODE = 11000,
+	VALIDATION_ERROR = 'ValidationError'
 }

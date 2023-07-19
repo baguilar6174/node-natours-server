@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import express, { Express, NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -80,26 +81,41 @@ export const get = async (): Promise<Express> => {
 	});
 
 	// Middleware to handle errors
-	router.use((error: AppError, _: Request, res: Response, next: NextFunction): void => {
-		const { message, isOperational, stack, name } = error;
+	// TODO: remove any
+	router.use((error: AppError | any, _: Request, res: Response): void => {
+		const { message, isOperational, name, stack } = error;
 		const statusCode = error.statusCode || HttpCode.INTERNAL_SERVER_ERROR;
 		if (process.env.NODE_ENV === DEV_ENVIRONMENT) {
-			// TODO: util
+			// TODO: move this validations
 			if (name === MongoErrors.CAST_ERROR) {
-				const { path, value } = new Error.ValidatorError({ ...error });
+				const { path, value } = new Error.ValidatorError({ ...error }); // TODO: review this error type
 				res.statusCode = HttpCode.BAD_REQUEST;
-				res.json({ message: `Invalid ${path}: ${value}`, error });
+				res.json({ message: `Invalid ${path}: ${value}` });
+				return;
 			}
+			if (error.code === MongoErrors.DUPLICATED_CODE) {
+				const values = Object.keys(error.keyValue).map((key) => error.keyValue[key]);
+				res.statusCode = HttpCode.BAD_REQUEST;
+				res.json({ message: `Duplicated field value ${values}. Please use another value!` });
+				return;
+			}
+			if (name === MongoErrors.VALIDATION_ERROR) {
+				const values = Object.values(error.errors).map((e: any) => e.message); // TODO: review this error type
+				res.statusCode = HttpCode.BAD_REQUEST;
+				res.json({ message: `Invalid input data: ${values.join('. ')}` });
+				return;
+			}
+
 			res.statusCode = statusCode;
 			res.json({ message, error, stack });
+			return;
 		}
 
 		if (process.env.NODE_ENV === PROD_ENVIRONMENT) {
 			res.statusCode = isOperational ? statusCode : HttpCode.INTERNAL_SERVER_ERROR;
 			res.json({ message: isOperational ? message : 'Something went very wrong!' });
+			return;
 		}
-
-		next();
 	});
 
 	return app;
