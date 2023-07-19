@@ -45,9 +45,9 @@ export class MongoDBDataSource implements DataSource {
 		return tour;
 	}
 
-	async create(data: Tour): Promise<Tour> {
+	async create(data: CreateTourDTO): Promise<Tour> {
 		await connect();
-		const tour = await TourModel.create({ ...data });
+		const tour = await TourModel.create(data);
 		await disconnect();
 		return tour;
 	}

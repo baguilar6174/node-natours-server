@@ -1,6 +1,7 @@
 /* eslint-disable no-magic-numbers */
 export * from './routes';
 
+// Numbers
 export const ZERO = 0 as const;
 export const ONE = 1 as const;
 export const FIVE = 5 as const;
@@ -21,4 +22,8 @@ export enum HttpCode {
 	UNAUTHORIZED = 401,
 	NOT_FOUND = 404,
 	INTERNAL_SERVER_ERROR = 500
+}
+
+export enum MongoErrors {
+	CAST_ERROR = 'CastError'
 }

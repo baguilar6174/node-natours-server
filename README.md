@@ -36,7 +36,7 @@ If you need local mongo database
 - Run `docker-compose up -d` This command create a local volumen in root project to save data
 
 - Rename `.env.template` to `.env` and add your environment variables
-- [Optional] You can create fake data in your DB using the endpoint: _**GET**_ `http://localhost:3000/api/v1/tours/seed`
+- Create initial data in your DB using the endpoint: _**GET**_ `http://localhost:3000/api/v1/tours/seed`
 - Run `yarn dev`
 
 If your want to create build production, run `yarn build`
@@ -70,6 +70,7 @@ If your want to create build production, run `yarn build`
 
 - Make responses with same format
 - Rename files, classes and methods
+- Create adapter
 
 ## Natours Server
 

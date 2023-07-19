@@ -5,8 +5,9 @@ import morgan from 'morgan';
 import path from 'path';
 
 import router from './app.route';
-import { DEFAULT_PORT, DEV_ENVIRONMENT, HttpCode, PROD_ENVIRONMENT } from './core/constants';
+import { DEFAULT_PORT, DEV_ENVIRONMENT, HttpCode, MongoErrors, PROD_ENVIRONMENT } from './core/constants';
 import { AppError } from './core/error/app-error';
+import { Error } from 'mongoose';
 
 // TODO: move this declaration
 declare module 'express-serve-static-core' {
@@ -80,16 +81,24 @@ export const get = async (): Promise<Express> => {
 
 	// Middleware to handle errors
 	router.use((error: AppError, _: Request, res: Response, next: NextFunction): void => {
-		const { message, isOperational, stack } = error;
+		const { message, isOperational, stack, name } = error;
 		const statusCode = error.statusCode || HttpCode.INTERNAL_SERVER_ERROR;
 		if (process.env.NODE_ENV === DEV_ENVIRONMENT) {
+			// TODO: util
+			if (name === MongoErrors.CAST_ERROR) {
+				const { path, value } = new Error.ValidatorError({ ...error });
+				res.statusCode = HttpCode.BAD_REQUEST;
+				res.json({ message: `Invalid ${path}: ${value}`, error });
+			}
 			res.statusCode = statusCode;
 			res.json({ message, error, stack });
 		}
+
 		if (process.env.NODE_ENV === PROD_ENVIRONMENT) {
 			res.statusCode = isOperational ? statusCode : HttpCode.INTERNAL_SERVER_ERROR;
 			res.json({ message: isOperational ? message : 'Something went very wrong!' });
 		}
+
 		next();
 	});
 

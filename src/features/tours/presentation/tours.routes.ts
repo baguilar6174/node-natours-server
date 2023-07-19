@@ -76,21 +76,20 @@ export default function ToursRouter(
 		}
 	});
 
-	// const catchAsync = (fn: any) => {
-	//   fn(req, res, next).catch()
-	// }
-
-	router.get('/', async (req: Request<object, object, object, RequestQuery>, res: Response): Promise<void> => {
-		try {
-			const { page, limit, sort, fields, ...query } = req.query;
-			const pagination = { page, limit };
-			const tours = await getAllToursUseCase.execute({ query, sort, fields, pagination });
-			res.statusCode = HttpCode.OK;
-			res.json({ status: 'success', results: tours.length, data: { tours } });
-		} catch (err) {
-			res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error get', err });
+	router.get(
+		'/',
+		async (req: Request<object, object, object, RequestQuery>, res: Response, next: NextFunction): Promise<void> => {
+			try {
+				const { page, limit, sort, fields, ...query } = req.query;
+				const pagination = { page, limit };
+				const tours = await getAllToursUseCase.execute({ query, sort, fields, pagination });
+				res.statusCode = HttpCode.OK;
+				res.json({ status: 'success', results: tours.length, data: { tours } });
+			} catch (err) {
+				next(err);
+			}
 		}
-	});
+	);
 
 	router.get('/:id', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
@@ -104,24 +103,23 @@ export default function ToursRouter(
 			}
 			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', data: tour });
-		} catch (err) {
-			next(err);
-			// res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error get one', err });
+		} catch (error) {
+			next(error);
 		}
 	});
 
-	router.post('/', async (req: Request, res: Response): Promise<void> => {
+	router.post('/', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const { body } = req;
 			const tour = await createTourUseCase.execute(body);
 			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
-			res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error post', err });
+			next(err);
 		}
 	});
 
-	router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
+	router.patch('/:id', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const {
 				params: { id },
@@ -137,11 +135,11 @@ export default function ToursRouter(
 			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
-			res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error patch', err });
+			next(err);
 		}
 	});
 
-	router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
+	router.delete('/:id', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const { id } = req.params;
 			const tour = await deleteTourUseCase.execute(id);
@@ -154,7 +152,7 @@ export default function ToursRouter(
 			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
-			res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error delete', err });
+			next(err);
 		}
 	});
 
