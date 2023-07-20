@@ -3,7 +3,7 @@ import { CreateTourUseCase } from '../../domain/ports/inputs';
 import { TourRepositoryPort } from '../../domain/ports/outputs/tour.repository.port';
 
 export class CreateTourUseCaseImpl implements CreateTourUseCase {
-	constructor(public repositoryPort: TourRepositoryPort) {}
+	constructor(private repositoryPort: TourRepositoryPort) {}
 
 	async create(data: CreateTourDTO): Promise<Tour> {
 		const result = await this.repositoryPort.create(data);

@@ -2,9 +2,8 @@ import { TourService } from '../../application/services/tour.service';
 import {
 	CreateTourUseCaseImpl,
 	DeleteTourUseCaseImpl,
-	GetAllToursUseCaseImpl,
+	GetToursUseCaseImpl,
 	GetMonthlyPlanToursUseCaseImpl,
-	GetOneTourUseCaseImpl,
 	GetStatsToursUseCaseImpl,
 	SeedToursUseCaseImpl,
 	UpdateTourUseCaseImpl
@@ -17,9 +16,8 @@ const getService = (repositoryPort: TourRepositoryPort): TourService => {
 	return new TourService(
 		new CreateTourUseCaseImpl(repositoryPort),
 		new DeleteTourUseCaseImpl(repositoryPort),
-		new GetAllToursUseCaseImpl(repositoryPort),
+		new GetToursUseCaseImpl(repositoryPort),
 		new GetMonthlyPlanToursUseCaseImpl(repositoryPort),
-		new GetOneTourUseCaseImpl(repositoryPort),
 		new GetStatsToursUseCaseImpl(repositoryPort),
 		new SeedToursUseCaseImpl(repositoryPort),
 		new UpdateTourUseCaseImpl(repositoryPort)

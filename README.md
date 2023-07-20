@@ -2,15 +2,34 @@
 
 This repository contains a Rest API server created with Node, Express and Typescript, using clean architecture and best development practices. It uses MongoDB DB.
 
-## Hexagonal & Clean Architecture
+## Hexagonal Architecture (Ports & Adapters) and DDD
 
-By employing clean architecture, you can design applications with very low coupling and independent of technical implementation details. That way, the application becomes easy to maintain and flexible to change. Clean architecture allows us to create architectural boundaries between dependencies which allows components to be swapped in and out and be intrinsically testable.
+The hexagonal architecture seeks to separate the business logic from the user interface and in turn from the external infrastructure. To do so, we divide the application into three main layers:
+
+### Domain
+
+A layer that is the most internal of all, (core of the application). Here are the essential components and modules that execute the main functions of the software. This central part is responsible for coordinating and managing the interactions between the various layers and elements of the system, ensuring efficiency, scalability and stability of the application.
+
+**Important**: in this layer, the logic of the necigio is defined (DEFINITION != IMPLEMENTATION)
+
+### Application
+
+It is the one that contains the implementation of the services and the business logic.
+
+### Infraestructura
+
+It is the most external layer of all, where it connects with external applications, databases, API Rest, etc.
 
 <table>
   <tr>
-    <td align="center" valign="center"><img src="./media/api_structure.png" width="80%"></td>
+    <td align="center" valign="center"><img src="./media/hexagonal_architecture.jpeg" width="50%"></td>
   </tr>
 </table>
+
+**Important**: The innermost layers cannot depend on external layers (dependency inversion principle). In other words, the domain layer cannot depend on any other layer. In turn, the application layer cannot depend on the infrastructure layer and must only communicate with the domain layer through ports.
+
+- **Ports**: are used as communication bridges between the different layers of the application.
+- **Adapters**: are used as external communication bridges for the application (other applications, external services, etc.). The adapters are located in the infrastructure layer.
 
 ## Installation
 

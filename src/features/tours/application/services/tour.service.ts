@@ -3,9 +3,8 @@ import { CreateTourDTO, Tour, Plan, Stat } from '../../domain/entities/tour.enti
 import {
 	CreateTourUseCase,
 	DeleteTourUseCase,
-	GetAllToursUseCase,
+	GetToursUseCase,
 	GetMonthlyPlanToursUseCase,
-	GetOneTourUseCase,
 	GetStatsToursUseCase,
 	SeedToursUseCase,
 	UpdateTourUseCase
@@ -15,9 +14,8 @@ export class TourService
 	implements
 		CreateTourUseCase,
 		DeleteTourUseCase,
-		GetAllToursUseCase,
+		GetToursUseCase,
 		GetMonthlyPlanToursUseCase,
-		GetOneTourUseCase,
 		GetStatsToursUseCase,
 		SeedToursUseCase,
 		UpdateTourUseCase
@@ -25,9 +23,8 @@ export class TourService
 	constructor(
 		private createTourUseCase: CreateTourUseCase,
 		private deleteTourUseCase: DeleteTourUseCase,
-		private getAllToursUseCase: GetAllToursUseCase,
+		private getToursUseCase: GetToursUseCase,
 		private getMonthlyPlanToursUseCase: GetMonthlyPlanToursUseCase,
-		private getOneTourUseCase: GetOneTourUseCase,
 		private getStatsToursUseCase: GetStatsToursUseCase,
 		private seedToursUseCase: SeedToursUseCase,
 		private updateTourUseCase: UpdateTourUseCase
@@ -44,12 +41,12 @@ export class TourService
 	}
 
 	async getAll(features: ApiFeatures): Promise<Tour[]> {
-		const result = await this.getAllToursUseCase.getAll(features);
+		const result = await this.getToursUseCase.getAll(features);
 		return result;
 	}
 
 	async getOne(id: string): Promise<Tour | null> {
-		const result = await this.getOneTourUseCase.getOne(id);
+		const result = await this.getToursUseCase.getOne(id);
 		return result;
 	}
 

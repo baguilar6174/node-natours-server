@@ -121,7 +121,7 @@ const connect = async (): Promise<void> => {
 		if (mongoConnection.isConnected === ONE) return;
 		await mongoose.disconnect();
 	}
-	await mongoose.connect(process.env.MONGO_URL || '');
+	await mongoose.connect(process.env.MONGO_URL || EMPTY_STRING);
 	mongoConnection.isConnected = 1;
 	console.log('Connected with MongoBD', process.env.MONGO_URL);
 };
