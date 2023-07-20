@@ -1,11 +1,61 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import { RequestQuery } from '../../../../core/types';
-import { UserService } from '../../application/services/user.service';
 import { HttpCode } from '../../../../core/constants';
 import { AppError } from '../../../../core/error/app-error';
+import { TourService } from '../../application/services/tour.service';
 
-export default function UserController(userService: UserService): Router {
+export default function TourController(service: TourService): Router {
 	const router = Router();
+
+	// Middlewares
+
+	// Validate id
+	// router.param('id', async (_: Request, res: Response, next: NextFunction, id: string) => {
+	// 	try {
+	// 		const tours = await getAllToursUseCase.execute();
+	// 		if (Number(id) > tours.length) {
+	// 			return res.status(404).json({
+	// 				status: 'fail',
+	// 				message: 'Invalid id'
+	// 			});
+	// 		}
+	// 		return next();
+	// 	} catch (err) {
+	// 		res.status(500).send({ message: 'Error fetching data' });
+	// 	}
+	// });
+
+	// Routes
+	router.get('/seed', async (_: Request, res: Response): Promise<void> => {
+		try {
+			const result = await service.seed();
+			res.statusCode = HttpCode.OK;
+			res.json({ status: 'success', message: result });
+		} catch (err) {
+			res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error get', err });
+		}
+	});
+
+	router.get('/stats', async (_: Request, res: Response): Promise<void> => {
+		try {
+			const stats = await service.getStats();
+			res.statusCode = HttpCode.OK;
+			res.json({ status: 'success', data: { stats } });
+		} catch (err) {
+			res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error stats', err });
+		}
+	});
+
+	router.get('/monthly-plan/:year', async (req: Request, res: Response): Promise<void> => {
+		try {
+			const { year } = req.params;
+			const plan = await service.getMonthlyPlan(Number(year));
+			res.statusCode = HttpCode.OK;
+			res.json({ status: 'success', data: { plan } });
+		} catch (err) {
+			res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error stats', err });
+		}
+	});
 
 	router.get(
 		'/',
@@ -13,9 +63,9 @@ export default function UserController(userService: UserService): Router {
 			try {
 				const { page, limit, sort, fields, ...query } = req.query;
 				const pagination = { page, limit };
-				const results = await userService.getAll({ query, sort, fields, pagination });
+				const tours = await service.getAll({ query, sort, fields, pagination });
 				res.statusCode = HttpCode.OK;
-				res.json({ status: 'success', results: results.length, data: { results } });
+				res.json({ status: 'success', results: tours.length, data: { tours } });
 			} catch (err) {
 				next(err);
 			}
@@ -25,7 +75,7 @@ export default function UserController(userService: UserService): Router {
 	router.get('/:id', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const { id } = req.params;
-			const tour = await userService.getOne(id);
+			const tour = await service.getOne(id);
 			if (!tour) {
 				throw new AppError({
 					message: `No tour found with id ${id}`,
@@ -42,7 +92,7 @@ export default function UserController(userService: UserService): Router {
 	router.post('/', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const { body } = req;
-			const tour = await userService.create(body);
+			const tour = await service.create(body);
 			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
@@ -56,7 +106,7 @@ export default function UserController(userService: UserService): Router {
 				params: { id },
 				body
 			} = req;
-			const tour = await userService.update(id, body);
+			const tour = await service.update(id, body);
 			if (!tour) {
 				throw new AppError({
 					message: `No tour found with id ${id}`,
@@ -73,7 +123,7 @@ export default function UserController(userService: UserService): Router {
 	router.delete('/:id', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const { id } = req.params;
-			const tour = await userService.deleteOne(id);
+			const tour = await service.delete(id);
 			if (!tour) {
 				throw new AppError({
 					message: `No tour found with id ${id}`,

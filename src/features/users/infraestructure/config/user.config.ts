@@ -1,12 +1,23 @@
 import { UserService } from '../../application/services/user.service';
-import { UserUseCaseImpl } from '../../application/usecases/user.usecase.impl';
+import {
+	CreateUserUseCaseImpl,
+	DeleteUserUseCaseImpl,
+	GetAllUsersUseCaseImpl,
+	GetOneUserUseCaseImpl,
+	UpdateUserUseCaseImpl
+} from '../../application/usecases';
 import { UserRepositoryPort } from '../../domain/ports/outputs/user.repository.port';
 import UserController from '../controllers/user.controller';
 import { LocalUserRepository } from '../repositories/user.repository.local';
 
 const userService = (userRepositoryPort: UserRepositoryPort): UserService => {
-	const userUseCase = new UserUseCaseImpl(userRepositoryPort);
-	return new UserService(userUseCase);
+	return new UserService(
+		new CreateUserUseCaseImpl(userRepositoryPort),
+		new DeleteUserUseCaseImpl(userRepositoryPort),
+		new GetAllUsersUseCaseImpl(userRepositoryPort),
+		new GetOneUserUseCaseImpl(userRepositoryPort),
+		new UpdateUserUseCaseImpl(userRepositoryPort)
+	);
 };
 
 const userRepositoryPort = new LocalUserRepository();

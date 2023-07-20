@@ -82,7 +82,7 @@ export const get = async (): Promise<Express> => {
 
 	// Middleware to handle errors
 	// TODO: remove any
-	router.use((error: AppError | any, _: Request, res: Response): void => {
+	router.use((error: AppError | any, _: Request, res: Response, next: NextFunction): void => {
 		const { message, isOperational, name, stack } = error;
 		const statusCode = error.statusCode || HttpCode.INTERNAL_SERVER_ERROR;
 		if (process.env.NODE_ENV === DEV_ENVIRONMENT) {
@@ -116,6 +116,8 @@ export const get = async (): Promise<Express> => {
 			res.json({ message: isOperational ? message : 'Something went very wrong!' });
 			return;
 		}
+
+		next();
 	});
 
 	return app;
