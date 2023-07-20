@@ -1,5 +1,5 @@
 import mongoose, { Model, Schema } from 'mongoose';
-import { User } from '../../domain/models/user.model';
+import { User } from '../../domain/entities/user.entity';
 
 const schema = new Schema(
 	{

@@ -2,10 +2,10 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { ApiFeatures } from '../../../../core/types';
-import { CreateUserDTO, User } from '../../domain/models/user.model';
-import { UserRepositoryPort } from '../../domain/ports/outputs/user.repositoryPort';
+import { CreateUserDTO, User } from '../../domain/entities/user.entity';
+import { UserRepositoryPort } from '../../domain/ports/outputs/user.repository.port';
 
-export class LocalUserRepositoryAdapter implements UserRepositoryPort {
+export class LocalUserRepository implements UserRepositoryPort {
 	async create(user: CreateUserDTO): Promise<User> {
 		const id = uuidv4();
 		const newUser = Object.assign({ _id: id }, user);

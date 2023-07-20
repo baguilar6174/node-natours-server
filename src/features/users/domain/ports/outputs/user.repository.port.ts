@@ -1,5 +1,5 @@
 import { ApiFeatures } from '../../../../../core/types';
-import { CreateUserDTO, UpdateUserDTO, User } from '../../models/user.model';
+import { CreateUserDTO, UpdateUserDTO, User } from '../../entities/user.entity';
 
 export interface UserRepositoryPort {
 	create(user: CreateUserDTO): Promise<User>;

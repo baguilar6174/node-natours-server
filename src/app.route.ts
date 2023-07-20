@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import { toursRouter } from './features/tours/presentation/dependencies';
 import { TOURS_ENDPOINT, USERS_ENDPOINT } from './core/constants';
-import { userController } from './features/users/infraestructure/config/app-config';
+import { userController } from './features/users/infraestructure/config/user.config';
 
 const router = Router();
 
