@@ -4,7 +4,7 @@ import { UserService } from '../../application/services/user.service';
 import { HttpCode } from '../../../../core/constants';
 import { AppError } from '../../../../core/error/app-error';
 
-export default function UserController(userService: UserService): Router {
+export default function UserController(service: UserService): Router {
 	const router = Router();
 
 	router.get(
@@ -13,7 +13,7 @@ export default function UserController(userService: UserService): Router {
 			try {
 				const { page, limit, sort, fields, ...query } = req.query;
 				const pagination = { page, limit };
-				const results = await userService.getAll({ query, sort, fields, pagination });
+				const results = await service.getAll({ query, sort, fields, pagination });
 				res.statusCode = HttpCode.OK;
 				res.json({ status: 'success', results: results.length, data: { results } });
 			} catch (err) {
@@ -25,7 +25,7 @@ export default function UserController(userService: UserService): Router {
 	router.get('/:id', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const { id } = req.params;
-			const tour = await userService.getOne(id);
+			const tour = await service.getOne(id);
 			if (!tour) {
 				throw new AppError({
 					message: `No tour found with id ${id}`,
@@ -42,7 +42,7 @@ export default function UserController(userService: UserService): Router {
 	router.post('/', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const { body } = req;
-			const tour = await userService.create(body);
+			const tour = await service.create(body);
 			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
@@ -56,7 +56,7 @@ export default function UserController(userService: UserService): Router {
 				params: { id },
 				body
 			} = req;
-			const tour = await userService.update(id, body);
+			const tour = await service.update(id, body);
 			if (!tour) {
 				throw new AppError({
 					message: `No tour found with id ${id}`,
@@ -73,7 +73,7 @@ export default function UserController(userService: UserService): Router {
 	router.delete('/:id', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const { id } = req.params;
-			const tour = await userService.deleteOne(id);
+			const tour = await service.deleteOne(id);
 			if (!tour) {
 				throw new AppError({
 					message: `No tour found with id ${id}`,

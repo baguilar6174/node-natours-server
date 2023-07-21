@@ -24,6 +24,4 @@ const getService = (repositoryPort: TourRepositoryPort): TourService => {
 	);
 };
 
-const repositoryPort = new MongoTourRepository();
-
-export const toursController = TourController(getService(repositoryPort));
+export const toursController = TourController(getService(new MongoTourRepository()));

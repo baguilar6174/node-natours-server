@@ -25,9 +25,9 @@ export class LocalTourRepository implements TourRepositoryPort {
 		return tour;
 	}
 
-	async create(payload: CreateTourDTO) {
+	async create(data: CreateTourDTO) {
 		const id = uuidv4();
-		const tour = Object.assign({ _id: id }, payload);
+		const tour = Object.assign({ _id: id }, data);
 		TOURS_DATA.push(tour);
 		return tour;
 	}

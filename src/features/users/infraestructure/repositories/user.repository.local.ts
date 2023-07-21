@@ -6,9 +6,9 @@ import { CreateUserDTO, User } from '../../domain/entities/user.entity';
 import { UserRepositoryPort } from '../../domain/ports/outputs/user.repository.port';
 
 export class LocalUserRepository implements UserRepositoryPort {
-	async create(user: CreateUserDTO): Promise<User> {
+	async create(data: CreateUserDTO): Promise<User> {
 		const id = uuidv4();
-		const newUser = Object.assign({ _id: id }, user);
+		const newUser = Object.assign({ _id: id }, data);
 		return newUser;
 	}
 

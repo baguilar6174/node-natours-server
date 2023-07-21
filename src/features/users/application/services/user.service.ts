@@ -1,27 +1,17 @@
 import { ApiFeatures } from '../../../../core/types';
 import { CreateUserDTO, User } from '../../domain/entities/user.entity';
-import {
-	CreateUserUseCase,
-	DeleteUserUseCase,
-	GetAllUsersUseCase,
-	GetOneUserUseCase,
-	UpdateUserUseCase
-} from '../../domain/ports/inputs';
+import { CreateUserUseCase, DeleteUserUseCase, GetUsersUseCase, UpdateUserUseCase } from '../../domain/ports/inputs';
 
-export class UserService
-	implements CreateUserUseCase, DeleteUserUseCase, GetAllUsersUseCase, GetOneUserUseCase, UpdateUserUseCase
-{
+export class UserService implements CreateUserUseCase, DeleteUserUseCase, GetUsersUseCase, UpdateUserUseCase {
 	constructor(
 		private createUserUseCase: CreateUserUseCase,
 		private deleteUserUseCase: DeleteUserUseCase,
-		private getAllUsersUseCase: GetAllUsersUseCase,
-		private getOneUserUseCase: GetOneUserUseCase,
+		private getUsersUseCase: GetUsersUseCase,
 		private updateUserUseCase: UpdateUserUseCase
 	) {
 		this.createUserUseCase = createUserUseCase;
 		this.deleteUserUseCase = deleteUserUseCase;
-		this.getAllUsersUseCase = getAllUsersUseCase;
-		this.getOneUserUseCase = getOneUserUseCase;
+		this.getUsersUseCase = getUsersUseCase;
 		this.updateUserUseCase = updateUserUseCase;
 	}
 
@@ -36,12 +26,12 @@ export class UserService
 	}
 
 	async getAll(features: ApiFeatures): Promise<User[]> {
-		const result = await this.getAllUsersUseCase.getAll(features);
+		const result = await this.getUsersUseCase.getAll(features);
 		return result;
 	}
 
 	async getOne(id: string): Promise<User | null> {
-		const result = await this.getOneUserUseCase.getOne(id);
+		const result = await this.getUsersUseCase.getOne(id);
 		return result;
 	}
 

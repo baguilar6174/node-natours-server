@@ -2,24 +2,20 @@ import { UserService } from '../../application/services/user.service';
 import {
 	CreateUserUseCaseImpl,
 	DeleteUserUseCaseImpl,
-	GetAllUsersUseCaseImpl,
-	GetOneUserUseCaseImpl,
+	GetUsersUseCaseImpl,
 	UpdateUserUseCaseImpl
 } from '../../application/usecases';
 import { UserRepositoryPort } from '../../domain/ports/outputs/user.repository.port';
 import UserController from '../controllers/user.controller';
 import { LocalUserRepository } from '../repositories/user.repository.local';
 
-const userService = (userRepositoryPort: UserRepositoryPort): UserService => {
+const getService = (repositoryPort: UserRepositoryPort): UserService => {
 	return new UserService(
-		new CreateUserUseCaseImpl(userRepositoryPort),
-		new DeleteUserUseCaseImpl(userRepositoryPort),
-		new GetAllUsersUseCaseImpl(userRepositoryPort),
-		new GetOneUserUseCaseImpl(userRepositoryPort),
-		new UpdateUserUseCaseImpl(userRepositoryPort)
+		new CreateUserUseCaseImpl(repositoryPort),
+		new DeleteUserUseCaseImpl(repositoryPort),
+		new GetUsersUseCaseImpl(repositoryPort),
+		new UpdateUserUseCaseImpl(repositoryPort)
 	);
 };
 
-const userRepositoryPort = new LocalUserRepository();
-
-export const userController = UserController(userService(userRepositoryPort));
+export const userController = UserController(getService(new LocalUserRepository()));
