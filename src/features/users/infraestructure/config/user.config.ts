@@ -11,7 +11,7 @@ import { AuthRepositoryPort, UserRepositoryPort } from '../../domain/ports/outpu
 import AuthController from '../controllers/auth.controller';
 import UserController from '../controllers/user.controller';
 import { MongoAuthRepository } from '../repositories/auth.repository.mongo';
-import { LocalUserRepository } from '../repositories/user.repository.local';
+import { MongoUserRepository } from '../repositories/user.repository.mongo';
 
 const getUserService = (repositoryPort: UserRepositoryPort): UserService => {
 	return new UserService(
@@ -27,4 +27,4 @@ const getAuthService = (repositoryPort: AuthRepositoryPort): AuthService => {
 };
 
 export const authController = AuthController(getAuthService(new MongoAuthRepository()));
-export const userController = UserController(getUserService(new LocalUserRepository()));
+export const userController = UserController(getUserService(new MongoUserRepository()));

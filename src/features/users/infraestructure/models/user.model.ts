@@ -3,15 +3,16 @@ import bcrypt from 'bcryptjs';
 
 import { User } from '../../domain/entities/user.entity';
 import { PASSWORD_SALT } from '../../../../core/constants';
+import { validateEmail } from '../../../../core/utils';
 
-const validateEmail = (email: string): boolean => {
-	// const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-	// const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-	const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-	return emailRegex.test(email);
-};
+export interface UserSchemaFields extends User {
+	passwordConfirm?: string;
+}
+interface UserSchemaMethods {
+	validatePassword: (candidatePassword: string, password: string) => Promise<boolean>;
+}
 
-const schema = new Schema(
+const schema = new Schema<UserSchemaFields, UserSchemaMethods>(
 	{
 		name: { type: String, required: [true, 'Please tell us your name!'] },
 		email: {
@@ -26,7 +27,7 @@ const schema = new Schema(
 			}
 		},
 		photo: String,
-		password: { type: String, required: [true, 'Please provide a password!'], minlength: 8 },
+		password: { type: String, required: [true, 'Please provide a password!'], minlength: 8, select: false },
 		passwordConfirm: {
 			type: String,
 			required: [true, 'Please confirm yout password!'],
@@ -35,7 +36,8 @@ const schema = new Schema(
 					return value === this.password;
 				},
 				message: 'Passwords are not the same!'
-			}
+			},
+			select: false
 		},
 		role: String,
 		active: Boolean
@@ -56,4 +58,10 @@ schema.pre('save', async function (this, next): Promise<void> {
 	next();
 });
 
-export const UserModel: Model<User> = mongoose.models.Tour || mongoose.model('User', schema);
+schema.methods.validatePassword = async function (candidatePassword: string, password: string): Promise<boolean> {
+	return await bcrypt.compare(candidatePassword, password);
+};
+
+export interface UserDocument extends Document, UserSchemaMethods {}
+
+export const UserModel: Model<UserDocument> = mongoose.models.User || mongoose.model<UserDocument>('User', schema);

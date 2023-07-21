@@ -12,6 +12,7 @@ export const ONE_HUNDRED = 100 as const;
 
 export const EMPTY_STRING = ' ' as const;
 export const DEFAULT_PORT = 3000 as const;
+export const DEFAULT_API_PREFIX = '/api/v1' as const;
 export const DEV_ENVIRONMENT = 'development' as const;
 export const PROD_ENVIRONMENT = 'production' as const;
 export const PASSWORD_SALT = 12 as const;

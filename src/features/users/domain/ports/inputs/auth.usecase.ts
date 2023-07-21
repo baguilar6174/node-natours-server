@@ -1,5 +1,5 @@
-import { CreateUserDTO, User } from '../../entities/user.entity';
-
+import { Auth, CreateUserDTO, User } from '../../entities/user.entity';
 export interface AuthUseCase {
-	signup(user: CreateUserDTO): Promise<User>;
+	signup(data: CreateUserDTO): Promise<Auth>;
+	login(data: Pick<User, 'email' | 'password'>): Promise<Auth>;
 }

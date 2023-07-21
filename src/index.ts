@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import express, { Express, NextFunction, Request, Response } from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import morgan from 'morgan';
 import path from 'path';
 
 import router from './app.route';
-import { DEFAULT_PORT, DEV_ENVIRONMENT, HttpCode, MongoErrors, PROD_ENVIRONMENT } from './core/constants';
+import { DEV_ENVIRONMENT, HttpCode, MongoErrors, PROD_ENVIRONMENT } from './core/constants';
 import { AppError } from './core/error/app-error';
 import { Error } from 'mongoose';
+import EnvConfig from './core/env.config';
 
 // TODO: move this declaration
 declare module 'express-serve-static-core' {
@@ -19,12 +19,6 @@ declare module 'express-serve-static-core' {
 
 export const get = async (): Promise<Express> => {
 	const app: Express = express();
-
-	// Port
-	const PORT = process.env.PORT || DEFAULT_PORT;
-
-	// Config Values
-	dotenv.config();
 
 	/* app.use(
 		cors({
@@ -38,13 +32,13 @@ export const get = async (): Promise<Express> => {
 	app.use(cors());
 
 	// Url prefix
-	const API_PREFIX = process.env.API_PREFIX || '/api/v1';
+	const API_PREFIX = EnvConfig.API_PREFIX;
 
 	// Settings
-	app.set('port', process.env.PORT || DEFAULT_PORT);
+	app.set('port', EnvConfig.PORT);
 
 	// Body parsing Middleware
-	if (process.env.NODE_ENV === DEV_ENVIRONMENT) app.use(morgan('dev'));
+	if (EnvConfig.NODE_ENV === DEV_ENVIRONMENT) app.use(morgan('dev'));
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: true }));
 	app.use(express.static(path.join(__dirname, '../', 'public')));
@@ -65,7 +59,7 @@ export const get = async (): Promise<Express> => {
 	app.get('/', async (_req: Request, res: Response): Promise<Response> => {
 		return res
 			.status(HttpCode.OK)
-			.send({ message: `Welcome to Initial API! \n Endpoints available at http://localhost:${PORT}/api/v1` });
+			.send({ message: `Welcome to Initial API! \n Endpoints available at http://localhost:${EnvConfig.PORT}/api/v1` });
 	});
 
 	app.use(API_PREFIX, router);
@@ -85,7 +79,7 @@ export const get = async (): Promise<Express> => {
 	router.use((error: AppError | any, _: Request, res: Response, next: NextFunction): void => {
 		const { message, isOperational, name, stack } = error;
 		const statusCode = error.statusCode || HttpCode.INTERNAL_SERVER_ERROR;
-		if (process.env.NODE_ENV === DEV_ENVIRONMENT) {
+		if (EnvConfig.NODE_ENV === DEV_ENVIRONMENT) {
 			// TODO: move this validations
 			if (name === MongoErrors.CAST_ERROR) {
 				const { path, value } = new Error.ValidatorError({ ...error }); // TODO: review this error type
@@ -111,7 +105,7 @@ export const get = async (): Promise<Express> => {
 			return;
 		}
 
-		if (process.env.NODE_ENV === PROD_ENVIRONMENT) {
+		if (EnvConfig.NODE_ENV === PROD_ENVIRONMENT) {
 			res.statusCode = isOperational ? statusCode : HttpCode.INTERNAL_SERVER_ERROR;
 			res.json({ message: isOperational ? message : 'Something went very wrong!' });
 			return;

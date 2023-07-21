@@ -3,7 +3,11 @@ import { Tour } from '../../domain/entities/tour.entity';
 import { FIVE, FORTY, ONE, SEVEN, TEN } from '../../../../core/constants';
 import { createSlug } from '../../../../core/utils';
 
-const schema = new Schema(
+export interface TourSchemaFields extends Tour {
+	createdAt: Date;
+}
+
+const schema = new Schema<TourSchemaFields>(
 	{
 		name: {
 			type: String,

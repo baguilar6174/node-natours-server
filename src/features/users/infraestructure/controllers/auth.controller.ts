@@ -16,5 +16,16 @@ export default function AuthController(service: AuthService): Router {
 		}
 	});
 
+	router.post('/login', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+		try {
+			const { body } = req;
+			const result = await service.login(body);
+			res.statusCode = HttpCode.OK;
+			res.json({ status: 'success', data: result });
+		} catch (err) {
+			next(err);
+		}
+	});
+
 	return router;
 }
