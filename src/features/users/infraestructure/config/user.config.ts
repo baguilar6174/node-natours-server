@@ -1,15 +1,19 @@
+import { AuthService } from '../../application/services/auth.service';
 import { UserService } from '../../application/services/user.service';
 import {
+	AuthUseCaseImpl,
 	CreateUserUseCaseImpl,
 	DeleteUserUseCaseImpl,
 	GetUsersUseCaseImpl,
 	UpdateUserUseCaseImpl
 } from '../../application/usecases';
-import { UserRepositoryPort } from '../../domain/ports/outputs/user.repository.port';
+import { AuthRepositoryPort, UserRepositoryPort } from '../../domain/ports/outputs';
+import AuthController from '../controllers/auth.controller';
 import UserController from '../controllers/user.controller';
+import { MongoAuthRepository } from '../repositories/auth.repository.mongo';
 import { LocalUserRepository } from '../repositories/user.repository.local';
 
-const getService = (repositoryPort: UserRepositoryPort): UserService => {
+const getUserService = (repositoryPort: UserRepositoryPort): UserService => {
 	return new UserService(
 		new CreateUserUseCaseImpl(repositoryPort),
 		new DeleteUserUseCaseImpl(repositoryPort),
@@ -18,4 +22,9 @@ const getService = (repositoryPort: UserRepositoryPort): UserService => {
 	);
 };
 
-export const userController = UserController(getService(new LocalUserRepository()));
+const getAuthService = (repositoryPort: AuthRepositoryPort): AuthService => {
+	return new AuthService(new AuthUseCaseImpl(repositoryPort));
+};
+
+export const authController = AuthController(getAuthService(new MongoAuthRepository()));
+export const userController = UserController(getUserService(new LocalUserRepository()));

@@ -8,12 +8,7 @@ export class UserService implements CreateUserUseCase, DeleteUserUseCase, GetUse
 		private deleteUserUseCase: DeleteUserUseCase,
 		private getUsersUseCase: GetUsersUseCase,
 		private updateUserUseCase: UpdateUserUseCase
-	) {
-		this.createUserUseCase = createUserUseCase;
-		this.deleteUserUseCase = deleteUserUseCase;
-		this.getUsersUseCase = getUsersUseCase;
-		this.updateUserUseCase = updateUserUseCase;
-	}
+	) {}
 
 	async update(id: string, data: Partial<Omit<User, '_id'>>): Promise<User | null> {
 		const result = await this.updateUserUseCase.update(id, data);

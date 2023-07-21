@@ -5,8 +5,8 @@ import { UserRepositoryPort } from '../../domain/ports/outputs/user.repository.p
 export class CreateUserUseCaseImpl implements CreateUserUseCase {
 	constructor(private repositoryPort: UserRepositoryPort) {}
 
-	async create(user: CreateUserDTO): Promise<User> {
-		const result = await this.repositoryPort.create(user);
+	async create(data: CreateUserDTO): Promise<User> {
+		const result = await this.repositoryPort.create(data);
 		return result;
 	}
 }

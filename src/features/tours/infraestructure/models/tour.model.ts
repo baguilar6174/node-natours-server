@@ -34,7 +34,7 @@ const schema = new Schema(
 		priceDiscount: {
 			type: Number,
 			validate: {
-				validator: function (this: Pick<Tour, 'price'>, value: number) {
+				validator: function (this: Pick<Tour, 'price'>, value: number): boolean {
 					return value < this.price;
 				},
 				message: 'Discount price ({VALUE}) should be below regular price'
@@ -63,7 +63,7 @@ schema.virtual('durationInWeeks').get(function (this: Pick<Tour, 'duration'>): n
 });
 
 // Runs before save and create
-schema.pre('save', function (this: Pick<Tour, 'name' | 'slug'>, next) {
+schema.pre('save', function (this: Pick<Tour, 'name' | 'slug'>, next): void {
 	this.slug = createSlug(this.name);
 	next();
 });

@@ -110,6 +110,8 @@ export class MongoTourRepository implements TourRepositoryPort {
 	}
 }
 
+// TODO: send all this to a util file
+
 /** 0 disconnected | 1 connected | 2 connecting | 3 disconnecting */
 
 const mongoConnection = { isConnected: 0 };
@@ -134,6 +136,7 @@ const disconnect = async (): Promise<void> => {
 	console.log('Diconnected from MongoBD');
 };
 
+// TODO: make generic function
 async function apiFeatures(model: Model<Tour>, features: ApiFeatures): Promise<Tour[]> {
 	const { query = {}, pagination, sort, fields = EMPTY_STRING } = features;
 
