@@ -8,8 +8,8 @@ import { connectMongoDB, disconnectMongoDB, signToken } from '../../../../core/u
 export class MongoAuthRepository implements AuthRepositoryPort {
 	async signup(data: CreateUserDTO): Promise<Auth> {
 		await connectMongoDB();
-		const userDocument = await UserModel.create(data);
-		const user: User = userDocument.toObject();
+		const document = await UserModel.create(data);
+		const user: User = document.toObject();
 		const token = signToken(user._id);
 		await disconnectMongoDB();
 		return { user, token };
@@ -29,18 +29,18 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 
 		// * 2) Check if user exists && password is correct
 		await connectMongoDB();
-		const userDocument = await UserModel.findOne({ email }).select('+password');
+		const document = await UserModel.findOne({ email }).select('+password');
 
-		if (!userDocument) {
+		if (!document) {
 			throw new AppError({
-				message: 'No user with this credentials',
+				message: 'Invalid credentials',
 				statusCode: HttpCode.BAD_REQUEST,
 				name: 'Auth error'
 			});
 		}
 
-		const user: User = userDocument.toObject();
-		const isValidPassword = await userDocument.validatePassword(password, user.password);
+		const user: User = document.toObject();
+		const isValidPassword = await document.validatePassword(password, user.password);
 
 		if (!isValidPassword) {
 			throw new AppError({

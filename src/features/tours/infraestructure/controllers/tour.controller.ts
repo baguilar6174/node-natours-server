@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import { RequestQuery } from '../../../../core/types';
 import { HttpCode } from '../../../../core/constants';
-import { AppError } from '../../../../core/error/app-error';
 import { TourService } from '../../application/services/tour.service';
 
 export default function TourController(service: TourService): Router {
@@ -76,12 +75,6 @@ export default function TourController(service: TourService): Router {
 		try {
 			const { id } = req.params;
 			const tour = await service.getOne(id);
-			if (!tour) {
-				throw new AppError({
-					message: `No tour found with id ${id}`,
-					statusCode: HttpCode.NOT_FOUND
-				});
-			}
 			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', data: tour });
 		} catch (error) {
@@ -107,12 +100,6 @@ export default function TourController(service: TourService): Router {
 				body
 			} = req;
 			const tour = await service.update(id, body);
-			if (!tour) {
-				throw new AppError({
-					message: `No tour found with id ${id}`,
-					statusCode: HttpCode.NOT_FOUND
-				});
-			}
 			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {
@@ -124,12 +111,6 @@ export default function TourController(service: TourService): Router {
 		try {
 			const { id } = req.params;
 			const tour = await service.delete(id);
-			if (!tour) {
-				throw new AppError({
-					message: `No tour found with id ${id}`,
-					statusCode: HttpCode.NOT_FOUND
-				});
-			}
 			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', data: tour });
 		} catch (err) {

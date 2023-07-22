@@ -92,6 +92,8 @@ If your want to create build production, run `yarn build`
 - Create adapters
 - API Documentation
 - Use generic types
+- Validations in repositories
+- Alias path
 
 ## Natours Server
 

@@ -96,4 +96,4 @@ schema.pre('aggregate', function (next) {
 	next();
 });
 
-export const TourModel: Model<Tour> = mongoose.models.Tour || mongoose.model('Tour', schema);
+export const TourModel: Model<Document> = mongoose.models.Tour || mongoose.model<Document>('Tour', schema);

@@ -5,10 +5,10 @@ import { User } from '../../domain/entities/user.entity';
 import { PASSWORD_SALT } from '../../../../core/constants';
 import { validateEmail } from '../../../../core/utils';
 
-export interface UserSchemaFields extends User {
+export interface UserSchemaFields extends User, Document {
 	passwordConfirm?: string;
 }
-interface UserSchemaMethods {
+export interface UserSchemaMethods {
 	validatePassword: (candidatePassword: string, password: string) => Promise<boolean>;
 }
 

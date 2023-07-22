@@ -1,11 +1,12 @@
 import { CreateTourDTO, Tour, Stat, Plan } from '../../domain/entities/tour.entity';
 import { TourRepositoryPort } from '../../domain/ports/outputs/tour.repository.port';
 import { TourModel } from '../models/tour.model';
-import { EMPTY_STRING, ONE, ONE_HUNDRED, PROD_ENVIRONMENT } from '../../../../core/constants';
+import { HttpCode, PROD_ENVIRONMENT } from '../../../../core/constants';
 import { TOURS_DATA } from '../constants/tours-simple';
 import { ApiFeatures } from '../../../../core/types';
-import { connectMongoDB, disconnectMongoDB, parseQuery } from '../../../../core/utils';
+import { apiFeatures, connectMongoDB, disconnectMongoDB } from '../../../../core/utils';
 import EnvConfig from '../../../../core/env.config';
+import { AppError } from '../../../../core/error/app-error';
 
 export class MongoTourRepository implements TourRepositoryPort {
 	async seed(): Promise<string | void> {
@@ -21,37 +22,60 @@ export class MongoTourRepository implements TourRepositoryPort {
 
 	async create(data: CreateTourDTO): Promise<Tour> {
 		await connectMongoDB();
-		const tour = await TourModel.create(data);
+		const document = await TourModel.create(data);
+		const result: Tour = document.toObject();
 		await disconnectMongoDB();
-		return tour;
+		return result;
 	}
 
 	async delete(id: string): Promise<Tour | null> {
 		await connectMongoDB();
-		const deletedTour = await TourModel.findByIdAndDelete(id);
+		const document = await TourModel.findByIdAndDelete(id);
+		if (!document) {
+			throw new AppError({
+				message: `No tour with this ${id}`,
+				statusCode: HttpCode.BAD_REQUEST
+			});
+		}
+		const result: Tour = document.toObject();
 		await disconnectMongoDB();
-		return deletedTour;
+		return result;
 	}
 
 	async update(id: string, data: Partial<Omit<Tour, '_id'>>): Promise<Tour | null> {
 		await connectMongoDB();
-		const updatedTour = await TourModel.findByIdAndUpdate(id, { ...data }, { runValidators: true, new: true });
+		const document = await TourModel.findByIdAndUpdate(id, { ...data }, { runValidators: true, new: true });
+		if (!document) {
+			throw new AppError({
+				message: `No tour with this ${id}`,
+				statusCode: HttpCode.BAD_REQUEST
+			});
+		}
+		const result: Tour = document.toObject();
 		await disconnectMongoDB();
-		return updatedTour;
+		return result;
 	}
 
 	async getAll(features: ApiFeatures): Promise<Tour[]> {
 		await connectMongoDB();
-		const results = await apiFeatures(features);
+		const documents = await apiFeatures(TourModel, features);
+		const results: Tour[] = documents.map((el) => el.toObject());
 		await disconnectMongoDB();
 		return results;
 	}
 
 	async getOne(id: string): Promise<Tour | null> {
 		await connectMongoDB();
-		const tour = await TourModel.findById(id);
+		const document = await TourModel.findById(id);
+		if (!document) {
+			throw new AppError({
+				message: `No tour with this ${id}`,
+				statusCode: HttpCode.BAD_REQUEST
+			});
+		}
+		const result: Tour = document.toObject();
 		await disconnectMongoDB();
-		return tour;
+		return result;
 	}
 
 	async getStats(): Promise<Stat[]> {
@@ -108,31 +132,4 @@ export class MongoTourRepository implements TourRepositoryPort {
 		await disconnectMongoDB();
 		return results;
 	}
-}
-
-// TODO: make generic function
-async function apiFeatures(features: ApiFeatures): Promise<Tour[]> {
-	const { query = {}, pagination, sort, fields = EMPTY_STRING } = features;
-
-	const filteringQuery = parseQuery(query);
-
-	const page = Number(pagination?.page) || ONE;
-	const limit = Number(pagination?.limit) || ONE_HUNDRED;
-	const skip = (page - ONE) * limit;
-
-	if (pagination) {
-		const numTours = await TourModel.countDocuments();
-		if (skip >= numTours) throw new Error('This page does not exist');
-	}
-
-	const result = await TourModel.find({ ...filteringQuery })
-		.sort(typeof sort === 'string' ? sort.split(',').join(EMPTY_STRING) : sort)
-		.sort('-createdAt')
-		.select(fields.split(',').join(EMPTY_STRING))
-		.select('-__v')
-		.limit(limit)
-		.skip(skip)
-		.exec();
-
-	return result;
 }
