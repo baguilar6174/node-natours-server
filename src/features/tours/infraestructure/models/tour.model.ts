@@ -80,18 +80,18 @@ schema.pre('save', function (this: Pick<Tour, 'name' | 'slug'>, next): void {
 
 // Query middleware
 // Filter results where secretTour = true
-schema.pre('find', function (next) {
+schema.pre('find', function (next): void {
 	this.find({ secretTour: { $ne: true } });
 	next();
 });
 
-schema.pre('findOne', function (next) {
+schema.pre('findOne', function (next): void {
 	this.findOne({ secretTour: { $ne: true } });
 	next();
 });
 
 // Aggregation middleware
-schema.pre('aggregate', function (next) {
+schema.pre('aggregate', function (next): void {
 	this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
 	next();
 });

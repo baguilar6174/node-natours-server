@@ -1,7 +1,7 @@
 import { CreateTourDTO, Tour, Stat, Plan } from '../../domain/entities/tour.entity';
 import { TourRepositoryPort } from '../../domain/ports/outputs/tour.repository.port';
 import { TourModel } from '../models/tour.model';
-import { HttpCode, PROD_ENVIRONMENT } from '../../../../core/constants';
+import { Entities, HttpCode, PROD_ENVIRONMENT } from '../../../../core/constants';
 import { TOURS_DATA } from '../constants/tours-simple';
 import { ApiFeatures } from '../../../../core/types';
 import { apiFeatures, connectMongoDB, disconnectMongoDB } from '../../../../core/utils';
@@ -33,7 +33,7 @@ export class MongoTourRepository implements TourRepositoryPort {
 		const document = await TourModel.findByIdAndDelete(id);
 		if (!document) {
 			throw new AppError({
-				message: `No tour with this ${id}`,
+				message: `No ${Entities.TOUR} with this ${id}`,
 				statusCode: HttpCode.BAD_REQUEST
 			});
 		}
@@ -47,7 +47,7 @@ export class MongoTourRepository implements TourRepositoryPort {
 		const document = await TourModel.findByIdAndUpdate(id, { ...data }, { runValidators: true, new: true });
 		if (!document) {
 			throw new AppError({
-				message: `No tour with this ${id}`,
+				message: `No ${Entities.TOUR} with this ${id}`,
 				statusCode: HttpCode.BAD_REQUEST
 			});
 		}
@@ -69,7 +69,7 @@ export class MongoTourRepository implements TourRepositoryPort {
 		const document = await TourModel.findById(id);
 		if (!document) {
 			throw new AppError({
-				message: `No tour with this ${id}`,
+				message: `No ${Entities.TOUR} with this ${id}`,
 				statusCode: HttpCode.BAD_REQUEST
 			});
 		}

@@ -5,7 +5,8 @@ import { User } from '../../domain/entities/user.entity';
 import { PASSWORD_SALT } from '../../../../core/constants';
 import { validateEmail } from '../../../../core/utils';
 
-export interface UserSchemaFields extends User, Document {
+export interface UserSchemaFields extends User {
+	createdAt: Date;
 	passwordConfirm?: string;
 }
 export interface UserSchemaMethods {
@@ -39,6 +40,7 @@ const schema = new Schema<UserSchemaFields, UserSchemaMethods>(
 			},
 			select: false
 		},
+		createdAt: { type: Date, default: Date.now() },
 		role: String,
 		active: Boolean
 	},

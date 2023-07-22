@@ -1,7 +1,6 @@
 /* eslint-disable no-magic-numbers */
 export * from './routes';
 
-// Numbers
 export const ZERO = 0 as const;
 export const ONE = 1 as const;
 export const FIVE = 5 as const;
@@ -31,4 +30,9 @@ export enum MongoErrors {
 	CAST_ERROR = 'CastError',
 	DUPLICATED_CODE = 11000,
 	VALIDATION_ERROR = 'ValidationError'
+}
+
+export enum Entities {
+	TOUR = 'Tour',
+	USER = 'User'
 }

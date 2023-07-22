@@ -2,7 +2,7 @@ import { ApiFeatures } from '../../../../core/types';
 import { CreateUserDTO, User } from '../../domain/entities/user.entity';
 import { UserRepositoryPort } from '../../domain/ports/outputs/user.repository.port';
 import { UserModel } from '../models/user.model';
-import { HttpCode } from '../../../../core/constants';
+import { Entities, HttpCode } from '../../../../core/constants';
 import { apiFeatures, connectMongoDB, disconnectMongoDB } from '../../../../core/utils';
 import { AppError } from '../../../../core/error/app-error';
 
@@ -20,7 +20,7 @@ export class MongoUserRepository implements UserRepositoryPort {
 		const document = await UserModel.findByIdAndDelete(id);
 		if (!document) {
 			throw new AppError({
-				message: `No user with this ${id}`,
+				message: `No ${Entities.USER} with this ${id}`,
 				statusCode: HttpCode.BAD_REQUEST
 			});
 		}
@@ -34,7 +34,7 @@ export class MongoUserRepository implements UserRepositoryPort {
 		const document = await UserModel.findByIdAndUpdate(id, { ...data }, { runValidators: true, new: true });
 		if (!document) {
 			throw new AppError({
-				message: `No user with this ${id}`,
+				message: `No ${Entities.USER} with this ${id}`,
 				statusCode: HttpCode.BAD_REQUEST
 			});
 		}
@@ -56,7 +56,7 @@ export class MongoUserRepository implements UserRepositoryPort {
 		const document = await UserModel.findById(id);
 		if (!document) {
 			throw new AppError({
-				message: `No user with this ${id}`,
+				message: `No ${Entities.USER} with this ${id}`,
 				statusCode: HttpCode.BAD_REQUEST
 			});
 		}
