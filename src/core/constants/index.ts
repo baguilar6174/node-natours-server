@@ -8,6 +8,7 @@ export const SEVEN = 7 as const;
 export const TEN = 10 as const;
 export const FORTY = 40 as const;
 export const ONE_HUNDRED = 100 as const;
+export const ONE_THOUSAND = 1000 as const;
 
 export const EMPTY_STRING = ' ' as const;
 export const DEFAULT_PORT = 3000 as const;
@@ -30,6 +31,11 @@ export enum MongoErrors {
 	CAST_ERROR = 'CastError',
 	DUPLICATED_CODE = 11000,
 	VALIDATION_ERROR = 'ValidationError'
+}
+
+export enum JWTErrors {
+	JWT_ERROR = 'JsonWebTokenError',
+	TOKEN_EXPIRED = 'TokenExpiredError'
 }
 
 export enum Entities {

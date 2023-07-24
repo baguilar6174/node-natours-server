@@ -1,5 +1,6 @@
 import { SortOrder } from 'mongoose';
 import { HttpCode } from '../constants';
+import { JwtPayload } from 'jsonwebtoken';
 
 export interface RequestQuery {
 	sort: string | SortType;
@@ -29,4 +30,8 @@ export interface AppErrorArgs {
 	statusCode: HttpCode;
 	message: string;
 	isOperational?: boolean;
+}
+
+export interface CustomJwtPayload extends JwtPayload {
+	id: string;
 }

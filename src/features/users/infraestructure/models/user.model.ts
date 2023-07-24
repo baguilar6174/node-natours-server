@@ -2,15 +2,17 @@ import mongoose, { Model, Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 import { User } from '../../domain/entities/user.entity';
-import { PASSWORD_SALT } from '../../../../core/constants';
+import { ONE_THOUSAND, PASSWORD_SALT } from '../../../../core/constants';
 import { validateEmail } from '../../../../core/utils';
 
 export interface UserSchemaFields extends User {
 	createdAt: Date;
 	passwordConfirm?: string;
+	passwordChangeAt?: Date;
 }
 export interface UserSchemaMethods {
 	validatePassword: (candidatePassword: string, password: string) => Promise<boolean>;
+	changedPasswordAfter: (JWTTimestamp: number) => boolean;
 }
 
 const schema = new Schema<UserSchemaFields, UserSchemaMethods>(
@@ -40,6 +42,7 @@ const schema = new Schema<UserSchemaFields, UserSchemaMethods>(
 			},
 			select: false
 		},
+		passwordChangeAt: Date,
 		createdAt: { type: Date, default: Date.now() },
 		role: String,
 		active: Boolean
@@ -62,6 +65,15 @@ schema.pre('save', async function (this, next): Promise<void> {
 
 schema.methods.validatePassword = async function (candidatePassword: string, password: string): Promise<boolean> {
 	return await bcrypt.compare(candidatePassword, password);
+};
+
+schema.methods.changedPasswordAfter = function (JWTTimestamp: number): boolean {
+	if (this.passwordChangeAt) {
+		const passwordChangeAtTimestamp = parseInt(`${this.passwordChangeAt.getTime() / ONE_THOUSAND}`, 10);
+		return JWTTimestamp < passwordChangeAtTimestamp;
+	}
+	// False means NOT changes
+	return false;
 };
 
 export interface UserDocument extends Document, UserSchemaMethods {}

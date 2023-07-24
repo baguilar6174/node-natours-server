@@ -2,6 +2,7 @@ import { Request, Response, NextFunction, Router } from 'express';
 import { RequestQuery } from '../../../../core/types';
 import { HttpCode } from '../../../../core/constants';
 import { TourService } from '../../application/services/tour.service';
+import authentication from '../../../users/application/middlewares/authentication';
 
 export default function TourController(service: TourService): Router {
 	const router = Router();
@@ -58,6 +59,7 @@ export default function TourController(service: TourService): Router {
 
 	router.get(
 		'/',
+		authentication,
 		async (req: Request<object, object, object, RequestQuery>, res: Response, next: NextFunction): Promise<void> => {
 			try {
 				const { page, limit, sort, fields, ...query } = req.query;

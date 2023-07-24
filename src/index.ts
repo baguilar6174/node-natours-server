@@ -5,7 +5,7 @@ import morgan from 'morgan';
 import path from 'path';
 
 import router from './app.route';
-import { DEV_ENVIRONMENT, HttpCode, MongoErrors, PROD_ENVIRONMENT } from './core/constants';
+import { DEV_ENVIRONMENT, HttpCode, JWTErrors, MongoErrors, PROD_ENVIRONMENT } from './core/constants';
 import { AppError } from './core/error/app-error';
 import { Error } from 'mongoose';
 import EnvConfig from './core/env.config';
@@ -97,6 +97,16 @@ export const get = async (): Promise<Express> => {
 				const values = Object.values(error.errors).map((e: any) => e.message); // TODO: review this error type
 				res.statusCode = HttpCode.BAD_REQUEST;
 				res.json({ message: `Invalid input data: ${values.join('. ')}` });
+				return;
+			}
+			if (name === JWTErrors.JWT_ERROR) {
+				res.statusCode = HttpCode.UNAUTHORIZED;
+				res.json({ message: 'Invalid token! Please log in again.' });
+				return;
+			}
+			if (name === JWTErrors.TOKEN_EXPIRED) {
+				res.statusCode = HttpCode.UNAUTHORIZED;
+				res.json({ message: 'Your token has expired! Please log in again.' });
 				return;
 			}
 
