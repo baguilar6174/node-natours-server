@@ -22,58 +22,53 @@ export class MongoTourRepository implements TourRepositoryPort {
 
 	async create(data: CreateTourDTO): Promise<Tour> {
 		await connectMongoDB();
-		const document = await TourModel.create(data);
-		const result: Tour = document.toObject();
+		const result = await TourModel.create(data);
 		await disconnectMongoDB();
 		return result;
 	}
 
 	async delete(id: string): Promise<Tour | null> {
 		await connectMongoDB();
-		const document = await TourModel.findByIdAndDelete(id);
-		if (!document) {
+		const result = await TourModel.findByIdAndDelete(id);
+		if (!result) {
 			throw new AppError({
 				message: `No ${Entities.TOUR} with this ${id}`,
 				statusCode: HttpCode.BAD_REQUEST
 			});
 		}
-		const result: Tour = document.toObject();
 		await disconnectMongoDB();
 		return result;
 	}
 
 	async update(id: string, data: Partial<Omit<Tour, '_id'>>): Promise<Tour | null> {
 		await connectMongoDB();
-		const document = await TourModel.findByIdAndUpdate(id, { ...data }, { runValidators: true, new: true });
-		if (!document) {
+		const result = await TourModel.findByIdAndUpdate(id, { ...data }, { runValidators: true, new: true });
+		if (!result) {
 			throw new AppError({
 				message: `No ${Entities.TOUR} with this ${id}`,
 				statusCode: HttpCode.BAD_REQUEST
 			});
 		}
-		const result: Tour = document.toObject();
 		await disconnectMongoDB();
 		return result;
 	}
 
 	async getAll(features: ApiFeatures): Promise<Tour[]> {
 		await connectMongoDB();
-		const documents = await apiFeatures(TourModel, features);
-		const results: Tour[] = documents.map((el) => el.toObject());
+		const results = await apiFeatures(TourModel, features);
 		await disconnectMongoDB();
 		return results;
 	}
 
 	async getOne(id: string): Promise<Tour | null> {
 		await connectMongoDB();
-		const document = await TourModel.findById(id);
-		if (!document) {
+		const result = await TourModel.findById(id);
+		if (!result) {
 			throw new AppError({
 				message: `No ${Entities.TOUR} with this ${id}`,
 				statusCode: HttpCode.BAD_REQUEST
 			});
 		}
-		const result: Tour = document.toObject();
 		await disconnectMongoDB();
 		return result;
 	}

@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 import { HttpCode } from '../../../../core/constants';
 import { UserModel } from '../models/user.model';
 import { Auth, CreateUserDTO, User } from '../../domain/entities/user.entity';
@@ -10,8 +12,7 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 
 	async signup(data: CreateUserDTO): Promise<Auth> {
 		await connectMongoDB();
-		const document = await UserModel.create(data);
-		const user: User = document.toObject();
+		const user = await UserModel.create(data);
 		const token = signToken(user._id);
 		await disconnectMongoDB();
 		return { user, token };
@@ -31,9 +32,9 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 
 		// * 2) Check if user exists && password is correct
 		await connectMongoDB();
-		const document = await UserModel.findOne({ email }).select('+password');
+		const user = await UserModel.findOne({ email }).select('+password');
 
-		if (!document) {
+		if (!user) {
 			throw new AppError({
 				message: 'Invalid credentials',
 				statusCode: HttpCode.BAD_REQUEST,
@@ -41,8 +42,7 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 			});
 		}
 
-		const user: User = document.toObject();
-		const isValidPassword = await document.validatePassword(password, user.password);
+		const isValidPassword = await user.validatePassword(password, user.password);
 
 		if (!isValidPassword) {
 			throw new AppError({
@@ -67,8 +67,8 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 
 		await connectMongoDB();
 		// * 1) Get user based on email
-		const document = await UserModel.findOne({ email });
-		if (!document) {
+		const user = await UserModel.findOne({ email });
+		if (!user) {
 			throw new AppError({
 				message: 'There is no user with this email address',
 				statusCode: HttpCode.BAD_REQUEST,
@@ -77,9 +77,8 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 		}
 
 		// * 2) Generate the random reset token
-		const resetToken = document.createPasswordResetToken();
-		await document.save();
-		const user = document.toObject();
+		const resetToken = user.createPasswordResetToken();
+		await user.save();
 		await disconnectMongoDB();
 
 		// * 3) Send it to user's email
@@ -91,9 +90,9 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 			});
 			return 'Token sent to email';
 		} catch (error) {
-			document.passwordResetToken = undefined;
-			document.passwordResetExpires = undefined;
-			await document.save();
+			user.passwordResetToken = undefined;
+			user.passwordResetExpires = undefined;
+			await user.save();
 			throw new AppError({
 				message: 'There was an error sending the email. Try again later!',
 				statusCode: HttpCode.INTERNAL_SERVER_ERROR
@@ -101,7 +100,38 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 		}
 	}
 
-	async resetPassword(): Promise<any> {
-		throw new Error('Method not implemented.');
+	async resetPassword(token: string, password: string): Promise<Auth> {
+		// * 1) Get user based on the token
+		const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+		await connectMongoDB();
+
+		const document = await UserModel.findOne({
+			passwordResetToken: hashedToken,
+			passwordResetExpires: { $gt: Date.now() }
+		});
+
+		// * 2) If token has not expired, and there is user, set new password
+		if (!document) {
+			throw new AppError({
+				message: 'Token is invalid or has expired',
+				statusCode: HttpCode.BAD_REQUEST
+			});
+		}
+
+		document.password = password;
+		document.passwordConfirm = password;
+		document.passwordResetToken = undefined;
+		document.passwordResetExpires = undefined;
+
+		await document.save();
+
+		await disconnectMongoDB();
+		// * 3) Update changePasswordAt property for the user
+		// * 4) Log the user in, send JWT
+		await disconnectMongoDB();
+		return {
+			user: document,
+			token: signToken(document._id)
+		};
 	}
 }

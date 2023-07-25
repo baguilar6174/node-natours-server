@@ -3,5 +3,5 @@ export interface AuthUseCase {
 	signup(data: CreateUserDTO): Promise<Auth>;
 	login(data: Pick<User, 'email' | 'password'>): Promise<Auth>;
 	forgotPassword(data: Pick<User, 'email'>, resetURL: string): Promise<string>;
-	resetPassword(): Promise<any>;
+	resetPassword(token: string, password: string): Promise<Auth>;
 }

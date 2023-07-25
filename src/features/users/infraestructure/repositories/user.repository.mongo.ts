@@ -10,8 +10,7 @@ import EnvConfig from '../../../../core/env.config';
 export class MongoUserRepository implements UserRepositoryPort {
 	async create(data: CreateUserDTO): Promise<User> {
 		await connectMongoDB();
-		const document = await UserModel.create(data);
-		const result: User = document.toObject();
+		const result = await UserModel.create(data);
 		await disconnectMongoDB();
 		return result;
 	}
@@ -26,50 +25,46 @@ export class MongoUserRepository implements UserRepositoryPort {
 
 	async delete(id: string): Promise<User | null> {
 		await connectMongoDB();
-		const document = await UserModel.findByIdAndDelete(id);
-		if (!document) {
+		const result = await UserModel.findByIdAndDelete(id);
+		if (!result) {
 			throw new AppError({
 				message: `No ${Entities.USER} with this ${id}`,
 				statusCode: HttpCode.BAD_REQUEST
 			});
 		}
-		const result: User = document.toObject();
 		await disconnectMongoDB();
 		return result;
 	}
 
 	async update(id: string, data: Partial<Omit<User, '_id'>>): Promise<User | null> {
 		await connectMongoDB();
-		const document = await UserModel.findByIdAndUpdate(id, { ...data }, { runValidators: true, new: true });
-		if (!document) {
+		const result = await UserModel.findByIdAndUpdate(id, { ...data }, { runValidators: true, new: true });
+		if (!result) {
 			throw new AppError({
 				message: `No ${Entities.USER} with this ${id}`,
 				statusCode: HttpCode.BAD_REQUEST
 			});
 		}
-		const result: User = document.toObject();
 		await disconnectMongoDB();
 		return result;
 	}
 
 	async getAll(features: ApiFeatures): Promise<User[]> {
 		await connectMongoDB();
-		const documents = await apiFeatures(UserModel, features);
-		const results: User[] = documents.map((el) => el.toObject());
+		const results = await apiFeatures(UserModel, features);
 		await disconnectMongoDB();
 		return results;
 	}
 
 	async getOne(id: string): Promise<User | null> {
 		await connectMongoDB();
-		const document = await UserModel.findById(id);
-		if (!document) {
+		const result = await UserModel.findById(id);
+		if (!result) {
 			throw new AppError({
 				message: `No ${Entities.USER} with this ${id}`,
 				statusCode: HttpCode.BAD_REQUEST
 			});
 		}
-		const result: User = document.toObject();
 		await disconnectMongoDB();
 		return result;
 	}

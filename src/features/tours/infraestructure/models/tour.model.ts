@@ -1,6 +1,6 @@
-import mongoose, { Model, Schema } from 'mongoose';
+import { Model, Schema, model, models } from 'mongoose';
 import { Tour } from '../../domain/entities/tour.entity';
-import { FIVE, FORTY, ONE, SEVEN, TEN } from '../../../../core/constants';
+import { Entities, FIVE, FORTY, ONE, SEVEN, TEN } from '../../../../core/constants';
 import { createSlug } from '../../../../core/utils';
 
 export interface TourSchemaFields extends Tour {
@@ -97,4 +97,4 @@ schema.pre('aggregate', function (next): void {
 });
 
 export const TourModel: Model<TourSchemaFields & Document> =
-	mongoose.models.Tour || mongoose.model<TourSchemaFields & Document>('Tour', schema);
+	models.Tour || model<TourSchemaFields & Document>(Entities.TOUR, schema);

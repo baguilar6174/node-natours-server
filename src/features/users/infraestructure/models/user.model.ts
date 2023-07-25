@@ -1,15 +1,14 @@
-import mongoose, { Model, Schema } from 'mongoose';
+import { Model, Schema, model, models } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 
 import { User } from '../../domain/entities/user.entity';
-import { ONE_THOUSAND, PASSWORD_SALT, RESET_TOKEN_SIZE, Roles, SIXTY, TEN } from '../../../../core/constants';
+import { Entities, ONE_THOUSAND, PASSWORD_SALT, RESET_TOKEN_SIZE, Roles, SIXTY, TEN } from '../../../../core/constants';
 import { validateEmail } from '../../../../core/utils';
 
 export interface UserSchemaFields extends User {
 	createdAt: Date;
 	passwordConfirm?: string;
-	passwordChangeAt?: Date;
 	passwordResetToken?: string;
 	passwordResetExpires?: Date;
 }
@@ -75,6 +74,13 @@ schema.pre('save', async function (this, next): Promise<void> {
 	next();
 });
 
+schema.pre('save', async function (this, next): Promise<void> {
+	if (!this.isModified('password') || this.isNew) return next();
+	// Save passwordChangeAt field when user changes his/her password
+	this.passwordChangeAt = new Date(Date.now() - ONE_THOUSAND);
+	next();
+});
+
 schema.methods.validatePassword = async function (candidatePassword: string, password: string): Promise<boolean> {
 	return await bcrypt.compare(candidatePassword, password);
 };
@@ -98,4 +104,4 @@ schema.methods.createPasswordResetToken = function (): string {
 export interface UserDocument extends Document, UserSchemaMethods {}
 
 export const UserModel: Model<UserSchemaFields & UserDocument> =
-	mongoose.models.User || mongoose.model<UserSchemaFields & UserDocument>('User', schema);
+	models.User || model<UserSchemaFields & UserDocument>(Entities.USER, schema);

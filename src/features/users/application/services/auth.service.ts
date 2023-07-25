@@ -19,8 +19,8 @@ export class AuthService implements AuthUseCase {
 		return result;
 	}
 
-	async resetPassword(): Promise<any> {
-		const result = await this.authUseCase.resetPassword();
+	async resetPassword(token: string, password: string): Promise<Auth> {
+		const result = await this.authUseCase.resetPassword(token, password);
 		return result;
 	}
 }

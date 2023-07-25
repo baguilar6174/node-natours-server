@@ -20,8 +20,8 @@ export class AuthUseCaseImpl implements AuthUseCase {
 		return result;
 	}
 
-	async resetPassword(): Promise<any> {
-		const result = await this.repositoryPort.resetPassword();
+	async resetPassword(token: string, password: string): Promise<Auth> {
+		const result = await this.repositoryPort.resetPassword(token, password);
 		return result;
 	}
 }

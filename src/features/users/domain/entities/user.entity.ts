@@ -11,6 +11,7 @@ export interface User {
 	active: boolean;
 	photo: string;
 	password: string;
+	passwordChangeAt?: Date;
 }
 
 export type CreateUserDTO = Omit<User, '_id'>;

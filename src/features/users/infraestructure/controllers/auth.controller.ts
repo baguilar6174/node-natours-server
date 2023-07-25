@@ -40,10 +40,11 @@ export default function AuthController(service: AuthService): Router {
 		}
 	});
 
-	router.patch('/resetPassword/:token', async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
+	router.patch('/resetPassword/:token', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
-			// const { body } = req;
-			const result = await service.resetPassword();
+			const { token } = req.params;
+			const { body } = req;
+			const result = await service.resetPassword(token, body.password);
 			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', data: result });
 		} catch (err) {

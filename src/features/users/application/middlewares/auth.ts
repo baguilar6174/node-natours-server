@@ -51,8 +51,8 @@ export const protect = async <T = object>(req: Request<object, object, object, T
 
 	// TODO: verify correct layer for this
 	await connectMongoDB();
-	const document = await UserModel.findById(decoded.id);
-	if (!document) {
+	const user = await UserModel.findById(decoded.id);
+	if (!user) {
 		return next(
 			new AppError({
 				message: 'The user belonging to this token does no longer exist.',
@@ -64,7 +64,7 @@ export const protect = async <T = object>(req: Request<object, object, object, T
 
 	// * 4) Check if user changed password after the token was issued
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	const changedPasswordAfter = document.changedPasswordAfter(decoded.iat!);
+	const changedPasswordAfter = user.changedPasswordAfter(decoded.iat!);
 
 	if (changedPasswordAfter) {
 		return next(
@@ -75,10 +75,8 @@ export const protect = async <T = object>(req: Request<object, object, object, T
 		);
 	}
 
-	const currentUser: User = document.toObject();
-
 	// * Grant access to protected route
-	req.user = currentUser;
+	req.user = user;
 	next();
 };
 
