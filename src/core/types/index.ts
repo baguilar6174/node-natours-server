@@ -35,3 +35,9 @@ export interface AppErrorArgs {
 export interface CustomJwtPayload extends JwtPayload {
 	id: string;
 }
+
+export interface EmailOptions {
+	email: string;
+	subject: string;
+	text: string;
+}

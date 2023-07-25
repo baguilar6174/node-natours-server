@@ -7,6 +7,10 @@ declare global {
 			MONGO_URL: string;
 			JWT_SECRET: string;
 			JWT_EXPIRES_IN: string;
+			EMAIL_USERNAME: string;
+			EMAIL_PASSWORD: string;
+			EMAIL_HOST: string;
+			EMAIL_PORT: string;
 		}
 	}
 }

@@ -1,18 +1,22 @@
 import mongoose, { Model, Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 
 import { User } from '../../domain/entities/user.entity';
-import { ONE_THOUSAND, PASSWORD_SALT, Roles } from '../../../../core/constants';
+import { ONE_THOUSAND, PASSWORD_SALT, RESET_TOKEN_SIZE, Roles, SIXTY, TEN } from '../../../../core/constants';
 import { validateEmail } from '../../../../core/utils';
 
 export interface UserSchemaFields extends User {
 	createdAt: Date;
 	passwordConfirm?: string;
 	passwordChangeAt?: Date;
+	passwordResetToken?: string;
+	passwordResetExpires?: Date;
 }
 export interface UserSchemaMethods {
 	validatePassword: (candidatePassword: string, password: string) => Promise<boolean>;
 	changedPasswordAfter: (JWTTimestamp: number) => boolean;
+	createPasswordResetToken: () => string;
 }
 
 const schema = new Schema<UserSchemaFields, UserSchemaMethods>(
@@ -43,6 +47,8 @@ const schema = new Schema<UserSchemaFields, UserSchemaMethods>(
 			select: false
 		},
 		passwordChangeAt: Date,
+		passwordResetToken: String,
+		passwordResetExpires: Date,
 		createdAt: { type: Date, default: Date.now() },
 		role: {
 			type: String,
@@ -82,6 +88,14 @@ schema.methods.changedPasswordAfter = function (JWTTimestamp: number): boolean {
 	return false;
 };
 
+schema.methods.createPasswordResetToken = function (): string {
+	const resetToken = crypto.randomBytes(RESET_TOKEN_SIZE).toString('hex');
+	this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+	this.passwordResetExpires = Date.now() + TEN * SIXTY * ONE_THOUSAND;
+	return resetToken;
+};
+
 export interface UserDocument extends Document, UserSchemaMethods {}
 
-export const UserModel: Model<UserDocument> = mongoose.models.User || mongoose.model<UserDocument>('User', schema);
+export const UserModel: Model<UserSchemaFields & UserDocument> =
+	mongoose.models.User || mongoose.model<UserSchemaFields & UserDocument>('User', schema);

@@ -10,3 +10,10 @@ services:
       - ./mongo:/data/db
     environment:
       MONGODB_DATABASE: natours-app
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: mailhog-server
+    restart: 'no'
+    ports:
+      - 1025:1025
+      - 8025:8025

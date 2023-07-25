@@ -91,9 +91,8 @@ If your want to create build production, run `yarn build`
 - Rename files, classes and methods
 - Create adapters
 - API Documentation
-- Use generic types
-- Validations in repositories
 - Alias path
+- Verify mailhog with docker compose
 
 ## Natours Server
 

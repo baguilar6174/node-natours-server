@@ -13,4 +13,14 @@ export class AuthService implements AuthUseCase {
 		const result = await this.authUseCase.login(data);
 		return result;
 	}
+
+	async forgotPassword(data: Pick<User, 'email'>, resetURL: string): Promise<string> {
+		const result = await this.authUseCase.forgotPassword(data, resetURL);
+		return result;
+	}
+
+	async resetPassword(): Promise<any> {
+		const result = await this.authUseCase.resetPassword();
+		return result;
+	}
 }

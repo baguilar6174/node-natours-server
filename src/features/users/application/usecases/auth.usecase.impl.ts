@@ -14,4 +14,14 @@ export class AuthUseCaseImpl implements AuthUseCase {
 		const result = await this.repositoryPort.login(data);
 		return result;
 	}
+
+	async forgotPassword(data: Pick<User, 'email'>, resetURL: string): Promise<string> {
+		const result = await this.repositoryPort.forgotPassword(data, resetURL);
+		return result;
+	}
+
+	async resetPassword(): Promise<any> {
+		const result = await this.repositoryPort.resetPassword();
+		return result;
+	}
 }

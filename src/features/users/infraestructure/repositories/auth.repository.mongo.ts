@@ -1,11 +1,13 @@
 import { HttpCode } from '../../../../core/constants';
 import { UserModel } from '../models/user.model';
 import { Auth, CreateUserDTO, User } from '../../domain/entities/user.entity';
-import { AuthRepositoryPort } from '../../domain/ports/outputs';
+import { AuthRepositoryPort, EmailServicePort } from '../../domain/ports/outputs';
 import { AppError } from '../../../../core/error/app-error';
 import { connectMongoDB, disconnectMongoDB, signToken } from '../../../../core/utils';
 
 export class MongoAuthRepository implements AuthRepositoryPort {
+	constructor(private emailServicePort: EmailServicePort) {}
+
 	async signup(data: CreateUserDTO): Promise<Auth> {
 		await connectMongoDB();
 		const document = await UserModel.create(data);
@@ -58,5 +60,48 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 			user,
 			token
 		};
+	}
+
+	async forgotPassword(data: Pick<User, 'email'>, resetURL: string): Promise<string> {
+		const { email } = data;
+
+		await connectMongoDB();
+		// * 1) Get user based on email
+		const document = await UserModel.findOne({ email });
+		if (!document) {
+			throw new AppError({
+				message: 'There is no user with this email address',
+				statusCode: HttpCode.BAD_REQUEST,
+				name: 'Auth error'
+			});
+		}
+
+		// * 2) Generate the random reset token
+		const resetToken = document.createPasswordResetToken();
+		await document.save();
+		const user = document.toObject();
+		await disconnectMongoDB();
+
+		// * 3) Send it to user's email
+		try {
+			await this.emailServicePort.sendEmail({
+				email: user.email,
+				subject: 'Your password reset token (valid for 10 mins)',
+				text: `Forgot your password? Submit PATCH request with new password and passwordConfirm to: ${resetURL}/${resetToken}. If you didn't forget your password, please ignore this email!`
+			});
+			return 'Token sent to email';
+		} catch (error) {
+			document.passwordResetToken = undefined;
+			document.passwordResetExpires = undefined;
+			await document.save();
+			throw new AppError({
+				message: 'There was an error sending the email. Try again later!',
+				statusCode: HttpCode.INTERNAL_SERVER_ERROR
+			});
+		}
+	}
+
+	async resetPassword(): Promise<any> {
+		throw new Error('Method not implemented.');
 	}
 }

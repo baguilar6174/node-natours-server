@@ -8,6 +8,7 @@ import {
 	UpdateUserUseCaseImpl
 } from '../../application/usecases';
 import { AuthRepositoryPort, UserRepositoryPort } from '../../domain/ports/outputs';
+import { EmailServiceAdapter } from '../adapters/emailService.adapter';
 import AuthController from '../controllers/auth.controller';
 import UserController from '../controllers/user.controller';
 import { MongoAuthRepository } from '../repositories/auth.repository.mongo';
@@ -26,5 +27,5 @@ const getAuthService = (repositoryPort: AuthRepositoryPort): AuthService => {
 	return new AuthService(new AuthUseCaseImpl(repositoryPort));
 };
 
-export const authController = AuthController(getAuthService(new MongoAuthRepository()));
+export const authController = AuthController(getAuthService(new MongoAuthRepository(new EmailServiceAdapter())));
 export const userController = UserController(getUserService(new MongoUserRepository()));
