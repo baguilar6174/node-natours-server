@@ -15,6 +15,11 @@ export class UserService implements CreateUserUseCase, DeleteUserUseCase, GetUse
 		return result;
 	}
 
+	async deleteAll(): Promise<string | void> {
+		const result = await this.deleteUserUseCase.deleteAll();
+		return result;
+	}
+
 	async deleteOne(id: string): Promise<User | null> {
 		const result = await this.deleteUserUseCase.deleteOne(id);
 		return result;

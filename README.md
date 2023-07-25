@@ -94,7 +94,6 @@ If your want to create build production, run `yarn build`
 - Use generic types
 - Validations in repositories
 - Alias path
-- Controll when no collection created in Mongo
 
 ## Natours Server
 

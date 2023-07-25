@@ -6,6 +6,16 @@ import { HttpCode } from '../../../../core/constants';
 export default function UserController(service: UserService): Router {
 	const router = Router();
 
+	router.delete('/deleteAll', async (_: Request, res: Response, next: NextFunction): Promise<void> => {
+		try {
+			const tour = await service.deleteAll();
+			res.statusCode = HttpCode.OK;
+			res.json({ status: 'success', data: tour });
+		} catch (err) {
+			next(err);
+		}
+	});
+
 	router.get(
 		'/',
 		async (req: Request<object, object, object, RequestQuery>, res: Response, next: NextFunction): Promise<void> => {

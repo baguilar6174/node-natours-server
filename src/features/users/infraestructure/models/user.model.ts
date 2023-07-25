@@ -2,7 +2,7 @@ import mongoose, { Model, Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 import { User } from '../../domain/entities/user.entity';
-import { ONE_THOUSAND, PASSWORD_SALT } from '../../../../core/constants';
+import { ONE_THOUSAND, PASSWORD_SALT, Roles } from '../../../../core/constants';
 import { validateEmail } from '../../../../core/utils';
 
 export interface UserSchemaFields extends User {
@@ -44,7 +44,13 @@ const schema = new Schema<UserSchemaFields, UserSchemaMethods>(
 		},
 		passwordChangeAt: Date,
 		createdAt: { type: Date, default: Date.now() },
-		role: String,
+		role: {
+			type: String,
+			enum: {
+				values: [...Object.values(Roles)],
+				default: Roles.USER
+			}
+		},
 		active: Boolean
 	},
 	{

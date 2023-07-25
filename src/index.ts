@@ -10,13 +10,6 @@ import { AppError } from './core/error/app-error';
 import { Error } from 'mongoose';
 import EnvConfig from './core/env.config';
 
-// TODO: move this declaration
-declare module 'express-serve-static-core' {
-	interface Request {
-		requestTime: string;
-	}
-}
-
 export const get = async (): Promise<Express> => {
 	const app: Express = express();
 
@@ -46,11 +39,6 @@ export const get = async (): Promise<Express> => {
 	// Custom Middleware
 	app.use((_req: Request, _res: Response, next: NextFunction) => {
 		// console.log('Hello from the Middleware');
-		next();
-	});
-
-	app.use((req: Request, _res: Response, next: NextFunction) => {
-		req.requestTime = new Date().toISOString();
 		next();
 	});
 

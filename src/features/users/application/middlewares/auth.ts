@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
+
 import { EMPTY_STRING, HttpCode, ONE } from '../../../../core/constants';
-import { CustomJwtPayload, RequestQuery } from '../../../../core/types';
+import { CustomJwtPayload } from '../../../../core/types';
 import { AppError } from '../../../../core/error/app-error';
 import { JwtPayload, VerifyErrors, verify } from 'jsonwebtoken';
 import EnvConfig from '../../../../core/env.config';
@@ -14,18 +15,20 @@ declare module 'express-serve-static-core' {
 	}
 }
 
-const authenticate = async (req: Request<object, object, object, RequestQuery>, _: Response, next: NextFunction) => {
+export const protect = async <T = object>(req: Request<object, object, object, T>, _: Response, next: NextFunction) => {
 	// * 1) Getting token and check it's there
 	let token = '';
 	if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
 		token = req.headers.authorization.split(EMPTY_STRING)[ONE];
 	}
 	if (!token) {
-		throw new AppError({
-			message: 'You are not logged in! Please log in to get access!',
-			statusCode: HttpCode.UNAUTHORIZED,
-			name: 'Auth error'
-		});
+		return next(
+			new AppError({
+				message: 'You are not logged in! Please log in to get access!',
+				statusCode: HttpCode.UNAUTHORIZED,
+				name: 'Auth error'
+			})
+		);
 	}
 	// * 2) Verification token
 	const decoded = verify(
@@ -79,4 +82,16 @@ const authenticate = async (req: Request<object, object, object, RequestQuery>, 
 	next();
 };
 
-export default authenticate;
+export const restrictTo = (...roles: string[]) => {
+	return (req: Request<object, object, object, object>, _: Response, next: NextFunction) => {
+		if (!roles.includes(req.user.role)) {
+			return next(
+				new AppError({
+					message: 'You do not have permission to perfom this action',
+					statusCode: HttpCode.FORBIDDEN
+				})
+			);
+		}
+		next();
+	};
+};

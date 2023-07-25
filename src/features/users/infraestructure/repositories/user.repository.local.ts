@@ -27,4 +27,8 @@ export class LocalUserRepository implements UserRepositoryPort {
 	async getOne(_id: string): Promise<User | null> {
 		return null;
 	}
+
+	async deleteAll(): Promise<string | void> {
+		throw new Error('Method not implemented.');
+	}
 }

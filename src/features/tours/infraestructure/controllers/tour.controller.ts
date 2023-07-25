@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import { RequestQuery } from '../../../../core/types';
-import { HttpCode } from '../../../../core/constants';
+import { HttpCode, Roles } from '../../../../core/constants';
 import { TourService } from '../../application/services/tour.service';
-import authentication from '../../../users/application/middlewares/authentication';
+import { protect, restrictTo } from '../../../users/application/middlewares';
 
 export default function TourController(service: TourService): Router {
 	const router = Router();
@@ -59,7 +59,7 @@ export default function TourController(service: TourService): Router {
 
 	router.get(
 		'/',
-		authentication,
+		protect<RequestQuery>,
 		async (req: Request<object, object, object, RequestQuery>, res: Response, next: NextFunction): Promise<void> => {
 			try {
 				const { page, limit, sort, fields, ...query } = req.query;
@@ -109,16 +109,21 @@ export default function TourController(service: TourService): Router {
 		}
 	});
 
-	router.delete('/:id', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-		try {
-			const { id } = req.params;
-			const tour = await service.delete(id);
-			res.statusCode = HttpCode.OK;
-			res.json({ status: 'success', data: tour });
-		} catch (err) {
-			next(err);
+	router.delete(
+		'/:id',
+		protect,
+		restrictTo(Roles.ADMIN, Roles.LEAD_GUIDE),
+		async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+			try {
+				const { id } = req.params;
+				const tour = await service.delete(id);
+				res.statusCode = HttpCode.OK;
+				res.json({ status: 'success', data: tour });
+			} catch (err) {
+				next(err);
+			}
 		}
-	});
+	);
 
 	return router;
 }

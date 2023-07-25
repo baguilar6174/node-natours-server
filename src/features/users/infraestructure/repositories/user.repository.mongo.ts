@@ -2,9 +2,10 @@ import { ApiFeatures } from '../../../../core/types';
 import { CreateUserDTO, User } from '../../domain/entities/user.entity';
 import { UserRepositoryPort } from '../../domain/ports/outputs/user.repository.port';
 import { UserModel } from '../models/user.model';
-import { Entities, HttpCode } from '../../../../core/constants';
+import { Entities, HttpCode, PROD_ENVIRONMENT } from '../../../../core/constants';
 import { apiFeatures, connectMongoDB, disconnectMongoDB } from '../../../../core/utils';
 import { AppError } from '../../../../core/error/app-error';
+import EnvConfig from '../../../../core/env.config';
 
 export class MongoUserRepository implements UserRepositoryPort {
 	async create(data: CreateUserDTO): Promise<User> {
@@ -13,6 +14,14 @@ export class MongoUserRepository implements UserRepositoryPort {
 		const result: User = document.toObject();
 		await disconnectMongoDB();
 		return result;
+	}
+
+	async deleteAll(): Promise<string | void> {
+		if (EnvConfig.NODE_ENV === PROD_ENVIRONMENT) return 'No access to this endpoint';
+		await connectMongoDB();
+		await UserModel.deleteMany();
+		await disconnectMongoDB();
+		return 'Deleted data';
 	}
 
 	async delete(id: string): Promise<User | null> {

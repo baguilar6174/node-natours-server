@@ -9,4 +9,9 @@ export class DeleteUserUseCaseImpl implements DeleteUserUseCase {
 		const result = await this.repositoryPort.delete(id);
 		return result;
 	}
+
+	async deleteAll(): Promise<string | void> {
+		const result = await this.repositoryPort.deleteAll();
+		return result;
+	}
 }

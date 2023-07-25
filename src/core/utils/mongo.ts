@@ -1,8 +1,9 @@
 import { Model, connect, connections, disconnect } from 'mongoose';
-import { DEV_ENVIRONMENT, EMPTY_STRING, ONE, ONE_HUNDRED, ZERO } from '../constants';
+import { DEV_ENVIRONMENT, EMPTY_STRING, HttpCode, ONE, ONE_HUNDRED, ZERO } from '../constants';
 import EnvConfig from '../env.config';
 import { ApiFeatures } from '../types';
 import { parseQuery } from './parse-query';
+import { AppError } from '../error/app-error';
 
 /** 0 disconnected | 1 connected | 2 connecting | 3 disconnecting */
 
@@ -37,9 +38,13 @@ export const apiFeatures = async <T extends Document>(model: Model<T>, features:
 	const limit = Number(pagination?.limit) || ONE_HUNDRED;
 	const skip = (page - ONE) * limit;
 
-	if (pagination) {
+	if (pagination?.page || pagination?.limit) {
 		const numTours = await model.countDocuments();
-		if (skip >= numTours) throw new Error('This page does not exist');
+		if (skip >= numTours)
+			throw new AppError({
+				message: 'This page does not exist',
+				statusCode: HttpCode.BAD_REQUEST
+			});
 	}
 
 	const result = await model
