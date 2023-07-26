@@ -5,4 +5,5 @@ export interface AuthRepositoryPort {
 	login(data: Pick<User, 'email' | 'password'>): Promise<Auth>;
 	forgotPassword(data: Pick<User, 'email'>, resetURL: string): Promise<string>;
 	resetPassword(token: string, password: string): Promise<Auth>;
+	updatePassword(id: string, currentPassword: string, password: string, passwordConfirm: string): Promise<Auth>;
 }

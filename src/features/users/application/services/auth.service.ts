@@ -23,4 +23,9 @@ export class AuthService implements AuthUseCase {
 		const result = await this.authUseCase.resetPassword(token, password);
 		return result;
 	}
+
+	async updatePassword(id: string, currentPassword: string, password: string, passwordConfirm: string): Promise<Auth> {
+		const result = await this.authUseCase.updatePassword(id, currentPassword, password, passwordConfirm);
+		return result;
+	}
 }

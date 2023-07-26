@@ -128,10 +128,44 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 		await disconnectMongoDB();
 		// * 3) Update changePasswordAt property for the user
 		// * 4) Log the user in, send JWT
-		await disconnectMongoDB();
 		return {
 			user: document,
 			token: signToken(document._id)
+		};
+	}
+
+	async updatePassword(id: string, currentPassword: string, password: string, passwordConfirm: string): Promise<Auth> {
+		// * 1) Get user from collection
+		await connectMongoDB();
+		const user = await UserModel.findById(id).select('+password');
+		if (!user) {
+			throw new AppError({
+				message: 'Your current password is wrong',
+				statusCode: HttpCode.BAD_REQUEST,
+				name: 'Auth error'
+			});
+		}
+
+		// * 2) Check if POSTed current password is correct
+		const isValidPassword = await user.validatePassword(currentPassword, user.password);
+		if (!isValidPassword) {
+			throw new AppError({
+				message: 'Your current password is wrong',
+				statusCode: HttpCode.UNAUTHORIZED,
+				name: 'Auth error'
+			});
+		}
+
+		// * 3) If so, update password
+		user.password = password;
+		user.passwordConfirm = passwordConfirm;
+		await user.save();
+
+		// * 4) Log user in, send JWT
+		await disconnectMongoDB();
+		return {
+			user,
+			token: signToken(user._id)
 		};
 	}
 }
