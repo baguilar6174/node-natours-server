@@ -1,5 +1,5 @@
 import { ApiFeatures } from '../../../../core/types';
-import { User } from '../../domain/entities/user.entity';
+import { User } from '../../domain/entities';
 import { GetUsersUseCase } from '../../domain/ports/inputs';
 import { UserRepositoryPort } from '../../domain/ports/outputs/user.repository.port';
 

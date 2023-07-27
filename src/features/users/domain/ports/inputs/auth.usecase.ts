@@ -1,15 +1,20 @@
-import { Auth, CreateUserDTO, User } from '../../entities/user.entity';
+import {
+	Auth,
+	ForgotPasswordDTO,
+	ResetPasswordDTO,
+	SignInDTO,
+	SignUpDTO,
+	UpdatePasswordDTO,
+	UpdateUserDataDTO,
+	User
+} from '../../entities';
+
 export interface AuthUseCase {
-	signup(data: CreateUserDTO): Promise<Auth>;
-	login(data: Pick<User, 'email' | 'password'>): Promise<Auth>;
-	forgotPassword(data: Pick<User, 'email'>, resetURL: string): Promise<string>;
-	resetPassword(token: string, password: string): Promise<Auth>;
-	updatePassword(id: string, currentPassword: string, password: string, passwordConfirm: string): Promise<Auth>;
-	updateUserData(
-		id: string,
-		password: string,
-		passwordConfirm: string,
-		data: Pick<User, 'email' | 'name'>
-	): Promise<User>;
-	deleteAccount(id: string): Promise<User>;
+	signup(data: SignUpDTO): Promise<Auth>;
+	login(data: SignInDTO): Promise<Auth>;
+	forgotPassword(data: ForgotPasswordDTO): Promise<string>;
+	resetPassword(data: ResetPasswordDTO): Promise<Auth>;
+	updatePassword(data: UpdatePasswordDTO): Promise<Auth>;
+	updateUserData(data: UpdateUserDataDTO): Promise<User>;
+	deleteAccount(id: Pick<User, '_id'>): Promise<User>;
 }

@@ -1,8 +1,3 @@
-export interface Auth {
-	user: User;
-	token: string;
-}
-
 export interface User {
 	_id: string;
 	name: string;
@@ -13,5 +8,5 @@ export interface User {
 	passwordChangeAt?: Date;
 }
 
-export type CreateUserDTO = Omit<User, '_id'>;
+export type CreateUserDTO = Omit<User, '_id' | 'passwordChangeAt'>;
 export type UpdateUserDTO = Partial<Omit<User, '_id'>>;

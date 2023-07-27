@@ -1,45 +1,49 @@
-import { Auth, CreateUserDTO, User } from '../../domain/entities/user.entity';
+import {
+	Auth,
+	ForgotPasswordDTO,
+	ResetPasswordDTO,
+	SignInDTO,
+	SignUpDTO,
+	UpdatePasswordDTO,
+	UpdateUserDataDTO,
+	User
+} from '../../domain/entities';
 import { AuthUseCase } from '../../domain/ports/inputs';
 
 export class AuthService implements AuthUseCase {
 	constructor(private authUseCase: AuthUseCase) {}
 
-	async signup(data: CreateUserDTO): Promise<Auth> {
+	async signup(data: SignUpDTO): Promise<Auth> {
 		const result = await this.authUseCase.signup(data);
 		return result;
 	}
 
-	async login(data: Pick<User, 'email' | 'password'>): Promise<Auth> {
+	async login(data: SignInDTO): Promise<Auth> {
 		const result = await this.authUseCase.login(data);
 		return result;
 	}
 
-	async forgotPassword(data: Pick<User, 'email'>, resetURL: string): Promise<string> {
-		const result = await this.authUseCase.forgotPassword(data, resetURL);
+	async forgotPassword(data: ForgotPasswordDTO): Promise<string> {
+		const result = await this.authUseCase.forgotPassword(data);
 		return result;
 	}
 
-	async resetPassword(token: string, password: string): Promise<Auth> {
-		const result = await this.authUseCase.resetPassword(token, password);
+	async resetPassword(data: ResetPasswordDTO): Promise<Auth> {
+		const result = await this.authUseCase.resetPassword(data);
 		return result;
 	}
 
-	async updatePassword(id: string, currentPassword: string, password: string, passwordConfirm: string): Promise<Auth> {
-		const result = await this.authUseCase.updatePassword(id, currentPassword, password, passwordConfirm);
+	async updatePassword(data: UpdatePasswordDTO): Promise<Auth> {
+		const result = await this.authUseCase.updatePassword(data);
 		return result;
 	}
 
-	async updateUserData(
-		id: string,
-		password: string,
-		passwordConfirm: string,
-		data: Pick<User, 'email' | 'name'>
-	): Promise<User> {
-		const result = await this.authUseCase.updateUserData(id, password, passwordConfirm, data);
+	async updateUserData(data: UpdateUserDataDTO): Promise<User> {
+		const result = await this.authUseCase.updateUserData(data);
 		return result;
 	}
 
-	async deleteAccount(id: string): Promise<User> {
+	async deleteAccount(id: Pick<User, '_id'>): Promise<User> {
 		const result = await this.authUseCase.deleteAccount(id);
 		return result;
 	}

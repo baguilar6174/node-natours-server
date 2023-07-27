@@ -1,5 +1,5 @@
 import { ApiFeatures } from '../../../../core/types';
-import { CreateUserDTO, User } from '../../domain/entities/user.entity';
+import { CreateUserDTO, User } from '../../domain/entities';
 import { CreateUserUseCase, DeleteUserUseCase, GetUsersUseCase, UpdateUserUseCase } from '../../domain/ports/inputs';
 
 export class UserService implements CreateUserUseCase, DeleteUserUseCase, GetUsersUseCase, UpdateUserUseCase {

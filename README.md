@@ -84,6 +84,7 @@ If your want to create build production, run `yarn build`
 - Clean Architecture
 - Eslint and Prettier
 - Good folder structure
+- Complete authentication and authorization module
 
 ## TODO:
 

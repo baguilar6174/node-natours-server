@@ -2,7 +2,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { ApiFeatures } from '../../../../core/types';
-import { CreateUserDTO, User } from '../../domain/entities/user.entity';
+import { CreateUserDTO, User } from '../../domain/entities';
 import { UserRepositoryPort } from '../../domain/ports/outputs/user.repository.port';
 
 export class LocalUserRepository implements UserRepositoryPort {

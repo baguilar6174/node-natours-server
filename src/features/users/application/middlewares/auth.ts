@@ -7,7 +7,7 @@ import { JwtPayload, VerifyErrors, verify } from 'jsonwebtoken';
 import EnvConfig from '../../../../core/env.config';
 import { connectMongoDB, disconnectMongoDB } from '../../../../core/utils';
 import { UserModel } from '../../infraestructure/models/user.model';
-import { User } from '../../domain/entities/user.entity';
+import { User } from '../../domain/entities';
 
 declare module 'express-serve-static-core' {
 	interface Request {

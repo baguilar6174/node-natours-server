@@ -2,7 +2,16 @@ import crypto from 'crypto';
 
 import { HttpCode } from '../../../../core/constants';
 import { UserModel } from '../models/user.model';
-import { Auth, CreateUserDTO, User } from '../../domain/entities/user.entity';
+import {
+	Auth,
+	ForgotPasswordDTO,
+	ResetPasswordDTO,
+	SignInDTO,
+	SignUpDTO,
+	UpdatePasswordDTO,
+	UpdateUserDataDTO,
+	User
+} from '../../domain/entities';
 import { AuthRepositoryPort, EmailServicePort } from '../../domain/ports/outputs';
 import { AppError } from '../../../../core/error/app-error';
 import { connectMongoDB, disconnectMongoDB, signToken } from '../../../../core/utils';
@@ -10,7 +19,7 @@ import { connectMongoDB, disconnectMongoDB, signToken } from '../../../../core/u
 export class MongoAuthRepository implements AuthRepositoryPort {
 	constructor(private emailServicePort: EmailServicePort) {}
 
-	async signup(data: CreateUserDTO): Promise<Auth> {
+	async signup(data: SignUpDTO): Promise<Auth> {
 		await connectMongoDB();
 		const user = await UserModel.create(data);
 		const token = signToken(user._id);
@@ -18,7 +27,7 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 		return { user, token };
 	}
 
-	async login(data: Pick<User, 'email' | 'password'>): Promise<Auth> {
+	async login(data: SignInDTO): Promise<Auth> {
 		const { email, password } = data;
 
 		// * 1) Check if email and password exists
@@ -62,8 +71,8 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 		};
 	}
 
-	async forgotPassword(data: Pick<User, 'email'>, resetURL: string): Promise<string> {
-		const { email } = data;
+	async forgotPassword(data: ForgotPasswordDTO): Promise<string> {
+		const { email, resetURL } = data;
 
 		await connectMongoDB();
 		// * 1) Get user based on email
@@ -100,9 +109,11 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 		}
 	}
 
-	async resetPassword(token: string, password: string): Promise<Auth> {
+	async resetPassword(data: ResetPasswordDTO): Promise<Auth> {
+		const { password, resetToken } = data;
+
 		// * 1) Get user based on the token
-		const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+		const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
 		await connectMongoDB();
 
 		const document = await UserModel.findOne({
@@ -134,10 +145,12 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 		};
 	}
 
-	async updatePassword(id: string, currentPassword: string, password: string, passwordConfirm: string): Promise<Auth> {
+	async updatePassword(data: UpdatePasswordDTO): Promise<Auth> {
+		const { _id, currentPassword, newPassword, newPasswordConfirm } = data;
+
 		// * 1) Get user from collection
 		await connectMongoDB();
-		const user = await UserModel.findById(id).select('+password');
+		const user = await UserModel.findById(_id).select('+password');
 		if (!user) {
 			throw new AppError({
 				message: 'Your current password is wrong',
@@ -157,8 +170,8 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 		}
 
 		// * 3) If so, update password
-		user.password = password;
-		user.passwordConfirm = passwordConfirm;
+		user.password = newPassword;
+		user.passwordConfirm = newPasswordConfirm;
 		await user.save();
 
 		// * 4) Log user in, send JWT
@@ -169,14 +182,9 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 		};
 	}
 
-	// * Only allows update email and name
-	async updateUserData(
-		id: string,
-		password: string,
-		passwordConfirm: string,
-		data: Pick<User, 'email' | 'name'>
-	): Promise<User> {
-		const { email, name } = data;
+	async updateUserData(data: UpdateUserDataDTO): Promise<User> {
+		const { _id, password, passwordConfirm, fields } = data;
+		const { email, name } = fields;
 
 		// * 1) Create error if user POSTs password data
 		if (password || passwordConfirm) {
@@ -194,7 +202,7 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 		}
 		// * 3) Update user document
 		await connectMongoDB();
-		const updatedUser = await UserModel.findByIdAndUpdate(id, data, { new: true, runValidators: true });
+		const updatedUser = await UserModel.findByIdAndUpdate(_id, data, { new: true, runValidators: true });
 
 		// TODO: verify if this error is neccesary
 		if (!updatedUser) {
@@ -209,7 +217,7 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 		return updatedUser;
 	}
 
-	async deleteAccount(id: string): Promise<User> {
+	async deleteAccount(id: Pick<User, '_id'>): Promise<User> {
 		await connectMongoDB();
 		const updatedUser = await UserModel.findByIdAndUpdate(id, { active: false });
 		// TODO: verify if this error is neccesary

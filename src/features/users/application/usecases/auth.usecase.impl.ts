@@ -1,46 +1,50 @@
-import { Auth, CreateUserDTO, User } from '../../domain/entities/user.entity';
+import {
+	Auth,
+	ForgotPasswordDTO,
+	ResetPasswordDTO,
+	SignInDTO,
+	SignUpDTO,
+	UpdatePasswordDTO,
+	UpdateUserDataDTO,
+	User
+} from '../../domain/entities';
 import { AuthUseCase } from '../../domain/ports/inputs';
 import { AuthRepositoryPort } from '../../domain/ports/outputs';
 
 export class AuthUseCaseImpl implements AuthUseCase {
 	constructor(private repositoryPort: AuthRepositoryPort) {}
 
-	async signup(data: CreateUserDTO): Promise<Auth> {
+	async signup(data: SignUpDTO): Promise<Auth> {
 		const result = await this.repositoryPort.signup(data);
 		return result;
 	}
 
-	async login(data: Pick<User, 'email' | 'password'>): Promise<Auth> {
+	async login(data: SignInDTO): Promise<Auth> {
 		const result = await this.repositoryPort.login(data);
 		return result;
 	}
 
-	async forgotPassword(data: Pick<User, 'email'>, resetURL: string): Promise<string> {
-		const result = await this.repositoryPort.forgotPassword(data, resetURL);
+	async forgotPassword(data: ForgotPasswordDTO): Promise<string> {
+		const result = await this.repositoryPort.forgotPassword(data);
 		return result;
 	}
 
-	async resetPassword(token: string, password: string): Promise<Auth> {
-		const result = await this.repositoryPort.resetPassword(token, password);
+	async resetPassword(data: ResetPasswordDTO): Promise<Auth> {
+		const result = await this.repositoryPort.resetPassword(data);
 		return result;
 	}
 
-	async updatePassword(id: string, currentPassword: string, password: string, passwordConfirm: string): Promise<Auth> {
-		const result = await this.repositoryPort.updatePassword(id, currentPassword, password, passwordConfirm);
+	async updatePassword(data: UpdatePasswordDTO): Promise<Auth> {
+		const result = await this.repositoryPort.updatePassword(data);
 		return result;
 	}
 
-	async updateUserData(
-		id: string,
-		password: string,
-		passwordConfirm: string,
-		data: Pick<User, 'email' | 'name'>
-	): Promise<User> {
-		const result = await this.repositoryPort.updateUserData(id, password, passwordConfirm, data);
+	async updateUserData(data: UpdateUserDataDTO): Promise<User> {
+		const result = await this.repositoryPort.updateUserData(data);
 		return result;
 	}
 
-	async deleteAccount(id: string): Promise<User> {
+	async deleteAccount(id: Pick<User, '_id'>): Promise<User> {
 		const result = await this.repositoryPort.deleteAccount(id);
 		return result;
 	}

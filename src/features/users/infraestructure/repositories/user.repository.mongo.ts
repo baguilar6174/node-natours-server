@@ -1,5 +1,5 @@
 import { ApiFeatures } from '../../../../core/types';
-import { CreateUserDTO, User } from '../../domain/entities/user.entity';
+import { CreateUserDTO, User } from '../../domain/entities';
 import { UserRepositoryPort } from '../../domain/ports/outputs/user.repository.port';
 import { UserModel } from '../models/user.model';
 import { Entities, HttpCode, PROD_ENVIRONMENT } from '../../../../core/constants';

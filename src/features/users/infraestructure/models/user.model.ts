@@ -2,7 +2,7 @@ import { Model, Schema, model, models } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 
-import { User } from '../../domain/entities/user.entity';
+import { User } from '../../domain/entities';
 import { Entities, ONE_THOUSAND, PASSWORD_SALT, RESET_TOKEN_SIZE, Roles, SIXTY, TEN } from '../../../../core/constants';
 import { validateEmail } from '../../../../core/utils';
 

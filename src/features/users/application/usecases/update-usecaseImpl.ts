@@ -1,4 +1,4 @@
-import { User } from '../../domain/entities/user.entity';
+import { User } from '../../domain/entities';
 import { UpdateUserUseCase } from '../../domain/ports/inputs/update-usecase';
 import { UserRepositoryPort } from '../../domain/ports/outputs/user.repository.port';
 

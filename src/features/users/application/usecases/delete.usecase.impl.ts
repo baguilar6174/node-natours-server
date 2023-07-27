@@ -1,4 +1,4 @@
-import { User } from '../../domain/entities/user.entity';
+import { User } from '../../domain/entities';
 import { DeleteUserUseCase } from '../../domain/ports/inputs/delete.usecase';
 import { UserRepositoryPort } from '../../domain/ports/outputs/user.repository.port';
 

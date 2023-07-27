@@ -1,4 +1,4 @@
-import { CreateUserDTO, User } from '../../domain/entities/user.entity';
+import { CreateUserDTO, User } from '../../domain/entities';
 import { CreateUserUseCase } from '../../domain/ports/inputs/create.usecase';
 import { UserRepositoryPort } from '../../domain/ports/outputs/user.repository.port';
 
