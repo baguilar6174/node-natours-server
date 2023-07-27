@@ -38,4 +38,9 @@ export class AuthService implements AuthUseCase {
 		const result = await this.authUseCase.updateUserData(id, password, passwordConfirm, data);
 		return result;
 	}
+
+	async deleteAccount(id: string): Promise<User> {
+		const result = await this.authUseCase.deleteAccount(id);
+		return result;
+	}
 }

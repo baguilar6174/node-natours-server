@@ -11,4 +11,5 @@ export interface AuthUseCase {
 		passwordConfirm: string,
 		data: Pick<User, 'email' | 'name'>
 	): Promise<User>;
+	deleteAccount(id: string): Promise<User>;
 }

@@ -39,4 +39,9 @@ export class AuthUseCaseImpl implements AuthUseCase {
 		const result = await this.repositoryPort.updateUserData(id, password, passwordConfirm, data);
 		return result;
 	}
+
+	async deleteAccount(id: string): Promise<User> {
+		const result = await this.repositoryPort.deleteAccount(id);
+		return result;
+	}
 }

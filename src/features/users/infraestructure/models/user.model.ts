@@ -8,6 +8,7 @@ import { validateEmail } from '../../../../core/utils';
 
 export interface UserSchemaFields extends User {
 	createdAt: Date;
+	active: boolean;
 	passwordConfirm?: string;
 	passwordResetToken?: string;
 	passwordResetExpires?: Date;
@@ -56,7 +57,11 @@ const schema = new Schema<UserSchemaFields, UserSchemaMethods>(
 				default: Roles.USER
 			}
 		},
-		active: Boolean
+		active: {
+			type: Boolean,
+			default: true,
+			select: false
+		}
 	},
 	{
 		toJSON: { virtuals: true },
@@ -78,6 +83,11 @@ schema.pre('save', async function (this, next): Promise<void> {
 	if (!this.isModified('password') || this.isNew) return next();
 	// Save passwordChangeAt field when user changes his/her password
 	this.passwordChangeAt = new Date(Date.now() - ONE_THOUSAND);
+	next();
+});
+
+schema.pre('find', function (next): void {
+	this.find({ active: { $ne: false } });
 	next();
 });
 

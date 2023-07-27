@@ -208,4 +208,19 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 		await disconnectMongoDB();
 		return updatedUser;
 	}
+
+	async deleteAccount(id: string): Promise<User> {
+		await connectMongoDB();
+		const updatedUser = await UserModel.findByIdAndUpdate(id, { active: false });
+		// TODO: verify if this error is neccesary
+		if (!updatedUser) {
+			throw new AppError({
+				message: 'No user with this identifier',
+				statusCode: HttpCode.BAD_REQUEST,
+				name: 'Auth error'
+			});
+		}
+		await disconnectMongoDB();
+		return updatedUser;
+	}
 }

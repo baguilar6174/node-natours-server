@@ -84,5 +84,16 @@ export default function AuthController(service: AuthService): Router {
 		}
 	});
 
+	router.delete('/deleteAccount', protect, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+		try {
+			const { user } = req;
+			const result = await service.deleteAccount(user._id);
+			res.statusCode = HttpCode.OK;
+			res.json({ status: 'success', data: result });
+		} catch (err) {
+			next(err);
+		}
+	});
+
 	return router;
 }
