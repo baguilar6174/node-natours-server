@@ -168,4 +168,44 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 			token: signToken(user._id)
 		};
 	}
+
+	// * Only allows update email and name
+	async updateUserData(
+		id: string,
+		password: string,
+		passwordConfirm: string,
+		data: Pick<User, 'email' | 'name'>
+	): Promise<User> {
+		const { email, name } = data;
+
+		// * 1) Create error if user POSTs password data
+		if (password || passwordConfirm) {
+			throw new AppError({
+				message: 'This route is not for password updates. Please use /updatePassword',
+				statusCode: HttpCode.BAD_REQUEST
+			});
+		}
+		// * 2) Create error if name or email are undefined
+		if (!name || !email) {
+			throw new AppError({
+				message: 'You need provide email or name to update your data!',
+				statusCode: HttpCode.BAD_REQUEST
+			});
+		}
+		// * 3) Update user document
+		await connectMongoDB();
+		const updatedUser = await UserModel.findByIdAndUpdate(id, data, { new: true, runValidators: true });
+
+		// TODO: verify if this error is neccesary
+		if (!updatedUser) {
+			throw new AppError({
+				message: 'Invalid credentials',
+				statusCode: HttpCode.BAD_REQUEST,
+				name: 'Auth error'
+			});
+		}
+
+		await disconnectMongoDB();
+		return updatedUser;
+	}
 }

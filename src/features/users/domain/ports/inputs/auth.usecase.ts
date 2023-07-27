@@ -5,4 +5,10 @@ export interface AuthUseCase {
 	forgotPassword(data: Pick<User, 'email'>, resetURL: string): Promise<string>;
 	resetPassword(token: string, password: string): Promise<Auth>;
 	updatePassword(id: string, currentPassword: string, password: string, passwordConfirm: string): Promise<Auth>;
+	updateUserData(
+		id: string,
+		password: string,
+		passwordConfirm: string,
+		data: Pick<User, 'email' | 'name'>
+	): Promise<User>;
 }

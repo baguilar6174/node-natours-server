@@ -29,4 +29,14 @@ export class AuthUseCaseImpl implements AuthUseCase {
 		const result = await this.repositoryPort.updatePassword(id, currentPassword, password, passwordConfirm);
 		return result;
 	}
+
+	async updateUserData(
+		id: string,
+		password: string,
+		passwordConfirm: string,
+		data: Pick<User, 'email' | 'name'>
+	): Promise<User> {
+		const result = await this.repositoryPort.updateUserData(id, password, passwordConfirm, data);
+		return result;
+	}
 }

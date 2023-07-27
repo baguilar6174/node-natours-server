@@ -72,5 +72,17 @@ export default function AuthController(service: AuthService): Router {
 		}
 	});
 
+	router.patch('/updateUserData', protect, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+		try {
+			const { user, body } = req;
+			const { password, passwordConfirm, name, email } = body;
+			const result = await service.updateUserData(user._id, password, passwordConfirm, { name, email });
+			res.statusCode = HttpCode.OK;
+			res.json({ status: 'success', data: result });
+		} catch (err) {
+			next(err);
+		}
+	});
+
 	return router;
 }

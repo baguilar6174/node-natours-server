@@ -28,4 +28,14 @@ export class AuthService implements AuthUseCase {
 		const result = await this.authUseCase.updatePassword(id, currentPassword, password, passwordConfirm);
 		return result;
 	}
+
+	async updateUserData(
+		id: string,
+		password: string,
+		passwordConfirm: string,
+		data: Pick<User, 'email' | 'name'>
+	): Promise<User> {
+		const result = await this.authUseCase.updateUserData(id, password, passwordConfirm, data);
+		return result;
+	}
 }
