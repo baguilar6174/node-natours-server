@@ -99,6 +99,12 @@ If your want to create build production, run `yarn build`
 
 - TODO: add api documentation...
 
+<table>
+  <tr>
+    <td align="center" valign="center"><img src="./media/data_model.png" width="100%"></td>
+  </tr>
+</table>
+
 ## Stay in touch
 
 - Website - [www.bryan-aguilar.com](https://www.bryan-aguilar.com/)
