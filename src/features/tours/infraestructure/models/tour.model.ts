@@ -5,6 +5,8 @@ import { createSlug } from '../../../../core/utils';
 
 export interface TourSchemaFields extends Tour {
 	createdAt: Date;
+	priceDiscount: number;
+	secretTour: boolean;
 }
 
 const schema = new Schema<TourSchemaFields>(
@@ -54,7 +56,36 @@ const schema = new Schema<TourSchemaFields>(
 		secretTour: {
 			type: Boolean,
 			default: false
-		}
+		},
+		startLocation: {
+			type: {
+				type: String,
+				default: 'Point',
+				enum: ['Point']
+			},
+			coordinates: [Number],
+			address: String,
+			description: String
+		},
+		locations: [
+			{
+				type: {
+					type: String,
+					default: 'Point',
+					enum: ['Point']
+				},
+				coordinates: [Number],
+				address: String,
+				description: String,
+				day: Number
+			}
+		],
+		guides: [
+			{
+				type: Schema.ObjectId,
+				ref: 'User'
+			}
+		]
 	},
 	{
 		toJSON: { virtuals: true },
@@ -72,6 +103,17 @@ schema.pre('save', function (this: Pick<Tour, 'name' | 'slug'>, next): void {
 	next();
 });
 
+/* schema.pre('save', async function (this: Pick<Tour, 'guides'>, next): Promise<void> {
+	if (!this.guides) return;
+	const promises = this.guides.map(async (id) => {
+		const user = await UserModel.findById(id);
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		return user!;
+	});
+	this.guides = await Promise.all(promises);
+	next();
+}); */
+
 // Runs after create a document
 // schema.post('save', function (doc, next) {
 // 	console.log(doc);
@@ -79,6 +121,17 @@ schema.pre('save', function (this: Pick<Tour, 'name' | 'slug'>, next): void {
 // });
 
 // Query middleware
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function populateGuides(this: any, next: () => void) {
+	this.populate({
+		path: 'guides',
+		select: '-__v'
+	});
+	next();
+}
+
+schema.pre(/^find/, populateGuides);
+
 // Filter results where secretTour = true
 schema.pre('find', function (next): void {
 	this.find({ secretTour: { $ne: true } });

@@ -1,3 +1,5 @@
+import { User } from '../../../users/domain/entities';
+
 export interface Tour {
 	_id: string;
 	name: string;
@@ -8,13 +10,25 @@ export interface Tour {
 	ratingsAverage: number;
 	ratingsQuantity: number;
 	price: number;
-	priceDiscount: number;
 	summary: string;
 	description: string;
 	imageCover: string;
 	images: string[];
-	startDates: string[];
-	secretTour: boolean;
+	startDates: Date[] | string[];
+	startLocation: StartTourLocation;
+	guides?: string[] | User[];
+	locations: TourLocation[];
+}
+
+export interface StartTourLocation {
+	description: string;
+	type: string;
+	coordinates: number[];
+	address?: string;
+}
+
+export interface TourLocation extends StartTourLocation {
+	day: number;
 }
 
 export type CreateTourDTO = Omit<Tour, '_id'>;
