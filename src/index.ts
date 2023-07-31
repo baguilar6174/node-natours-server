@@ -1,17 +1,31 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import express, { Express, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import path from 'path';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
+import mongoSanitize from 'express-mongo-sanitize';
 
 import router from './app.route';
-import { DEV_ENVIRONMENT, HttpCode, JWTErrors, MongoErrors, PROD_ENVIRONMENT } from './core/constants';
+import {
+	DEV_ENVIRONMENT,
+	HttpCode,
+	JWTErrors,
+	MongoErrors,
+	ONE_HUNDRED,
+	ONE_THOUSAND,
+	PROD_ENVIRONMENT,
+	SIXTY
+} from './core/constants';
 import { AppError } from './core/error/app-error';
 import { Error } from 'mongoose';
 import EnvConfig from './core/env.config';
 
 export const get = async (): Promise<Express> => {
 	const app: Express = express();
+
+	// Set security HTTP headers
+	app.use(helmet());
 
 	/* app.use(
 		cors({
@@ -22,6 +36,7 @@ export const get = async (): Promise<Express> => {
 		})
 	); */
 
+	// Confihure CORS
 	app.use(cors());
 
 	// Url prefix
@@ -32,8 +47,25 @@ export const get = async (): Promise<Express> => {
 
 	// Body parsing Middleware
 	if (EnvConfig.NODE_ENV === DEV_ENVIRONMENT) app.use(morgan('dev'));
+
+	// Using express limit to resctrict many requests from the same IP
+	app.use(
+		API_PREFIX,
+		rateLimit({
+			max: ONE_HUNDRED,
+			windowMs: SIXTY * SIXTY * ONE_THOUSAND,
+			message: 'Too many requests from this IP, please try again in one hour'
+		})
+	);
+
+	// Body parser, reading data from body
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: true }));
+
+	// Data sanitization against NOSQL query injection
+	app.use(mongoSanitize());
+
+	// Serving static files
 	app.use(express.static(path.join(__dirname, '../', 'public')));
 
 	// Custom Middleware
@@ -64,6 +96,7 @@ export const get = async (): Promise<Express> => {
 
 	// Middleware to handle errors
 	// TODO: remove any
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	router.use((error: AppError | any, _: Request, res: Response, next: NextFunction): void => {
 		const { message, isOperational, name, stack } = error;
 		const statusCode = error.statusCode || HttpCode.INTERNAL_SERVER_ERROR;
@@ -82,6 +115,7 @@ export const get = async (): Promise<Express> => {
 				return;
 			}
 			if (name === MongoErrors.VALIDATION_ERROR) {
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				const values = Object.values(error.errors).map((e: any) => e.message); // TODO: review this error type
 				res.statusCode = HttpCode.BAD_REQUEST;
 				res.json({ message: `Invalid input data: ${values.join('. ')}` });
