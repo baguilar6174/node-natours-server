@@ -53,9 +53,9 @@ const schema = new Schema<UserSchemaFields, UserSchemaMethods>(
 		role: {
 			type: String,
 			enum: {
-				values: [...Object.values(Roles)],
-				default: Roles.USER
-			}
+				values: [...Object.values(Roles)]
+			},
+			default: Roles.USER
 		},
 		active: {
 			type: Boolean,

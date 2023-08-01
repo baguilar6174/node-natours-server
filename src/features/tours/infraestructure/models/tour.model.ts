@@ -85,6 +85,12 @@ const schema = new Schema<TourSchemaFields>(
 				type: Schema.ObjectId,
 				ref: 'User'
 			}
+		],
+		reviews: [
+			{
+				type: Schema.ObjectId,
+				ref: 'Review'
+			}
 		]
 	},
 	{

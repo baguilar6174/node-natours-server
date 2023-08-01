@@ -1,3 +1,4 @@
+import { Review } from '../../../reviews/domain';
 import { User } from '../../../users/domain/entities';
 
 export interface Tour {
@@ -18,6 +19,7 @@ export interface Tour {
 	startLocation: StartTourLocation;
 	guides?: string[] | User[];
 	locations: TourLocation[];
+	reviews?: string[] | Review[];
 }
 
 export interface StartTourLocation {

@@ -94,6 +94,7 @@ If your want to create build production, run `yarn build`
 - API Documentation
 - Alias path
 - Verify mailhog with docker compose
+- Get correct relationships between models Tour, User, Review
 
 ## Natours Server
 

@@ -36,5 +36,17 @@ const schema = new Schema<ReviewSchemaFields>(
 	}
 );
 
+// Query middleware
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function populateEntities(this: any, next: () => void) {
+	this.populate({
+		path: 'user tour',
+		select: '-__v'
+	});
+	next();
+}
+
+schema.pre(/^find/, populateEntities);
+
 export const ReviewModel: Model<ReviewSchemaFields & Document> =
 	models.Review || model<ReviewSchemaFields & Document>(Entities.REVIEW, schema);

@@ -80,6 +80,7 @@ export const protect = async <T = object>(req: Request<object, object, object, T
 	next();
 };
 
+// TODO: using roles type
 export const restrictTo = (...roles: string[]) => {
 	return (req: Request<object, object, object, object>, _: Response, next: NextFunction) => {
 		if (!roles.includes(req.user.role)) {

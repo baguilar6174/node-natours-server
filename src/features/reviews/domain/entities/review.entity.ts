@@ -8,3 +8,6 @@ export interface Review {
 	user: User | string;
 	tour: Tour | string;
 }
+
+export type CreateReviewDTO = Omit<Review, '_id'>;
+export type UpdateReviewDTO = Partial<Omit<Review, '_id'>>;

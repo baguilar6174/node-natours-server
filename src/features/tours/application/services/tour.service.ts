@@ -1,5 +1,5 @@
 import { ApiFeatures } from '../../../../core/types';
-import { CreateTourDTO, Tour, Plan, Stat } from '../../domain/entities/tour.entity';
+import { CreateTourDTO, Tour, Plan, Stat, UpdateTourDTO } from '../../domain/entities/tour.entity';
 import {
 	CreateTourUseCase,
 	DeleteTourUseCase,
@@ -30,8 +30,8 @@ export class TourService
 		private updateTourUseCase: UpdateTourUseCase
 	) {}
 
-	async create(user: CreateTourDTO): Promise<Tour> {
-		const result = await this.createTourUseCase.create(user);
+	async create(data: CreateTourDTO): Promise<Tour> {
+		const result = await this.createTourUseCase.create(data);
 		return result;
 	}
 
@@ -50,7 +50,7 @@ export class TourService
 		return result;
 	}
 
-	async update(id: string, data: Partial<Omit<Tour, '_id'>>): Promise<Tour | null> {
+	async update(id: string, data: UpdateTourDTO): Promise<Tour | null> {
 		const result = await this.updateTourUseCase.update(id, data);
 		return result;
 	}

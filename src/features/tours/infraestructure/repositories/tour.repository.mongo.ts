@@ -1,4 +1,4 @@
-import { CreateTourDTO, Tour, Stat, Plan } from '../../domain/entities/tour.entity';
+import { CreateTourDTO, Tour, Stat, Plan, UpdateTourDTO } from '../../domain/entities/tour.entity';
 import { TourRepositoryPort } from '../../domain/ports/outputs/tour.repository.port';
 import { TourModel } from '../models/tour.model';
 import { Entities, HttpCode, PROD_ENVIRONMENT } from '../../../../core/constants';
@@ -40,7 +40,7 @@ export class MongoTourRepository implements TourRepositoryPort {
 		return result;
 	}
 
-	async update(id: string, data: Partial<Omit<Tour, '_id'>>): Promise<Tour | null> {
+	async update(id: string, data: UpdateTourDTO): Promise<Tour | null> {
 		await connectMongoDB();
 		const result = await TourModel.findByIdAndUpdate(id, { ...data }, { runValidators: true, new: true });
 		if (!result) {
