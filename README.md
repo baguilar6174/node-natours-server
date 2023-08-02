@@ -95,6 +95,7 @@ If your want to create build production, run `yarn build`
 - Alias path
 - Verify mailhog with docker compose
 - Get correct relationships between models Tour, User, Review
+- Endpoint to delete all data
 
 ## Natours Server
 

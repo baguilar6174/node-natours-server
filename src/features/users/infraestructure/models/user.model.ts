@@ -8,7 +8,6 @@ import { validateEmail } from '../../../../core/utils';
 
 export interface UserSchemaFields extends User {
 	createdAt: Date;
-	active: boolean;
 	passwordConfirm?: string;
 	passwordResetToken?: string;
 	passwordResetExpires?: Date;

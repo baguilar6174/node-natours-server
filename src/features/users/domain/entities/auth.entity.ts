@@ -1,11 +1,11 @@
-import { CreateUserDTO, User } from './user.entity';
+import { User } from './user.entity';
 
 export interface Auth {
 	user: User;
 	token: string;
 }
 
-export type SignUpDTO = CreateUserDTO & { passwordConfirm: string };
+export type SignUpDTO = Omit<User, '_id' | 'passwordChangeAt'> & { passwordConfirm: string };
 export type SignInDTO = Pick<User, 'email' | 'password'>;
 export type ForgotPasswordDTO = Pick<User, 'email'> & { resetURL: string };
 export type ResetPasswordDTO = Pick<User, 'password'> & { resetToken: string };

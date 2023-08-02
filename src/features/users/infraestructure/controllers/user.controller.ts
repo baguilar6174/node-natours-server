@@ -6,16 +6,6 @@ import { HttpCode } from '../../../../core/constants';
 export default function UserController(service: UserService): Router {
 	const router = Router();
 
-	router.delete('/deleteAll', async (_: Request, res: Response, next: NextFunction): Promise<void> => {
-		try {
-			const tour = await service.deleteAll();
-			res.statusCode = HttpCode.OK;
-			res.json({ status: 'success', data: tour });
-		} catch (err) {
-			next(err);
-		}
-	});
-
 	router.get(
 		'/',
 		async (req: Request<object, object, object, RequestQuery>, res: Response, next: NextFunction): Promise<void> => {
@@ -39,42 +29,6 @@ export default function UserController(service: UserService): Router {
 			res.json({ status: 'success', data: tour });
 		} catch (error) {
 			next(error);
-		}
-	});
-
-	router.post('/', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-		try {
-			const { body } = req;
-			const tour = await service.create(body);
-			res.statusCode = HttpCode.OK;
-			res.json({ status: 'success', data: tour });
-		} catch (err) {
-			next(err);
-		}
-	});
-
-	router.patch('/:id', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-		try {
-			const {
-				params: { id },
-				body
-			} = req;
-			const tour = await service.update(id, body);
-			res.statusCode = HttpCode.OK;
-			res.json({ status: 'success', data: tour });
-		} catch (err) {
-			next(err);
-		}
-	});
-
-	router.delete('/:id', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-		try {
-			const { id } = req.params;
-			const tour = await service.deleteOne(id);
-			res.statusCode = HttpCode.OK;
-			res.json({ status: 'success', data: tour });
-		} catch (err) {
-			next(err);
 		}
 	});
 

@@ -5,8 +5,6 @@ export interface User {
 	photo: string;
 	password: string;
 	role: string;
+	active: boolean;
 	passwordChangeAt?: Date;
 }
-
-export type CreateUserDTO = Omit<User, '_id' | 'passwordChangeAt'>;
-export type UpdateUserDTO = Partial<Omit<User, '_id'>>;
