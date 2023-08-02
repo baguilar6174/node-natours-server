@@ -23,6 +23,11 @@ export class AuthService implements AuthUseCase {
 		return result;
 	}
 
+	async userInfo(id: Pick<User, '_id'>): Promise<User> {
+		const result = await this.authUseCase.userInfo(id);
+		return result;
+	}
+
 	async forgotPassword(data: ForgotPasswordDTO): Promise<string> {
 		const result = await this.authUseCase.forgotPassword(data);
 		return result;

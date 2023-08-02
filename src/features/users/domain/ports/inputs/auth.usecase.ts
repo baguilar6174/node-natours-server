@@ -12,6 +12,7 @@ import {
 export interface AuthUseCase {
 	signup(data: SignUpDTO): Promise<Auth>;
 	login(data: SignInDTO): Promise<Auth>;
+	userInfo(id: Pick<User, '_id'>): Promise<User>;
 	forgotPassword(data: ForgotPasswordDTO): Promise<string>;
 	resetPassword(data: ResetPasswordDTO): Promise<Auth>;
 	updatePassword(data: UpdatePasswordDTO): Promise<Auth>;

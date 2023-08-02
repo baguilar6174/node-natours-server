@@ -10,7 +10,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Jonas Schmedtmann',
 		email: 'admin@natours.io',
 		role: 'admin',
-		active: true,
 		photo: 'user-1.jpg',
 		password: genericAdminPassword,
 		passwordConfirm: genericAdminPassword
@@ -19,7 +18,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Lourdes Browning',
 		email: 'loulou@example.com',
 		role: 'user',
-		active: true,
 		photo: 'user-2.jpg',
 		password: genericUserPassword,
 		passwordConfirm: genericUserPassword
@@ -28,7 +26,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Sophie Louise Hart',
 		email: 'sophie@example.com',
 		role: 'user',
-		active: true,
 		photo: 'user-3.jpg',
 		password: genericUserPassword,
 		passwordConfirm: genericUserPassword
@@ -37,7 +34,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Ayla Cornell',
 		email: 'ayls@example.com',
 		role: 'user',
-		active: true,
 		photo: 'user-4.jpg',
 		password: genericUserPassword,
 		passwordConfirm: genericUserPassword
@@ -46,7 +42,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Leo Gillespie',
 		email: 'leo@example.com',
 		role: 'guide',
-		active: true,
 		photo: 'user-5.jpg',
 		password: genericGuidePassword,
 		passwordConfirm: genericGuidePassword
@@ -55,7 +50,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Jennifer Hardy',
 		email: 'jennifer@example.com',
 		role: 'guide',
-		active: true,
 		photo: 'user-6.jpg',
 		password: genericGuidePassword,
 		passwordConfirm: genericGuidePassword
@@ -64,7 +58,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Kate Morrison',
 		email: 'kate@example.com',
 		role: 'guide',
-		active: true,
 		photo: 'user-7.jpg',
 		password: genericGuidePassword,
 		passwordConfirm: genericGuidePassword
@@ -73,7 +66,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Eliana Stout',
 		email: 'eliana@example.com',
 		role: 'user',
-		active: true,
 		photo: 'user-8.jpg',
 		password: genericUserPassword,
 		passwordConfirm: genericUserPassword
@@ -82,7 +74,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Cristian Vega',
 		email: 'chris@example.com',
 		role: 'user',
-		active: true,
 		photo: 'user-9.jpg',
 		password: genericUserPassword,
 		passwordConfirm: genericUserPassword
@@ -91,7 +82,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Steve T. Scaife',
 		email: 'steve@example.com',
 		role: 'lead-guide',
-		active: true,
 		photo: 'user-10.jpg',
 		password: genericLeadGuidePassword,
 		passwordConfirm: genericLeadGuidePassword
@@ -100,7 +90,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Aarav Lynn',
 		email: 'aarav@example.com',
 		role: 'lead-guide',
-		active: true,
 		photo: 'user-11.jpg',
 		password: genericLeadGuidePassword,
 		passwordConfirm: genericLeadGuidePassword
@@ -109,7 +98,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Miyah Myles',
 		email: 'miyah@example.com',
 		role: 'lead-guide',
-		active: true,
 		photo: 'user-12.jpg',
 		password: genericLeadGuidePassword,
 		passwordConfirm: genericLeadGuidePassword
@@ -118,7 +106,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Ben Hadley',
 		email: 'ben@example.com',
 		role: 'guide',
-		active: true,
 		photo: 'user-13.jpg',
 		password: genericGuidePassword,
 		passwordConfirm: genericGuidePassword
@@ -127,7 +114,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Laura Wilson',
 		email: 'laura@example.com',
 		role: 'user',
-		active: true,
 		photo: 'user-14.jpg',
 		password: genericUserPassword,
 		passwordConfirm: genericUserPassword
@@ -136,7 +122,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Max Smith',
 		email: 'max@example.com',
 		role: 'user',
-		active: true,
 		photo: 'user-15.jpg',
 		password: genericUserPassword,
 		passwordConfirm: genericUserPassword
@@ -145,7 +130,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Isabel Kirkland',
 		email: 'isabel@example.com',
 		role: 'user',
-		active: true,
 		photo: 'user-16.jpg',
 		password: genericUserPassword,
 		passwordConfirm: genericUserPassword
@@ -154,7 +138,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Alexander Jones',
 		email: 'alex@example.com',
 		role: 'user',
-		active: true,
 		photo: 'user-17.jpg',
 		password: genericUserPassword,
 		passwordConfirm: genericUserPassword
@@ -163,7 +146,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Eduardo Hernandez',
 		email: 'edu@example.com',
 		role: 'user',
-		active: true,
 		photo: 'user-18.jpg',
 		password: genericUserPassword,
 		passwordConfirm: genericUserPassword
@@ -172,7 +154,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'John Riley',
 		email: 'john@example.com',
 		role: 'user',
-		active: true,
 		photo: 'user-19.jpg',
 		password: genericUserPassword,
 		passwordConfirm: genericUserPassword
@@ -181,7 +162,6 @@ export const USERS_DATA: SignUpDTO[] = [
 		name: 'Lisa Brown',
 		email: 'lisa@example.com',
 		role: 'user',
-		active: true,
 		photo: 'user-20.jpg',
 		password: genericUserPassword,
 		passwordConfirm: genericUserPassword

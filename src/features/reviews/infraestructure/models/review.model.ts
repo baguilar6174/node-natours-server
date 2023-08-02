@@ -3,6 +3,8 @@ import { Entities, FIVE, ONE } from '../../../../core/constants';
 import { Review } from '../../domain/entities/review.entity';
 
 export interface ReviewSchemaFields extends Review {
+	// audit props
+	updatedAt: Date;
 	createdAt: Date;
 }
 
@@ -18,7 +20,8 @@ const schema = new Schema<ReviewSchemaFields>(
 			min: ONE,
 			max: FIVE
 		},
-		createdAt: { type: Date, default: Date.now() },
+		createdAt: { type: Date, default: Date.now(), select: false },
+		updatedAt: { type: Date, default: Date.now(), select: false },
 		user: {
 			type: Schema.ObjectId,
 			ref: 'User',

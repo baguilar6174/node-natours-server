@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import crypto from 'crypto';
 
 import { HttpCode } from '../../../../core/constants';
@@ -69,6 +70,13 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 			user,
 			token
 		};
+	}
+
+	async userInfo(id: Pick<User, '_id'>): Promise<User> {
+		await connectMongoDB();
+		const user = await UserModel.findById(id).select('-__v');
+		await disconnectMongoDB();
+		return user!;
 	}
 
 	async forgotPassword(data: ForgotPasswordDTO): Promise<string> {

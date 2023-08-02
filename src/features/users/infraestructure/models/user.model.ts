@@ -7,6 +7,10 @@ import { Entities, ONE_THOUSAND, PASSWORD_SALT, RESET_TOKEN_SIZE, Roles, SIXTY, 
 import { validateEmail } from '../../../../core/utils';
 
 export interface UserSchemaFields extends User {
+	active: boolean;
+	password: string;
+	// audit props
+	updatedAt: Date;
 	createdAt: Date;
 	passwordConfirm?: string;
 	passwordResetToken?: string;
@@ -38,7 +42,7 @@ const schema = new Schema<UserSchemaFields, UserSchemaMethods>(
 			type: String,
 			required: [true, 'Please confirm yout password!'],
 			validate: {
-				validator: function (this: Pick<User, 'password'>, value: string): boolean {
+				validator: function (this: { password: string }, value: string): boolean {
 					return value === this.password;
 				},
 				message: 'Passwords are not the same!'
@@ -48,7 +52,8 @@ const schema = new Schema<UserSchemaFields, UserSchemaMethods>(
 		passwordChangeAt: Date,
 		passwordResetToken: String,
 		passwordResetExpires: Date,
-		createdAt: { type: Date, default: Date.now() },
+		createdAt: { type: Date, default: Date.now(), select: false },
+		updatedAt: { type: Date, default: Date.now(), select: false },
 		role: {
 			type: String,
 			enum: {
@@ -85,6 +90,7 @@ schema.pre('save', async function (this, next): Promise<void> {
 	next();
 });
 
+// TODO: this filter for all find methods
 schema.pre('find', function (next): void {
 	this.find({ active: { $ne: false } });
 	next();

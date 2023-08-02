@@ -21,6 +21,7 @@ export default function UserController(service: UserService): Router {
 		}
 	);
 
+	// TODO: maybe this endpoint requires protect middleware
 	router.get('/:id', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const { id } = req.params;

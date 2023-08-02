@@ -42,6 +42,17 @@ export default function AuthController(service: AuthService): Router {
 		}
 	);
 
+	router.get('/userInfo', protect, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+		try {
+			const { user } = req;
+			const result = await service.userInfo({ _id: user._id });
+			res.statusCode = HttpCode.OK;
+			res.json({ status: 'success', data: result });
+		} catch (err) {
+			next(err);
+		}
+	});
+
 	router.post(
 		'/forgotPassword',
 		async (req: Request<object, object, Pick<User, 'email'>>, res: Response, next: NextFunction): Promise<void> => {
@@ -60,7 +71,7 @@ export default function AuthController(service: AuthService): Router {
 	router.patch(
 		'/resetPassword/:token',
 		async (
-			req: Request<{ token: string }, object, Pick<User, 'password'>>,
+			req: Request<{ token: string }, object, { password: string }>,
 			res: Response,
 			next: NextFunction
 		): Promise<void> => {
