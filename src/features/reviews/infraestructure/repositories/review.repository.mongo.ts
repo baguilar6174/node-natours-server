@@ -24,6 +24,7 @@ export class MongoReviewRepository implements ReviewRepositoryPort {
 				statusCode: HttpCode.BAD_REQUEST
 			});
 		}
+		await result.updateAvgRatings(result.tour);
 		await disconnectMongoDB();
 		return result;
 	}
@@ -37,6 +38,7 @@ export class MongoReviewRepository implements ReviewRepositoryPort {
 				statusCode: HttpCode.BAD_REQUEST
 			});
 		}
+		await result.updateAvgRatings(result.tour);
 		await disconnectMongoDB();
 		return result;
 	}

@@ -32,7 +32,8 @@ const schema = new Schema<TourSchemaFields>(
 			type: Number,
 			default: 0,
 			min: [ONE, 'Ratin must be avobe 1.0'],
-			max: [FIVE, 'Ratin must be below 5.0']
+			max: [FIVE, 'Ratin must be below 5.0'],
+			set: (value: number) => Math.round(value * TEN) / TEN
 		},
 		ratingsQuantity: { type: Number, default: 0 },
 		price: { type: Number, required: [true, 'A tour must have a price'] },
@@ -84,12 +85,6 @@ const schema = new Schema<TourSchemaFields>(
 				ref: 'User'
 			}
 		]
-		/* reviews: [
-			{
-				type: Schema.ObjectId,
-				ref: 'Review'
-			}
-		] */
 	},
 	{
 		id: false,
@@ -99,6 +94,11 @@ const schema = new Schema<TourSchemaFields>(
 		toObject: { virtuals: true }
 	}
 );
+
+// Set index
+schema.index({ price: 1 });
+schema.index({ price: 1, ratingsAverage: -1 });
+schema.index({ slug: 1 });
 
 schema.virtual('reviews', {
 	ref: 'Review',
