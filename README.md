@@ -97,6 +97,7 @@ If your want to create build production, run `yarn build`
 - Verify mailhog with docker compose
 - Endpoint to delete and create fake data
 - Select neccesary field into relationships
+- Remove validation whe route uses protect middleware
 
 ## Natours Server
 

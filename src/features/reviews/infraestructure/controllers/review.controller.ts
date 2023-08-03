@@ -10,6 +10,7 @@ export default function ReviewController(service: ReviewService): Router {
 
 	router.get(
 		'/',
+		protect,
 		async (
 			req: Request<{ tourId?: string }, object, object, RequestQuery>,
 			res: Response,
@@ -38,6 +39,7 @@ export default function ReviewController(service: ReviewService): Router {
 
 	router.get(
 		'/:id',
+		protect,
 		async (req: Request<{ id: string }, object, object>, res: Response, next: NextFunction): Promise<void> => {
 			try {
 				const { id } = req.params;
@@ -74,30 +76,40 @@ export default function ReviewController(service: ReviewService): Router {
 		}
 	);
 
-	router.patch('/:id', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-		try {
-			const {
-				params: { id },
-				body
-			} = req;
-			const result = await service.update(id, body);
-			res.statusCode = HttpCode.OK;
-			res.json({ status: 'success', data: result });
-		} catch (err) {
-			next(err);
+	router.patch(
+		'/:id',
+		protect,
+		restrictTo(Roles.USER, Roles.ADMIN),
+		async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+			try {
+				const {
+					params: { id },
+					body
+				} = req;
+				const result = await service.update(id, body);
+				res.statusCode = HttpCode.OK;
+				res.json({ status: 'success', data: result });
+			} catch (err) {
+				next(err);
+			}
 		}
-	});
+	);
 
-	router.delete('/:id', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-		try {
-			const { id } = req.params;
-			const result = await service.delete(id);
-			res.statusCode = HttpCode.OK;
-			res.json({ status: 'success', data: result });
-		} catch (err) {
-			next(err);
+	router.delete(
+		'/:id',
+		protect,
+		restrictTo(Roles.USER, Roles.ADMIN),
+		async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+			try {
+				const { id } = req.params;
+				const result = await service.delete(id);
+				res.statusCode = HttpCode.OK;
+				res.json({ status: 'success', data: result });
+			} catch (err) {
+				next(err);
+			}
 		}
-	});
+	);
 
 	return router;
 }

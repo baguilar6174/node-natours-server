@@ -52,20 +52,24 @@ export default function TourController(service: TourService): Router {
 		}
 	});
 
-	router.get('/monthly-plan/:year', async (req: Request, res: Response): Promise<void> => {
-		try {
-			const { year } = req.params;
-			const plan = await service.getMonthlyPlan(Number(year));
-			res.statusCode = HttpCode.OK;
-			res.json({ status: 'success', data: { plan } });
-		} catch (err) {
-			res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error stats', err });
+	router.get(
+		'/monthly-plan/:year',
+		protect,
+		restrictTo(Roles.ADMIN, Roles.LEAD_GUIDE, Roles.GUIDE),
+		async (req: Request, res: Response): Promise<void> => {
+			try {
+				const { year } = req.params;
+				const plan = await service.getMonthlyPlan(Number(year));
+				res.statusCode = HttpCode.OK;
+				res.json({ status: 'success', data: { plan } });
+			} catch (err) {
+				res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error stats', err });
+			}
 		}
-	});
+	);
 
 	router.get(
 		'/',
-		protect<RequestQuery>,
 		async (req: Request<object, object, object, RequestQuery>, res: Response, next: NextFunction): Promise<void> => {
 			try {
 				const { page, limit, sort, fields, ...query } = req.query;
@@ -90,30 +94,40 @@ export default function TourController(service: TourService): Router {
 		}
 	});
 
-	router.post('/', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-		try {
-			const { body } = req;
-			const tour = await service.create(body);
-			res.statusCode = HttpCode.OK;
-			res.json({ status: 'success', data: tour });
-		} catch (err) {
-			next(err);
+	router.post(
+		'/',
+		protect,
+		restrictTo(Roles.ADMIN, Roles.LEAD_GUIDE),
+		async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+			try {
+				const { body } = req;
+				const tour = await service.create(body);
+				res.statusCode = HttpCode.OK;
+				res.json({ status: 'success', data: tour });
+			} catch (err) {
+				next(err);
+			}
 		}
-	});
+	);
 
-	router.patch('/:id', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-		try {
-			const {
-				params: { id },
-				body
-			} = req;
-			const tour = await service.update(id, body);
-			res.statusCode = HttpCode.OK;
-			res.json({ status: 'success', data: tour });
-		} catch (err) {
-			next(err);
+	router.patch(
+		'/:id',
+		protect,
+		restrictTo(Roles.ADMIN, Roles.LEAD_GUIDE),
+		async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+			try {
+				const {
+					params: { id },
+					body
+				} = req;
+				const tour = await service.update(id, body);
+				res.statusCode = HttpCode.OK;
+				res.json({ status: 'success', data: tour });
+			} catch (err) {
+				next(err);
+			}
 		}
-	});
+	);
 
 	router.delete(
 		'/:id',
