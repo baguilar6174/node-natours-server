@@ -62,7 +62,7 @@ export class MongoTourRepository implements TourRepositoryPort {
 
 	async getOne(id: string): Promise<Tour | null> {
 		await connectMongoDB();
-		const result = await TourModel.findById(id);
+		const result = await TourModel.findById(id).populate('reviews');
 		if (!result) {
 			throw new AppError({
 				message: `No ${Entities.TOUR} with this ${id}`,

@@ -68,6 +68,7 @@ const schema = new Schema<UserSchemaFields, UserSchemaMethods>(
 		}
 	},
 	{
+		id: false,
 		toJSON: { virtuals: true },
 		toObject: { virtuals: true }
 	}

@@ -88,19 +88,26 @@ const schema = new Schema<TourSchemaFields>(
 				type: Schema.ObjectId,
 				ref: 'User'
 			}
-		],
-		reviews: [
+		]
+		/* reviews: [
 			{
 				type: Schema.ObjectId,
 				ref: 'Review'
 			}
-		]
+		] */
 	},
 	{
+		id: false,
 		toJSON: { virtuals: true },
 		toObject: { virtuals: true }
 	}
 );
+
+schema.virtual('reviews', {
+	ref: 'Review',
+	foreignField: 'tour',
+	localField: '_id'
+});
 
 schema.virtual('durationInWeeks').get(function (this: Pick<Tour, 'duration'>): number {
 	return this.duration / SEVEN;

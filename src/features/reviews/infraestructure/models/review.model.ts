@@ -34,6 +34,7 @@ const schema = new Schema<ReviewSchemaFields>(
 		}
 	},
 	{
+		id: false,
 		toJSON: { virtuals: true },
 		toObject: { virtuals: true }
 	}
@@ -43,7 +44,7 @@ const schema = new Schema<ReviewSchemaFields>(
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function populateEntities(this: any, next: () => void) {
 	this.populate({
-		path: 'user tour',
+		path: 'user',
 		select: '-__v'
 	});
 	next();

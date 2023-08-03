@@ -1,1 +1,1 @@
-export { MongoReviewRepository } from './tour.repository.mongo';
+export { MongoReviewRepository } from './review.repository.mongo';
