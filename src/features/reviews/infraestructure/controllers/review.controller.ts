@@ -5,15 +5,29 @@ import { HttpCode, Roles } from '../../../../core/constants';
 import { protect, restrictTo } from '../../../users/application/middlewares';
 
 export default function ReviewController(service: ReviewService): Router {
-	const router = Router();
+	const router = Router({ mergeParams: true });
+	// With mergeParams enabled, I can bring params from the parent router
 
 	router.get(
 		'/',
-		async (req: Request<object, object, object, RequestQuery>, res: Response, next: NextFunction): Promise<void> => {
+		async (
+			req: Request<{ tourId?: string }, object, object, RequestQuery>,
+			res: Response,
+			next: NextFunction
+		): Promise<void> => {
 			try {
-				const { page, limit, sort, fields, ...query } = req.query;
+				const {
+					params: { tourId },
+					query
+				} = req;
+				const { page, limit, sort, fields, ...rest } = query;
 				const pagination = { page, limit };
-				const results = await service.getAll({ query, sort, fields, pagination });
+
+				let filter = { ...rest };
+				// If tourId exist in request filter reviews from that tour
+				if (tourId) filter = { tour: tourId, ...rest };
+
+				const results = await service.getAll({ query: filter, sort, fields, pagination });
 				res.statusCode = HttpCode.OK;
 				res.json({ status: 'success', results: results.length, data: { results } });
 			} catch (err) {
@@ -22,25 +36,36 @@ export default function ReviewController(service: ReviewService): Router {
 		}
 	);
 
-	router.get('/:id', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-		try {
-			const { id } = req.params;
-			const result = await service.getOne(id);
-			res.statusCode = HttpCode.OK;
-			res.json({ status: 'success', data: result });
-		} catch (error) {
-			next(error);
+	router.get(
+		'/:id',
+		async (req: Request<{ id: string }, object, object>, res: Response, next: NextFunction): Promise<void> => {
+			try {
+				const { id } = req.params;
+				const result = await service.getOne(id);
+				res.statusCode = HttpCode.OK;
+				res.json({ status: 'success', data: result });
+			} catch (error) {
+				next(error);
+			}
 		}
-	});
+	);
 
 	router.post(
 		'/',
 		protect,
 		restrictTo(Roles.USER),
-		async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+		async (
+			req: Request<{ tourId: string }, object, { review: string; rating: number }>,
+			res: Response,
+			next: NextFunction
+		): Promise<void> => {
 			try {
-				const { body } = req;
-				const result = await service.create(body);
+				const {
+					params: { tourId },
+					body,
+					user
+				} = req;
+				const result = await service.create({ tour: tourId, user: user._id, ...body });
 				res.statusCode = HttpCode.OK;
 				res.json({ status: 'success', data: result });
 			} catch (err) {

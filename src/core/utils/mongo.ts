@@ -52,7 +52,6 @@ export const apiFeatures = async <T extends Document>(model: Model<T>, features:
 		.sort(typeof sort === 'string' ? sort.split(',').join(EMPTY_STRING) : sort)
 		.sort('-createdAt')
 		.select(fields.split(',').join(EMPTY_STRING))
-		.select('-__v')
 		.limit(limit)
 		.skip(skip)
 		.exec();

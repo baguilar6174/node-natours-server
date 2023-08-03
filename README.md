@@ -78,6 +78,7 @@ If your want to create build production, run `yarn build`
 - Using clean architecture
 - How to work with data in NoSQL databases
 - Use Mongo pipelines
+- TODO: complete...
 
 ## Development Features
 
@@ -94,8 +95,8 @@ If your want to create build production, run `yarn build`
 - API Documentation
 - Alias path
 - Verify mailhog with docker compose
-- Get correct relationships between models Tour, User, Review
-- Endpoint to delete all data
+- Endpoint to delete and create fake data
+- Select neccesary field into relationships
 
 ## Natours Server
 

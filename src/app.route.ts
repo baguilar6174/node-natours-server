@@ -7,9 +7,9 @@ import { reviewsController } from './features/reviews/infraestructure';
 
 const router = Router();
 
-router.use(TOURS_ENDPOINT, toursController);
-router.use(AUTH_ENDPOINT, authController);
-router.use(USERS_ENDPOINT, userController);
-router.use(REVIEWS_ENDPOINT, reviewsController);
+router.use(`/${TOURS_ENDPOINT}`, toursController);
+router.use(`/${AUTH_ENDPOINT}`, authController);
+router.use(`/${USERS_ENDPOINT}`, userController);
+router.use(`/${REVIEWS_ENDPOINT}`, reviewsController);
 
 export default router;

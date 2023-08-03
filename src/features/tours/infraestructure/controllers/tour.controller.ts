@@ -1,11 +1,17 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import { RequestQuery } from '../../../../core/types';
-import { HttpCode, Roles } from '../../../../core/constants';
+import { HttpCode, REVIEWS_ENDPOINT, Roles } from '../../../../core/constants';
 import { TourService } from '../../application/services/tour.service';
 import { protect, restrictTo } from '../../../users/application/middlewares';
+import { reviewsController } from '../../../reviews';
 
 export default function TourController(service: TourService): Router {
 	const router = Router();
+
+	// Nested review controller
+	router.use(`/:tourId/${REVIEWS_ENDPOINT}`, reviewsController);
+
+	// TODO: type Requests
 
 	// Middlewares
 

@@ -2,11 +2,8 @@ import { Model, Schema, model, models } from 'mongoose';
 import { Entities, FIVE, ONE } from '../../../../core/constants';
 import { Review } from '../../domain/entities/review.entity';
 
-export interface ReviewSchemaFields extends Review {
-	// audit props
-	updatedAt: Date;
-	createdAt: Date;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ReviewSchemaFields extends Review {}
 
 const schema = new Schema<ReviewSchemaFields>(
 	{
@@ -20,33 +17,38 @@ const schema = new Schema<ReviewSchemaFields>(
 			min: ONE,
 			max: FIVE
 		},
-		createdAt: { type: Date, default: Date.now(), select: false },
-		updatedAt: { type: Date, default: Date.now(), select: false },
 		user: {
 			type: Schema.ObjectId,
-			ref: 'User',
-			required: [true, 'Review must belong to a user!']
+			ref: 'User'
 		},
 		tour: {
 			type: Schema.ObjectId,
-			ref: 'Tour',
-			required: [true, 'Review must belong to a tour!']
+			ref: 'Tour'
 		}
 	},
 	{
 		id: false,
+		timestamps: true,
+		versionKey: false,
 		toJSON: { virtuals: true },
 		toObject: { virtuals: true }
 	}
 );
 
+// TODO: Hide timestamps from JSON output
+/* schema.set('toJSON', {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	transform: (_doc: any, ret: Record<string, any>) => {
+		delete ret.createdAt;
+		delete ret.updatedAt;
+		return ret;
+	}
+}); */
+
 // Query middleware
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function populateEntities(this: any, next: () => void) {
-	this.populate({
-		path: 'user',
-		select: '-__v'
-	});
+	this.populate({ path: 'user' });
 	next();
 }
 

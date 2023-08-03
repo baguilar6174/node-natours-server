@@ -6,9 +6,6 @@ import { createSlug } from '../../../../core/utils';
 export interface TourSchemaFields extends Tour {
 	priceDiscount: number;
 	secretTour: boolean;
-	// audit props
-	updatedAt: Date;
-	createdAt: Date;
 }
 
 const schema = new Schema<TourSchemaFields>(
@@ -52,8 +49,6 @@ const schema = new Schema<TourSchemaFields>(
 		description: { type: String, trim: true },
 		imageCover: { type: String, required: [true, 'A tour must have an image cover'] },
 		images: [String],
-		createdAt: { type: Date, default: Date.now(), select: false },
-		updatedAt: { type: Date, default: Date.now(), select: false },
 		startDates: [Date],
 		slug: String,
 		secretTour: {
@@ -98,6 +93,8 @@ const schema = new Schema<TourSchemaFields>(
 	},
 	{
 		id: false,
+		timestamps: true,
+		versionKey: false,
 		toJSON: { virtuals: true },
 		toObject: { virtuals: true }
 	}
@@ -140,8 +137,7 @@ schema.pre('save', function (this: Pick<Tour, 'name' | 'slug'>, next): void {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function populateGuides(this: any, next: () => void) {
 	this.populate({
-		path: 'guides',
-		select: '-__v'
+		path: 'guides'
 	});
 	next();
 }

@@ -9,9 +9,6 @@ import { validateEmail } from '../../../../core/utils';
 export interface UserSchemaFields extends User {
 	active: boolean;
 	password: string;
-	// audit props
-	updatedAt: Date;
-	createdAt: Date;
 	passwordConfirm?: string;
 	passwordResetToken?: string;
 	passwordResetExpires?: Date;
@@ -52,8 +49,6 @@ const schema = new Schema<UserSchemaFields, UserSchemaMethods>(
 		passwordChangeAt: Date,
 		passwordResetToken: String,
 		passwordResetExpires: Date,
-		createdAt: { type: Date, default: Date.now(), select: false },
-		updatedAt: { type: Date, default: Date.now(), select: false },
 		role: {
 			type: String,
 			enum: {
@@ -69,6 +64,8 @@ const schema = new Schema<UserSchemaFields, UserSchemaMethods>(
 	},
 	{
 		id: false,
+		timestamps: true,
+		versionKey: false,
 		toJSON: { virtuals: true },
 		toObject: { virtuals: true }
 	}

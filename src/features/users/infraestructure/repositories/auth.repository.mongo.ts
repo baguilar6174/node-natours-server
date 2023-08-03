@@ -74,7 +74,7 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 
 	async userInfo(id: Pick<User, '_id'>): Promise<User> {
 		await connectMongoDB();
-		const user = await UserModel.findById(id).select('-__v');
+		const user = await UserModel.findById(id);
 		await disconnectMongoDB();
 		return user!;
 	}

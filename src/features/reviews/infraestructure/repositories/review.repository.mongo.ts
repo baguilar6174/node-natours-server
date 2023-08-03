@@ -9,6 +9,7 @@ import { ReviewModel } from '../models/review.model';
 export class MongoReviewRepository implements ReviewRepositoryPort {
 	async create(data: CreateReviewDTO): Promise<Review> {
 		await connectMongoDB();
+		// TODO: validate if tour exist before create review
 		const result = await ReviewModel.create(data);
 		await disconnectMongoDB();
 		return result;
