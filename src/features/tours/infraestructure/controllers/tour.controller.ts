@@ -88,6 +88,21 @@ export default function TourController(service: TourService): Router {
 	);
 
 	router.get(
+		'/distances/:latlng/unit/:unit',
+		async (req: Request<{ latlng: string; unit: string }>, res: Response, next: NextFunction): Promise<void> => {
+			try {
+				const { latlng, ...rest } = req.params;
+				const [lat, lng] = latlng.split(',').map(Number);
+				const result = await service.getDistances({ center: { lat, lng }, ...rest });
+				res.statusCode = HttpCode.OK;
+				res.json({ status: 'success', results: result.length, data: { result } });
+			} catch (err) {
+				next(err);
+			}
+		}
+	);
+
+	router.get(
 		'/',
 		async (req: Request<object, object, object, RequestQuery>, res: Response, next: NextFunction): Promise<void> => {
 			try {

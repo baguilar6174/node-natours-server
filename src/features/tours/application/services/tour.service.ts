@@ -1,5 +1,13 @@
 import { ApiFeatures } from '../../../../core/types';
-import { CreateTourDTO, Tour, Plan, Stat, UpdateTourDTO, CloseTourParameters } from '../../domain/entities/tour.entity';
+import {
+	CreateTourDTO,
+	Tour,
+	Plan,
+	Stat,
+	UpdateTourDTO,
+	CloseTourParameters,
+	Distance
+} from '../../domain/entities/tour.entity';
 import {
 	CreateTourUseCase,
 	DeleteTourUseCase,
@@ -7,7 +15,8 @@ import {
 	GetMonthlyPlanToursUseCase,
 	GetStatsToursUseCase,
 	SeedToursUseCase,
-	UpdateTourUseCase
+	UpdateTourUseCase,
+	GetDistancesUseCase
 } from '../../domain/ports/inputs';
 
 export class TourService
@@ -18,7 +27,8 @@ export class TourService
 		GetMonthlyPlanToursUseCase,
 		GetStatsToursUseCase,
 		SeedToursUseCase,
-		UpdateTourUseCase
+		UpdateTourUseCase,
+		GetDistancesUseCase
 {
 	constructor(
 		private createTourUseCase: CreateTourUseCase,
@@ -27,7 +37,8 @@ export class TourService
 		private getMonthlyPlanToursUseCase: GetMonthlyPlanToursUseCase,
 		private getStatsToursUseCase: GetStatsToursUseCase,
 		private seedToursUseCase: SeedToursUseCase,
-		private updateTourUseCase: UpdateTourUseCase
+		private updateTourUseCase: UpdateTourUseCase,
+		private getDistancesUseCase: GetDistancesUseCase
 	) {}
 
 	async create(data: CreateTourDTO): Promise<Tour> {
@@ -72,6 +83,11 @@ export class TourService
 
 	async seed(): Promise<string | void> {
 		const result = await this.seedToursUseCase.seed();
+		return result;
+	}
+
+	async getDistances(params: Omit<CloseTourParameters, 'distance'>): Promise<Distance[]> {
+		const result = await this.getDistancesUseCase.getDistances(params);
 		return result;
 	}
 }

@@ -54,4 +54,9 @@ export class LocalTourRepository implements TourRepositoryPort {
 	seed(): Promise<string | void> {
 		throw new Error('Method not implemented.');
 	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	getDistances(_params: Omit<CloseTourParameters, 'distance'>): Promise<any[]> {
+		throw new Error('Method not implemented.');
+	}
 }

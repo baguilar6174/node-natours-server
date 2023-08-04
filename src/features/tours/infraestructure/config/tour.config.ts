@@ -6,7 +6,8 @@ import {
 	GetMonthlyPlanToursUseCaseImpl,
 	GetStatsToursUseCaseImpl,
 	SeedToursUseCaseImpl,
-	UpdateTourUseCaseImpl
+	UpdateTourUseCaseImpl,
+	GetDistancesUseCaseImpl
 } from '../../application';
 import { TourRepositoryPort } from '../../domain';
 import TourController from '../controllers/tour.controller';
@@ -20,7 +21,8 @@ const getService = (repositoryPort: TourRepositoryPort): TourService => {
 		new GetMonthlyPlanToursUseCaseImpl(repositoryPort),
 		new GetStatsToursUseCaseImpl(repositoryPort),
 		new SeedToursUseCaseImpl(repositoryPort),
-		new UpdateTourUseCaseImpl(repositoryPort)
+		new UpdateTourUseCaseImpl(repositoryPort),
+		new GetDistancesUseCaseImpl(repositoryPort)
 	);
 };
 

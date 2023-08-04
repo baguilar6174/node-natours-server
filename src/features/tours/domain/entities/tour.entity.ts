@@ -1,6 +1,7 @@
 import { Review } from '../../../reviews/domain';
 import { User } from '../../../users/domain/entities';
 
+// TODO: create individual files for each interface
 export interface Tour {
 	_id: string;
 	name: string;
@@ -50,6 +51,12 @@ export interface Plan {
 	numToursStarts: number;
 	tours: string[];
 	month: number;
+}
+
+export interface Distance {
+	_id: string;
+	name: string;
+	distance: number;
 }
 
 export type CloseTourParameters = {

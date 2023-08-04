@@ -157,10 +157,10 @@ schema.pre('findOne', function (next): void {
 });
 
 // Aggregation middleware
-schema.pre('aggregate', function (next): void {
+/* schema.pre('aggregate', function (next): void {
 	this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
 	next();
-});
+}); */
 
 export const TourModel: Model<TourSchemaFields & Document> =
 	models.Tour || model<TourSchemaFields & Document>(Entities.TOUR, schema);

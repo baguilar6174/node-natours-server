@@ -5,3 +5,4 @@ export { GetToursUseCase } from './get.usecase';
 export { GetStatsToursUseCase } from './getStats.usecase';
 export { SeedToursUseCase } from './seed.usecase';
 export { UpdateTourUseCase } from './update.usecase';
+export { GetDistancesUseCase } from './getDistances.usecase';

@@ -1,4 +1,12 @@
-import { CreateTourDTO, Tour, Stat, Plan, UpdateTourDTO, CloseTourParameters } from '../../domain/entities/tour.entity';
+import {
+	CreateTourDTO,
+	Tour,
+	Stat,
+	Plan,
+	UpdateTourDTO,
+	CloseTourParameters,
+	Distance
+} from '../../domain/entities/tour.entity';
 import { TourRepositoryPort } from '../../domain/ports/outputs/tour.repository.port';
 import { TourModel } from '../models/tour.model';
 import { EARTH_RADIOUS, Entities, HttpCode, PROD_ENVIRONMENT } from '../../../../core/constants';
@@ -153,5 +161,41 @@ export class MongoTourRepository implements TourRepositoryPort {
 		]);
 		await disconnectMongoDB();
 		return results;
+	}
+
+	async getDistances(params: Omit<CloseTourParameters, 'distance'>): Promise<Distance[]> {
+		const {
+			center: { lat, lng },
+			unit
+		} = params;
+		// TODO: verify 0 validation
+		if (!lat || !lng) {
+			throw new AppError({
+				message: 'Please provide lat and lng in the format lat,lng',
+				statusCode: HttpCode.BAD_REQUEST
+			});
+		}
+		await connectMongoDB();
+		const result = TourModel.aggregate([
+			{
+				$geoNear: {
+					near: {
+						type: 'Point',
+						coordinates: [lng, lat]
+					},
+					distanceField: 'distance',
+					// eslint-disable-next-line no-magic-numbers
+					distanceMultiplier: unit === 'mi' ? 0.000621371 : 0.001
+				}
+			},
+			{
+				$project: {
+					distance: 1,
+					name: 1
+				}
+			}
+		]);
+		await disconnectMongoDB();
+		return result;
 	}
 }

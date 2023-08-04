@@ -87,6 +87,13 @@ If your want to create build production, run `yarn build`
 - Good folder structure
 - Complete authentication and authorization module
 
+## Improves
+
+- Using repository pattern
+- Using object value pattern
+- Implements SQL repository
+- Include real email client
+
 ## TODO:
 
 - Make responses with same format

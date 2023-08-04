@@ -5,3 +5,4 @@ export { GetToursUseCaseImpl } from './get.usecase.impl';
 export { GetStatsToursUseCaseImpl } from './getStats.usecase.impl';
 export { SeedToursUseCaseImpl } from './seed.usecase.impl';
 export { UpdateTourUseCaseImpl } from './update.usecase.impl';
+export { GetDistancesUseCaseImpl } from './getDistances.usecase.impl';
