@@ -212,31 +212,14 @@ export class MongoAuthRepository implements AuthRepositoryPort {
 		await connectMongoDB();
 		const updatedUser = await UserModel.findByIdAndUpdate(_id, data, { new: true, runValidators: true });
 
-		// TODO: verify if this error is neccesary
-		if (!updatedUser) {
-			throw new AppError({
-				message: 'Invalid credentials',
-				statusCode: HttpCode.BAD_REQUEST,
-				name: 'Auth error'
-			});
-		}
-
 		await disconnectMongoDB();
-		return updatedUser;
+		return updatedUser!;
 	}
 
 	async deleteAccount(id: Pick<User, '_id'>): Promise<User> {
 		await connectMongoDB();
 		const updatedUser = await UserModel.findByIdAndUpdate(id, { active: false });
-		// TODO: verify if this error is neccesary
-		if (!updatedUser) {
-			throw new AppError({
-				message: 'No user with this identifier',
-				statusCode: HttpCode.BAD_REQUEST,
-				name: 'Auth error'
-			});
-		}
 		await disconnectMongoDB();
-		return updatedUser;
+		return updatedUser!;
 	}
 }

@@ -9,10 +9,16 @@ import {
 } from '../../domain/entities/tour.entity';
 import { TourRepositoryPort } from '../../domain/ports/outputs/tour.repository.port';
 import { TourModel } from '../models/tour.model';
-import { EARTH_RADIOUS, Entities, HttpCode, PROD_ENVIRONMENT } from '../../../../core/constants';
+import { Entities, HttpCode, PROD_ENVIRONMENT } from '../../../../core/constants';
 import { TOURS_DATA } from '../constants/tours-simple';
 import { ApiFeatures } from '../../../../core/types';
-import { apiFeatures, connectMongoDB, disconnectMongoDB } from '../../../../core/utils';
+import {
+	apiFeatures,
+	connectMongoDB,
+	disconnectMongoDB,
+	getDistanceMultiplier,
+	getEarthRadious
+} from '../../../../core/utils';
 import EnvConfig from '../../../../core/env.config';
 import { AppError } from '../../../../core/error/app-error';
 
@@ -87,20 +93,17 @@ export class MongoTourRepository implements TourRepositoryPort {
 			distance,
 			unit
 		} = params;
-		// TODO: verify 0 validation
 		if (!lat || !lng) {
 			throw new AppError({
 				message: 'Please provide lat and lng in the format lat,lng',
 				statusCode: HttpCode.BAD_REQUEST
 			});
 		}
-		// TODO: move to utils if is neccesary
-		const radious = unit === 'mi' ? distance / EARTH_RADIOUS.MI : distance / EARTH_RADIOUS.KM;
 		await connectMongoDB();
 		const result = TourModel.find({
 			startLocation: {
 				$geoWithin: {
-					$centerSphere: [[lng, lat], radious]
+					$centerSphere: [[lng, lat], getEarthRadious(distance, unit)]
 				}
 			}
 		});
@@ -168,7 +171,6 @@ export class MongoTourRepository implements TourRepositoryPort {
 			center: { lat, lng },
 			unit
 		} = params;
-		// TODO: verify 0 validation
 		if (!lat || !lng) {
 			throw new AppError({
 				message: 'Please provide lat and lng in the format lat,lng',
@@ -184,8 +186,7 @@ export class MongoTourRepository implements TourRepositoryPort {
 						coordinates: [lng, lat]
 					},
 					distanceField: 'distance',
-					// eslint-disable-next-line no-magic-numbers
-					distanceMultiplier: unit === 'mi' ? 0.000621371 : 0.001
+					distanceMultiplier: getDistanceMultiplier(unit)
 				}
 			},
 			{

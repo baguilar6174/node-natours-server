@@ -3,3 +3,4 @@ export * from './slug';
 export * from './mongo';
 export * from './jwt';
 export * from './validations';
+export * from './calculate';

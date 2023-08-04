@@ -16,6 +16,11 @@ export const EARTH_RADIOUS = {
 	KM: 6371.1
 } as const;
 
+export const DISTANCE_MULTIPLIER = {
+	MI: 0.000621371,
+	KM: 0.001
+} as const;
+
 export const EMPTY_STRING = ' ' as const;
 export const DEFAULT_PORT = 3000 as const;
 export const DEFAULT_API_PREFIX = '/api/v1' as const;

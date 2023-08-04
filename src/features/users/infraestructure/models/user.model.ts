@@ -88,8 +88,17 @@ schema.pre('save', async function (this, next): Promise<void> {
 	next();
 });
 
-// TODO: this filter for all find methods
 schema.pre('find', function (next): void {
+	this.find({ active: { $ne: false } });
+	next();
+});
+
+schema.pre('findOne', function (next): void {
+	this.find({ active: { $ne: false } });
+	next();
+});
+
+schema.pre('findOneAndUpdate', function (next): void {
 	this.find({ active: { $ne: false } });
 	next();
 });

@@ -54,10 +54,14 @@ yarn
 If you need local mongo database
 
 - Install docker
-- Run `docker-compose up -d` This command create a local volumen in root project to save data
+- Run `docker-compose up -d` This command create a local volumen in root project to save data.
+
+**Important**: If you don't need mongo from Docker or if you decide to use some different email client, set your configuration into `.env` file. Mi `docker-compose.yaml` create two containers:
+
+1. **Mongo Database**: the volume of this database is allocated in the root of your project `./mongo` if you delete this folder you'll lose your data.
+2. **Mailhog Server**: this client allow you to send emails in to local machine. You can view the email inbox at [http://localhost:8025/](http://localhost:8025/)
 
 - Rename `.env.template` to `.env` and add your environment variables
-- Create initial data in your DB using the endpoint: _**GET**_ `http://localhost:3000/api/v1/tours/seed`
 - Run `yarn dev`
 
 If your want to create build production, run `yarn build`
@@ -70,6 +74,7 @@ If your want to create build production, run `yarn build`
 - Express
 - Typescript
 - MongoDB & Mongoose
+- Eslint & Prettier
 
 ### What I learned
 
@@ -80,7 +85,9 @@ If your want to create build production, run `yarn build`
 - Using clean architecture
 - How to work with data in NoSQL databases
 - Use Mongo pipelines
-- TODO: complete...
+- How to work with data in NoSQL databases (including geospatial data)
+- Security: encryption, sanitization, rate limiting, etc.
+- Complete modern authentication and authorization with JWT: user sign up, log in, password reset, secure cookies, etc.
 
 ## Development Features
 
@@ -88,6 +95,8 @@ If your want to create build production, run `yarn build`
 - Eslint and Prettier
 - Good folder structure
 - Complete authentication and authorization module
+- Authorization (user roles)
+- Security: best practices, encryption, sanitization, rate limiting, etc.
 
 ## Improves
 
@@ -104,14 +113,12 @@ If your want to create build production, run `yarn build`
 ## TODO:
 
 - Make responses with same format
-- Rename files, classes and methods
-- Create adapters
 - API Documentation
 - Alias path
 - Verify mailhog with docker compose
 - Endpoint to delete and create fake data
 - Select neccesary field into relationships
-- Remove validation whe route uses protect middleware
+- Remove validation where route uses protect middleware
 - Add CORS config
 
 ## Natours Server

@@ -1,22 +1,25 @@
 import { v4 as uuidv4 } from 'uuid';
 import { TourRepositoryPort } from '../../domain/ports/outputs/tour.repository.port';
-import { CloseTourParameters, CreateTourDTO, Plan, Stat, Tour, UpdateTourDTO } from '../../domain/entities/tour.entity';
+import {
+	CloseTourParameters,
+	CreateTourDTO,
+	Distance,
+	Plan,
+	Stat,
+	Tour,
+	UpdateTourDTO
+} from '../../domain/entities/tour.entity';
 import { TOURS_DATA } from '../constants/tours-simple';
 
 export class LocalTourRepository implements TourRepositoryPort {
-	async delete(id: string): Promise<Tour | null> {
-		// TODO: implement method
-		const tourInBD = TOURS_DATA.find((tour): boolean => tour._id === id);
-		if (!tourInBD) return null;
-		return tourInBD;
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	async delete(_id: string): Promise<Tour | null> {
+		throw new Error('Method not implemented.');
 	}
 
-	async update(id: string, data: UpdateTourDTO) {
-		const tourInBD = TOURS_DATA.find((tour): boolean => tour._id === id);
-		if (!tourInBD) return null;
-		// TODO: implement method
-		const tour = { ...tourInBD, ...data };
-		return tour;
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	async update(_id: string, _data: UpdateTourDTO): Promise<Tour | null> {
+		return null;
 	}
 
 	async getOne(id: string): Promise<Tour | null> {
@@ -25,10 +28,9 @@ export class LocalTourRepository implements TourRepositoryPort {
 		return tour;
 	}
 
-	async create(data: CreateTourDTO) {
+	async create(data: CreateTourDTO): Promise<Tour> {
 		const id = uuidv4();
 		const tour = Object.assign({ _id: id }, data);
-		TOURS_DATA.push(tour);
 		return tour;
 	}
 
@@ -56,7 +58,7 @@ export class LocalTourRepository implements TourRepositoryPort {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	getDistances(_params: Omit<CloseTourParameters, 'distance'>): Promise<any[]> {
+	getDistances(_params: Omit<CloseTourParameters, 'distance'>): Promise<Distance[]> {
 		throw new Error('Method not implemented.');
 	}
 }

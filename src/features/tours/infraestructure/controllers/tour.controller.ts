@@ -11,8 +11,6 @@ export default function TourController(service: TourService): Router {
 	// Nested review controller
 	router.use(`/:tourId/${REVIEWS_ENDPOINT}`, reviewsController);
 
-	// TODO: type Requests
-
 	// Middlewares
 
 	// Validate id
