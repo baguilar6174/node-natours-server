@@ -16,7 +16,7 @@ A layer that is the most internal of all, (core of the application). Here are th
 
 It is the one that contains the implementation of the services and the business logic.
 
-### Infraestructura
+### Infraestructure
 
 It is the most external layer of all, where it connects with external applications, databases, API Rest, etc.
 
@@ -30,6 +30,8 @@ It is the most external layer of all, where it connects with external applicatio
 
 - **Ports**: are used as communication bridges between the different layers of the application.
 - **Adapters**: are used as external communication bridges for the application (other applications, external services, etc.). The adapters are located in the infrastructure layer.
+
+**You can read more about this implementation in [docs folder](./docs/)**
 
 ## Installation
 
@@ -93,6 +95,7 @@ If your want to create build production, run `yarn build`
 - Using object value pattern
 - Implements SQL repository
 - Include real email client
+- Implements a web client to consume this API
 
 ## TODO:
 
@@ -105,6 +108,7 @@ If your want to create build production, run `yarn build`
 - Endpoint to delete and create fake data
 - Select neccesary field into relationships
 - Remove validation whe route uses protect middleware
+- Add CORS config
 
 ## Natours Server
 
