@@ -49,7 +49,8 @@ export enum JWTErrors {
 export enum Entities {
 	TOUR = 'Tour',
 	USER = 'User',
-	REVIEW = 'Review'
+	REVIEW = 'Review',
+	BOOKING = 'Booking'
 }
 
 export enum Roles {

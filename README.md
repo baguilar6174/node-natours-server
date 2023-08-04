@@ -96,6 +96,10 @@ If your want to create build production, run `yarn build`
 - Implements SQL repository
 - Include real email client
 - Implements a web client to consume this API
+- Implement advanced authentication features
+  - Confirm user email
+  - Keep user logged in with refresh tokens
+  - 2FA
 
 ## TODO:
 
