@@ -99,6 +99,7 @@ const schema = new Schema<TourSchemaFields>(
 schema.index({ price: 1 });
 schema.index({ price: 1, ratingsAverage: -1 });
 schema.index({ slug: 1 });
+schema.index({ startLocation: '2dsphere' });
 
 schema.virtual('reviews', {
 	ref: 'Review',

@@ -11,6 +11,11 @@ export const SIXTY = 60 as const;
 export const ONE_HUNDRED = 100 as const;
 export const ONE_THOUSAND = 1000 as const;
 
+export const EARTH_RADIOUS = {
+	MI: 3963.2,
+	KM: 6371.1
+} as const;
+
 export const EMPTY_STRING = ' ' as const;
 export const DEFAULT_PORT = 3000 as const;
 export const DEFAULT_API_PREFIX = '/api/v1' as const;

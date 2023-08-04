@@ -51,3 +51,12 @@ export interface Plan {
 	tours: string[];
 	month: number;
 }
+
+export type CloseTourParameters = {
+	distance: number;
+	center: {
+		lat: number;
+		lng: number;
+	};
+	unit: string;
+};

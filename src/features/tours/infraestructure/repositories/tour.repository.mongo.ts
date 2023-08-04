@@ -1,7 +1,7 @@
-import { CreateTourDTO, Tour, Stat, Plan, UpdateTourDTO } from '../../domain/entities/tour.entity';
+import { CreateTourDTO, Tour, Stat, Plan, UpdateTourDTO, CloseTourParameters } from '../../domain/entities/tour.entity';
 import { TourRepositoryPort } from '../../domain/ports/outputs/tour.repository.port';
 import { TourModel } from '../models/tour.model';
-import { Entities, HttpCode, PROD_ENVIRONMENT } from '../../../../core/constants';
+import { EARTH_RADIOUS, Entities, HttpCode, PROD_ENVIRONMENT } from '../../../../core/constants';
 import { TOURS_DATA } from '../constants/tours-simple';
 import { ApiFeatures } from '../../../../core/types';
 import { apiFeatures, connectMongoDB, disconnectMongoDB } from '../../../../core/utils';
@@ -69,6 +69,33 @@ export class MongoTourRepository implements TourRepositoryPort {
 				statusCode: HttpCode.BAD_REQUEST
 			});
 		}
+		await disconnectMongoDB();
+		return result;
+	}
+
+	async getCloserTours(params: CloseTourParameters): Promise<Tour[]> {
+		const {
+			center: { lat, lng },
+			distance,
+			unit
+		} = params;
+		// TODO: verify 0 validation
+		if (!lat || !lng) {
+			throw new AppError({
+				message: 'Please provide lat and lng in the format lat,lng',
+				statusCode: HttpCode.BAD_REQUEST
+			});
+		}
+		// TODO: move to utils if is neccesary
+		const radious = unit === 'mi' ? distance / EARTH_RADIOUS.MI : distance / EARTH_RADIOUS.KM;
+		await connectMongoDB();
+		const result = TourModel.find({
+			startLocation: {
+				$geoWithin: {
+					$centerSphere: [[lng, lat], radious]
+				}
+			}
+		});
 		await disconnectMongoDB();
 		return result;
 	}

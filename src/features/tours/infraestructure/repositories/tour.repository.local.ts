@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { TourRepositoryPort } from '../../domain/ports/outputs/tour.repository.port';
-import { CreateTourDTO, Plan, Stat, Tour, UpdateTourDTO } from '../../domain/entities/tour.entity';
+import { CloseTourParameters, CreateTourDTO, Plan, Stat, Tour, UpdateTourDTO } from '../../domain/entities/tour.entity';
 import { TOURS_DATA } from '../constants/tours-simple';
 
 export class LocalTourRepository implements TourRepositoryPort {
@@ -35,6 +35,11 @@ export class LocalTourRepository implements TourRepositoryPort {
 	async getAll(): Promise<Tour[]> {
 		const tours = TOURS_DATA;
 		return tours;
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	getCloserTours(_params: CloseTourParameters): Promise<Tour[]> {
+		throw new Error('Method not implemented.');
 	}
 
 	getStats(): Promise<Stat[]> {

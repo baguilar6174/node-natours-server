@@ -1,5 +1,5 @@
-import { TourService } from '../../application/services/tour.service';
 import {
+	TourService,
 	CreateTourUseCaseImpl,
 	DeleteTourUseCaseImpl,
 	GetToursUseCaseImpl,
@@ -7,10 +7,10 @@ import {
 	GetStatsToursUseCaseImpl,
 	SeedToursUseCaseImpl,
 	UpdateTourUseCaseImpl
-} from '../../application/usecases';
-import { TourRepositoryPort } from '../../domain/ports/outputs/tour.repository.port';
+} from '../../application';
+import { TourRepositoryPort } from '../../domain';
 import TourController from '../controllers/tour.controller';
-import { MongoTourRepository } from '../repositories/tour.repository.mongo';
+import { MongoTourRepository } from '../repositories';
 
 const getService = (repositoryPort: TourRepositoryPort): TourService => {
 	return new TourService(

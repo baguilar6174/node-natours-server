@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import { RequestQuery } from '../../../../core/types';
 import { HttpCode, REVIEWS_ENDPOINT, Roles } from '../../../../core/constants';
-import { TourService } from '../../application/services/tour.service';
+import { TourService } from '../../application';
 import { protect, restrictTo } from '../../../users/application/middlewares';
 import { reviewsController } from '../../../reviews';
 
@@ -32,23 +32,23 @@ export default function TourController(service: TourService): Router {
 	// });
 
 	// Routes
-	router.get('/seed', async (_: Request, res: Response): Promise<void> => {
+	router.get('/seed', async (_: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const result = await service.seed();
 			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', message: result });
 		} catch (err) {
-			res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error get', err });
+			next(err);
 		}
 	});
 
-	router.get('/stats', async (_: Request, res: Response): Promise<void> => {
+	router.get('/stats', async (_: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const stats = await service.getStats();
 			res.statusCode = HttpCode.OK;
 			res.json({ status: 'success', data: { stats } });
 		} catch (err) {
-			res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error stats', err });
+			next(err);
 		}
 	});
 
@@ -56,14 +56,33 @@ export default function TourController(service: TourService): Router {
 		'/monthly-plan/:year',
 		protect,
 		restrictTo(Roles.ADMIN, Roles.LEAD_GUIDE, Roles.GUIDE),
-		async (req: Request, res: Response): Promise<void> => {
+		async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 			try {
 				const { year } = req.params;
 				const plan = await service.getMonthlyPlan(Number(year));
 				res.statusCode = HttpCode.OK;
 				res.json({ status: 'success', data: { plan } });
 			} catch (err) {
-				res.status(HttpCode.INTERNAL_SERVER_ERROR).send({ message: 'Error stats', err });
+				next(err);
+			}
+		}
+	);
+
+	router.get(
+		'/within/:distance/center/:latlng/unit/:unit',
+		async (
+			req: Request<{ distance: number; latlng: string; unit: string }>,
+			res: Response,
+			next: NextFunction
+		): Promise<void> => {
+			try {
+				const { latlng, ...rest } = req.params;
+				const [lat, lng] = latlng.split(',').map(Number);
+				const result = await service.getCloserTours({ center: { lat, lng }, ...rest });
+				res.statusCode = HttpCode.OK;
+				res.json({ status: 'success', results: result.length, data: { result } });
+			} catch (err) {
+				next(err);
 			}
 		}
 	);

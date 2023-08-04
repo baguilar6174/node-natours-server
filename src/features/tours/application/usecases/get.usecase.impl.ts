@@ -1,5 +1,5 @@
 import { ApiFeatures } from '../../../../core/types';
-import { Tour } from '../../domain/entities/tour.entity';
+import { CloseTourParameters, Tour } from '../../domain/entities/tour.entity';
 import { GetToursUseCase } from '../../domain/ports/inputs';
 import { TourRepositoryPort } from '../../domain/ports/outputs/tour.repository.port';
 
@@ -13,6 +13,11 @@ export class GetToursUseCaseImpl implements GetToursUseCase {
 
 	async getOne(id: string): Promise<Tour | null> {
 		const result = await this.repositoryPort.getOne(id);
+		return result;
+	}
+
+	async getCloserTours(params: CloseTourParameters): Promise<Tour[]> {
+		const result = await this.repositoryPort.getCloserTours(params);
 		return result;
 	}
 }

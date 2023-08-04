@@ -1,5 +1,5 @@
 import { ApiFeatures } from '../../../../../core/types';
-import { CreateTourDTO, Plan, Stat, Tour, UpdateTourDTO } from '../../entities/tour.entity';
+import { CloseTourParameters, CreateTourDTO, Plan, Stat, Tour, UpdateTourDTO } from '../../entities';
 
 export interface TourRepositoryPort {
 	seed(): Promise<string | void>;
@@ -8,6 +8,7 @@ export interface TourRepositoryPort {
 	update(id: string, data: UpdateTourDTO): Promise<Tour | null>;
 	getAll(features: ApiFeatures): Promise<Tour[]>;
 	getOne(id: string): Promise<Tour | null>;
+	getCloserTours(params: CloseTourParameters): Promise<Tour[]>;
 	getStats(): Promise<Stat[]>;
 	getMonthlyPlan(year: number): Promise<Plan[]>;
 }

@@ -2,8 +2,7 @@ import { Router } from 'express';
 
 import { AUTH_ENDPOINT, REVIEWS_ENDPOINT, TOURS_ENDPOINT, USERS_ENDPOINT } from './core/constants';
 import { authController, userController } from './features/users/infraestructure/config/user.config';
-import { toursController } from './features/tours/infraestructure/config/tour.config';
-import { reviewsController } from './features/reviews/infraestructure';
+import { reviewsController, toursController } from './features';
 
 const router = Router();
 

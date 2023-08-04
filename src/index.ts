@@ -5,6 +5,8 @@ import path from 'path';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
+// TODO: remove this to infraestructure layer
+import { Error } from 'mongoose';
 
 import router from './app.route';
 import {
@@ -18,7 +20,6 @@ import {
 	SIXTY
 } from './core/constants';
 import { AppError } from './core/error/app-error';
-import { Error } from 'mongoose';
 import EnvConfig from './core/env.config';
 
 export const get = async (): Promise<Express> => {

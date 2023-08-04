@@ -1,5 +1,5 @@
 import { ApiFeatures } from '../../../../core/types';
-import { CreateTourDTO, Tour, Plan, Stat, UpdateTourDTO } from '../../domain/entities/tour.entity';
+import { CreateTourDTO, Tour, Plan, Stat, UpdateTourDTO, CloseTourParameters } from '../../domain/entities/tour.entity';
 import {
 	CreateTourUseCase,
 	DeleteTourUseCase,
@@ -47,6 +47,11 @@ export class TourService
 
 	async getOne(id: string): Promise<Tour | null> {
 		const result = await this.getToursUseCase.getOne(id);
+		return result;
+	}
+
+	async getCloserTours(params: CloseTourParameters): Promise<Tour[]> {
+		const result = await this.getToursUseCase.getCloserTours(params);
 		return result;
 	}
 
