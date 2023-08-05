@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import { HttpCode, USERS_ENDPOINT } from '../../../../core/constants';
 import { AuthService } from '../../application/services/auth.service';
-import EnvConfig from '../../../../core/env.config';
+import EnvConfig from '../../../../core/config/env.config';
 import { protect } from '../../application/middlewares';
 import { SignInDTO, SignUpDTO, UpdatePasswordDTO, UpdateUserDataDTO, User } from '../../domain/entities';
 

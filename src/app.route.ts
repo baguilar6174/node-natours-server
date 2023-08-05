@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import { AUTH_ENDPOINT, BOOKINGS_ENDPOINT, REVIEWS_ENDPOINT, TOURS_ENDPOINT, USERS_ENDPOINT } from './core/constants';
-import { authController, userController } from './features/users/infraestructure/config/user.config';
+import { authController, userController } from './features/users/infraestructure';
 import { bookingsController, reviewsController, toursController } from './features';
 
 const router = Router();

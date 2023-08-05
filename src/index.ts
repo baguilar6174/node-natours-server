@@ -17,10 +17,10 @@ import {
 	ONE_HUNDRED,
 	ONE_THOUSAND,
 	PROD_ENVIRONMENT,
-	SIXTY
-} from './core/constants';
-import { AppError } from './core/error/app-error';
-import EnvConfig from './core/env.config';
+	SIXTY,
+	AppError
+} from './core';
+import EnvConfig from './core/config/env.config';
 
 export const get = async (): Promise<Express> => {
 	const app: Express = express();

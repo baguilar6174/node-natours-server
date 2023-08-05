@@ -10,7 +10,7 @@ import {
 import { TourRepositoryPort } from '../../domain/ports/outputs/tour.repository.port';
 import { TourModel } from '../models/tour.model';
 import { Entities, HttpCode, PROD_ENVIRONMENT } from '../../../../core/constants';
-import { TOURS_DATA } from '../constants/tours-simple';
+import { TOURS_DATA } from '../constants/tours';
 import { ApiFeatures } from '../../../../core/types';
 import {
 	apiFeatures,
@@ -19,17 +19,15 @@ import {
 	getDistanceMultiplier,
 	getEarthRadious
 } from '../../../../core/utils';
-import EnvConfig from '../../../../core/env.config';
 import { AppError } from '../../../../core/error/app-error';
+import EnvConfig from '../../../../core/config/env.config';
 
 export class MongoTourRepository implements TourRepositoryPort {
 	async seed(): Promise<string | void> {
 		if (EnvConfig.NODE_ENV === PROD_ENVIRONMENT) return 'No access to this endpoint';
 		await connectMongoDB();
 		await TourModel.deleteMany();
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const tours = TOURS_DATA.map(({ _id, ...rest }): CreateTourDTO => rest);
-		await TourModel.insertMany(tours);
+		await TourModel.insertMany(TOURS_DATA);
 		await disconnectMongoDB();
 		return 'Created data';
 	}

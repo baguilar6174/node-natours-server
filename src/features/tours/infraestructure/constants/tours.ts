@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
-import { Tour } from '../../domain/entities/tour.entity';
+import { CreateTourDTO } from '../../domain/entities/tour.entity';
 
-export const TOURS_DATA: Tour[] = [
+export const TOURS_DATA: CreateTourDTO[] = [
 	{
 		startLocation: {
 			description: 'Miami, USA',
@@ -13,12 +13,10 @@ export const TOURS_DATA: Tour[] = [
 		ratingsQuantity: 6,
 		images: ['tour-2-1.jpg', 'tour-2-2.jpg', 'tour-2-3.jpg'],
 		startDates: ['2021-06-19T09:00:00.000Z', '2021-07-20T09:00:00.000Z', '2021-08-18T09:00:00.000Z'],
-		_id: '5c88fa8cf4afda39709c2955',
 		name: 'The Sea Explorer',
 		duration: 7,
 		maxGroupSize: 15,
 		difficulty: 'medium',
-		// guides: ['5c8a22c62f8fb814b56fa18b', '5c8a1f4e2f8fb814b56fa185'],
 		price: 497,
 		summary: 'Exploring the jaw-dropping US east coast by foot and by boat',
 		description:
@@ -62,12 +60,10 @@ export const TOURS_DATA: Tour[] = [
 		ratingsQuantity: 9,
 		images: ['tour-1-1.jpg', 'tour-1-2.jpg', 'tour-1-3.jpg'],
 		startDates: ['2021-04-25T09:00:00.000Z', '2021-07-20T09:00:00.000Z', '2021-10-05T09:00:00.000Z'],
-		_id: '5c88fa8cf4afda39709c2951',
 		name: 'The Forest Hiker',
 		duration: 5,
 		maxGroupSize: 25,
 		difficulty: 'easy',
-		// guides: ['5c8a21d02f8fb814b56fa189', '5c8a201e2f8fb814b56fa186', '5c8a1f292f8fb814b56fa184'],
 		price: 397,
 		summary: 'Breathtaking hike through the Canadian Banff National Park',
 		description:
@@ -105,7 +101,6 @@ export const TOURS_DATA: Tour[] = [
 		ratingsQuantity: 6,
 		images: ['tour-3-1.jpg', 'tour-3-2.jpg', 'tour-3-3.jpg'],
 		startDates: ['2022-01-05T10:00:00.000Z', '2022-02-12T10:00:00.000Z', '2023-01-06T10:00:00.000Z'],
-		_id: '5c88fa8cf4afda39709c295a',
 		name: 'The Snow Adventurer',
 		duration: 4,
 		maxGroupSize: 10,
@@ -142,12 +137,10 @@ export const TOURS_DATA: Tour[] = [
 		ratingsQuantity: 7,
 		images: ['tour-5-1.jpg', 'tour-5-2.jpg', 'tour-5-3.jpg'],
 		startDates: ['2021-08-05T09:00:00.000Z', '2022-03-20T10:00:00.000Z', '2022-08-12T09:00:00.000Z'],
-		_id: '5c88fa8cf4afda39709c2961',
 		name: 'The Park Camper',
 		duration: 10,
 		maxGroupSize: 15,
 		difficulty: 'medium',
-		// guides: ['5c8a21f22f8fb814b56fa18a', '5c8a23412f8fb814b56fa18c', '5c8a201e2f8fb814b56fa186'],
 		price: 1497,
 		summary: 'Breathing in Nature in Americas most spectacular National Parks',
 		description:
@@ -191,12 +184,10 @@ export const TOURS_DATA: Tour[] = [
 		ratingsQuantity: 5,
 		images: ['tour-4-1.jpg', 'tour-4-2.jpg', 'tour-4-3.jpg'],
 		startDates: ['2021-03-11T10:00:00.000Z', '2021-05-02T09:00:00.000Z', '2021-06-09T09:00:00.000Z'],
-		_id: '5c88fa8cf4afda39709c295d',
 		name: 'The City Wanderer',
 		duration: 9,
 		maxGroupSize: 20,
 		difficulty: 'easy',
-		// guides: ['5c8a22c62f8fb814b56fa18b', '5c8a201e2f8fb814b56fa186'],
 		price: 1197,
 		summary: 'Living the life of Wanderlust in the US most beatiful cities',
 		description:
@@ -234,12 +225,10 @@ export const TOURS_DATA: Tour[] = [
 		ratingsQuantity: 7,
 		images: ['tour-6-1.jpg', 'tour-6-2.jpg', 'tour-6-3.jpg'],
 		startDates: ['2021-07-19T09:00:00.000Z', '2021-09-06T09:00:00.000Z', '2022-03-18T10:00:00.000Z'],
-		_id: '5c88fa8cf4afda39709c2966',
 		name: 'The Sports Lover',
 		duration: 14,
 		maxGroupSize: 8,
 		difficulty: 'difficult',
-		// guides: ['5c8a21f22f8fb814b56fa18a', '5c8a1f292f8fb814b56fa184', '5c8a1f4e2f8fb814b56fa185'],
 		price: 2997,
 		summary: 'Surfing, skating, parajumping, rock climbing and more, all in one tour',
 		description:
@@ -289,12 +278,10 @@ export const TOURS_DATA: Tour[] = [
 		ratingsQuantity: 6,
 		images: ['tour-8-1.jpg', 'tour-8-2.jpg', 'tour-8-3.jpg'],
 		startDates: ['2021-03-23T10:00:00.000Z', '2021-10-25T09:00:00.000Z', '2022-01-30T10:00:00.000Z'],
-		_id: '5c88fa8cf4afda39709c2970',
 		name: 'The Star Gazer',
 		duration: 9,
 		maxGroupSize: 8,
 		difficulty: 'medium',
-		// guides: ['5c8a21d02f8fb814b56fa189', '5c8a1f292f8fb814b56fa184'],
 		price: 2997,
 		summary: 'The most remote and stunningly beautiful places for seeing the night sky',
 		description:
@@ -332,7 +319,6 @@ export const TOURS_DATA: Tour[] = [
 		ratingsQuantity: 7,
 		images: ['tour-9-1.jpg', 'tour-9-2.jpg', 'tour-9-3.jpg'],
 		startDates: ['2021-12-16T10:00:00.000Z', '2022-01-16T10:00:00.000Z', '2022-12-12T10:00:00.000Z'],
-		_id: '5c88fa8cf4afda39709c2974',
 		name: 'The Northern Lights',
 		duration: 3,
 		maxGroupSize: 12,
@@ -363,7 +349,6 @@ export const TOURS_DATA: Tour[] = [
 		ratingsQuantity: 7,
 		images: ['tour-7-1.jpg', 'tour-7-2.jpg', 'tour-7-3.jpg'],
 		startDates: ['2021-02-12T10:00:00.000Z', '2021-04-14T09:00:00.000Z', '2021-09-01T09:00:00.000Z'],
-		_id: '5c88fa8cf4afda39709c296c',
 		name: 'The Wine Taster',
 		duration: 5,
 		maxGroupSize: 8,

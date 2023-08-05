@@ -1,9 +1,10 @@
 import { Model, connect, connections, disconnect } from 'mongoose';
+
 import { DEV_ENVIRONMENT, EMPTY_STRING, HttpCode, ONE, ONE_HUNDRED, ZERO } from '../constants';
-import EnvConfig from '../env.config';
 import { ApiFeatures } from '../types';
 import { parseQuery } from './parse-query';
 import { AppError } from '../error/app-error';
+import EnvConfig from '../config/env.config';
 
 /** 0 disconnected | 1 connected | 2 connecting | 3 disconnecting */
 

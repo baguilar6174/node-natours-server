@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 
-import { DEFAULT_API_PREFIX, DEFAULT_PORT } from './constants';
+import { DEFAULT_API_PREFIX, DEFAULT_PORT } from '../constants';
 
 // Config Values
 dotenv.config();

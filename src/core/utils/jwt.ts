@@ -1,7 +1,7 @@
 import { sign } from 'jsonwebtoken';
 
-import EnvConfig from '../env.config';
 import { CustomJwtPayload } from '../types/index';
+import EnvConfig from '../config/env.config';
 
 export const signToken = (id: string) => {
 	const payload: CustomJwtPayload = { id };

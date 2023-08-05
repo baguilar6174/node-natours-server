@@ -9,7 +9,6 @@ import {
 	Tour,
 	UpdateTourDTO
 } from '../../domain/entities/tour.entity';
-import { TOURS_DATA } from '../constants/tours-simple';
 
 export class LocalTourRepository implements TourRepositoryPort {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -22,10 +21,9 @@ export class LocalTourRepository implements TourRepositoryPort {
 		return null;
 	}
 
-	async getOne(id: string): Promise<Tour | null> {
-		const tour = TOURS_DATA.find((tour): boolean => tour._id === id);
-		if (!tour) return null;
-		return tour;
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	async getOne(_id: string): Promise<Tour | null> {
+		return null;
 	}
 
 	async create(data: CreateTourDTO): Promise<Tour> {
@@ -35,8 +33,7 @@ export class LocalTourRepository implements TourRepositoryPort {
 	}
 
 	async getAll(): Promise<Tour[]> {
-		const tours = TOURS_DATA;
-		return tours;
+		return [];
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars

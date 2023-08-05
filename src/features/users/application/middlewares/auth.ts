@@ -1,13 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
-
-import { EMPTY_STRING, HttpCode, ONE } from '../../../../core/constants';
-import { CustomJwtPayload } from '../../../../core/types';
-import { AppError } from '../../../../core/error/app-error';
 import { JwtPayload, VerifyErrors, verify } from 'jsonwebtoken';
-import EnvConfig from '../../../../core/env.config';
-import { connectMongoDB, disconnectMongoDB } from '../../../../core/utils';
-import { UserModel } from '../../infraestructure/models/user.model';
-import { User } from '../../domain/entities';
+
+import { UserModel } from '../../infraestructure';
+import { User } from '../../domain';
+import {
+	AppError,
+	CustomJwtPayload,
+	EMPTY_STRING,
+	HttpCode,
+	ONE,
+	connectMongoDB,
+	disconnectMongoDB
+} from '../../../../core';
+import EnvConfig from '../../../../core/config/env.config';
 
 declare module 'express-serve-static-core' {
 	interface Request {

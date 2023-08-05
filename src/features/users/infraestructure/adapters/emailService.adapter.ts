@@ -1,8 +1,8 @@
 import nodemailer from 'nodemailer';
 
-import { EmailServicePort } from '../../domain/ports/outputs';
-import EnvConfig from '../../../../core/env.config';
-import { EmailOptions } from '../../../../core/types';
+import { EmailServicePort } from '../../domain';
+import { EmailOptions } from '../../../../core';
+import EnvConfig from '../../../../core/config/env.config';
 
 export class EmailServiceAdapter implements EmailServicePort {
 	async sendEmail(options: EmailOptions): Promise<void> {
