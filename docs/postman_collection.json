@@ -1,0 +1,1056 @@
+{
+	"info": {
+		"_postman_id": "92b362f6-70e3-417f-8289-b425aa936bee",
+		"name": "natorus",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6722962"
+	},
+	"item": [
+		{
+			"name": "[tours] - Create seed",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/tours/seed",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"tours",
+						"seed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[tours] - Get all tours",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/tours",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"tours"
+					],
+					"query": [
+						{
+							"key": "difficulty",
+							"value": "easy",
+							"disabled": true
+						},
+						{
+							"key": "duration[gte]",
+							"value": "5",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "-price,-ratingsAverage",
+							"disabled": true
+						},
+						{
+							"key": "fields",
+							"value": "name,price,ratingsAverage,difficulty",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "4000",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[tours] - Get closer tours",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/tours/within/400/center/34.05304181602231, -118.23326426605117/unit/mi",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"tours",
+						"within",
+						"400",
+						"center",
+						"34.05304181602231, -118.23326426605117",
+						"unit",
+						"mi"
+					],
+					"query": [
+						{
+							"key": "difficulty",
+							"value": "easy",
+							"disabled": true
+						},
+						{
+							"key": "duration[gte]",
+							"value": "5",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "-price,-ratingsAverage",
+							"disabled": true
+						},
+						{
+							"key": "fields",
+							"value": "name,price,ratingsAverage,difficulty",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "4000",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[distances] - Get distances",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/tours/distances/34.05304181602231, -118.23326426605117/unit/km",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"tours",
+						"distances",
+						"34.05304181602231, -118.23326426605117",
+						"unit",
+						"km"
+					],
+					"query": [
+						{
+							"key": "difficulty",
+							"value": "easy",
+							"disabled": true
+						},
+						{
+							"key": "duration[gte]",
+							"value": "5",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "-price,-ratingsAverage",
+							"disabled": true
+						},
+						{
+							"key": "fields",
+							"value": "name,price,ratingsAverage,difficulty",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "4000",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[stats] - Get stats",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/tours/stats",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"tours",
+						"stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[plan] - Get monthly plan",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/tours/monthly-plan/2021",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"tours",
+						"monthly-plan",
+						"2021"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[tours] - Get by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/tours/64cbebea7498f616ac4d0f77",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"tours",
+						"64cbebea7498f616ac4d0f77"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[tours] - Create tour",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"New tour from scratch\",\n    \"duration\": 5,\n    \"maxGroupSize\": 25,\n    \"difficulty\": \"easy\",\n    \"ratingsAverage\": 4,\n    \"ratingsQuantity\": 37,\n    \"price\": 397,\n    \"priceDiscount\": 0,\n    \"summary\": \"Breathtaking hik\",\n    \"description\": \"Ut e\",\n    \"imageCover\": \"tour-1-cover.jpg\",\n    \"images\": [\n        \"tour-1-1.jpg\"\n    ],\n    \"startDates\": [\n        \"2021-04-25T15:00:00.000Z\"\n    ],\n    \"guides\": [\"64c2959100777310a88f3baa\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/tours",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"tours"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[tours] - Delete tour by id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/tours/64b81e60fe144fcfba019718",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"tours",
+						"64b81e60fe144fcfba019718"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[tours] - Update tour",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ratingsAverage\": 9\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/tours/64b81e60fe144fcfba019718",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"tours",
+						"64b81e60fe144fcfba019718"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[bookings] - Get all bookings",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/bookings",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"bookings"
+					],
+					"query": [
+						{
+							"key": "difficulty",
+							"value": "easy",
+							"disabled": true
+						},
+						{
+							"key": "duration[gte]",
+							"value": "5",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "-price,-ratingsAverage",
+							"disabled": true
+						},
+						{
+							"key": "fields",
+							"value": "name,price,ratingsAverage,difficulty",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "4000",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[bookings] - Create booking",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"price\": 1500,\n    \"tour\": \"64cc6030cd249f6b90dbd6e9\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/bookings",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"bookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[reviews] - Create review",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\t\"review\": \"new 3\",\n\t\t\"rating\": 4\n\t}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/tours/64cbebea7498f616ac4d0f77/reviews",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"tours",
+						"64cbebea7498f616ac4d0f77",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[reviews] - Get all reviews from a tour",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/tours/64cbebea7498f616ac4d0f77/reviews",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"tours",
+						"64cbebea7498f616ac4d0f77",
+						"reviews"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "4000",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[reviews] - Get all reviews",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/reviews",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"reviews"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "4000",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[reviews] - Get by id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/reviews/64cc0285828eeebae391db47",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"reviews",
+						"64cc0285828eeebae391db47"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[reviews] - Update review",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\t\"review\": \"new 4\",\n\t\t\"rating\": 4\n\t}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/reviews/64cc0285828eeebae391db47",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"reviews",
+						"64cc0285828eeebae391db47"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[reviews] - Delete a review",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/reviews/64cc11f1cef439752e6e866c",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"reviews",
+						"64cc11f1cef439752e6e866c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[auth] - Signup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let resp = pm.response.json();",
+							"console.log(resp);",
+							"",
+							"let token = resp.data.token;",
+							"pm.environment.set(\"token\", token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Bryan\",\n    \"email\": \"admin1@gmail.com\",\n    \"role\": \"admin\",\n    \"photo\": \"user-1.jpg\",\n    \"password\": \"password\",\n    \"passwordConfirm\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/auth/signup",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[auth] - Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let resp = pm.response.json();",
+							"console.log(resp);",
+							"",
+							"let token = resp.data.token;",
+							"pm.environment.set(\"token\", token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"admin1@gmail.com\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/auth/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[auth] - User info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/auth/userInfo",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"userInfo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[auth] - Forgot password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"bryan@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/auth/forgotPassword",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"forgotPassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[auth] - Reset password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let resp = pm.response.json();",
+							"console.log(resp);",
+							"",
+							"let token = resp.data.token;",
+							"pm.environment.set(\"token\", token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"password\": \"newpassword\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/auth/resetPassword/b577a6ebc452b151a1e8e2550022e52299ed72b38b8e153eee9b1ff1921e2253",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"resetPassword",
+						"b577a6ebc452b151a1e8e2550022e52299ed72b38b8e153eee9b1ff1921e2253"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[auth] - Update password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let resp = pm.response.json();",
+							"console.log(resp);",
+							"",
+							"let token = resp.data.token;",
+							"pm.environment.set(\"token\", token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"currentPassword\": \"newPassword\",\n    \"password\": \"newPassword\",\n    \"passwordConfirm\": \"newPassword\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/auth/updatePassword",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"updatePassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[auth] - Delete account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/auth/deleteAccount",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"deleteAccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[auth] - Update user data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Edited name 3\",\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/auth/updateUserData",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"updateUserData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[users] - Get all users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[users] - Get by id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/users/10",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"10"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -123,7 +123,9 @@ If your want to create build production, run `yarn build`
 
 ## Natours Server
 
-- TODO: add api documentation...
+### Postman Collection
+
+You can see all endpoints in this collection [postman_collection](./docs/postman_collection.json) and the environment variables [postman_environment](./docs/postman_environment.json)
 
 <table>
   <tr>
