@@ -137,4 +137,4 @@ You can see all endpoints in this collection [postman_collection](./docs/postman
 
 - Website - [www.bryan-aguilar.com](https://www.bryan-aguilar.com/)
 - Medium - [baguilar6174](https://baguilar6174.medium.com/)
-- LinkeIn - [baguilar6174](https://www.linkedin.com/in/baguilar6174)
+- LinkedIn - [baguilar6174](https://www.linkedin.com/in/baguilar6174)
